@@ -4,31 +4,31 @@ import javax.persistence.EntityManager;
 
 import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.exception.DaoException;
-import br.com.palves.pbd.model.bin.PessoaFisica;
+import br.com.palves.pbd.model.bin.CategoriaCarga;
 
-public class PessoaFisicaDao implements IPessoaFisicaDao {
+public class CategoriaCargaDao implements ICategoriaCargaDao{
 	private EntityManager em;
 	@Override
-	public PessoaFisica persistOrMerge(PessoaFisica pessoaF) throws DaoException {
+	public CategoriaCarga persisteOrMerge(CategoriaCarga categoriaCarga) throws DaoException {
 		em = ConnectionFactory.getInstance().getConnection();
 		String op = "Persist";
 		try {
 			em.getTransaction().begin();
-			if(pessoaF.getId() == null)
-				em.persist(pessoaF);
+			if(categoriaCarga.getId() == null)
+				em.persist(categoriaCarga);
 			else {
-				pessoaF = em.merge(pessoaF);
+				categoriaCarga = em.merge(categoriaCarga);
 				op = "Merge";
 			}
 			em.getTransaction().commit();
 		}
 		catch(Exception e){
 			em.getTransaction().rollback();
-			throw new DaoException("Erro ao Realizar "+op+" em "+pessoaF.getClass().getName()+":"+e.getMessage());
+			throw new DaoException("Erro ao Realizar "+op+" em Categoria Carga: "+e.getMessage());
 		}finally {
 			em.close();
 		}
-		return pessoaF;
+		return categoriaCarga;
 	}
 
 }

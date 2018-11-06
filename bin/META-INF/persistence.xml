@@ -11,6 +11,16 @@
     	br.com.palves.pbd.model.bin.PessoaFisica
     	br.com.palves.pbd.model.bin.PessoaJuridica
     	br.com.palves.pbd.model.bin.Filial
+    	br.com.palves.pbd.model.bin.Funcionario
+    	br.com.palves.pbd.model.bin.Categoria
+    	br.com.palves.pbd.model.bin.CategoriaPassageiro
+    	br.com.palves.pbd.model.bin.CategoriaCarga
+    	br.com.palves.pbd.model.bin.Reserva
+    	br.com.palves.pbd.model.bin.Veiculo
+    	br.com.palves.pbd.model.bin.Revisao
+    	br.com.palves.pbd.model.bin.Locacao
+    	br.com.palves.pbd.model.bin.Configuracao
+    	br.com.palves.pbd.model.bin.Log
     </class>
     <properties>
       <!-- Propriedades JDBC -->

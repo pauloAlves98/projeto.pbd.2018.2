@@ -1,17 +1,32 @@
 package br.com.palves.pbd.model.bin;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Funcionario {
-	//
+	@Id
+	@SequenceGenerator(name="seq_funcionario",sequenceName="seq_funcionario_id",allocationSize=1,initialValue=1)
+	@GeneratedValue(generator="seq_funcionario",strategy=GenerationType.SEQUENCE)
 	private Integer id;
-	//
+	@NotNull(message="Campo Cpf Nulo")
+	@Column(length=14,nullable=false,unique=true)
 	private String cpf;
-	//
+	@Column(length=150,nullable=false)
 	private String cargo;
 	private String salario;
-	//
+	@ManyToOne   //Muitos funcionarios para uma filial
+	@JoinColumn(name="filial_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "filial_func_fkey"))
 	private Filial filial;
 	
 	public Funcionario() {

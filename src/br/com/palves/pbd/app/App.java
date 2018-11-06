@@ -1,15 +1,60 @@
 package br.com.palves.pbd.app;
 
+import java.util.Date;
+
 import br.com.palves.pbd.exception.DaoException;
-import br.com.palves.pbd.model.bin.Endereco;
-import br.com.palves.pbd.model.bin.Filial;
-import br.com.palves.pbd.model.dao.FilialDao;
-import br.com.palves.pbd.model.dao.IFilialDao;
+import br.com.palves.pbd.model.bin.Reserva;
+import br.com.palves.pbd.model.dao.ReservaDao;
 
 public class App {
 	public static void main(String[] args) {
 		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
 		
+		Reserva r =new Reserva();
+		ReservaDao rd = new ReservaDao();
+		
+		r.setDataHoraReserva(new Date());
+		r.setDataHoraRetirada(new Date());
+		
+		try {
+			rd.persistOrMerge(r);
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/**
+		Categoria c = new Categoria();
+		ICategoriaDao daoC = new CategoriaDao();
+		
+		c.setNome("Categoria P1");
+		
+		try {
+			daoC.persisteOrMerge(c);
+			System.out.println(daoC.getClass().getName());
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		/**  
+		Funcionario func = new Funcionario();
+		IFuncionarioDao daoFunc=new FuncionarioDao();
+		
+		func.setCpf("12345678912343");
+		func.setCargo("Administrador");
+		func.setSalario("1500");
+		
+		try {
+			daoFunc.persistOrMerge(func);
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+		
+		/**Filial
 		IFilialDao fdao = new FilialDao();
 		Filial f = new Filial();
 		Endereco e = new Endereco();
@@ -26,7 +71,7 @@ public class App {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		*/
 		/**
 		 *Pessoa
 		IPessoaFisicaDao dao = new PessoaFisicaDao();
