@@ -25,6 +25,8 @@ public class Categoria {
 	private double valor;
 	@Column(name="hora_limpeza")
 	private int horaLimpeza;
+	@Column(length=50)
+	private String discriminador;
 	@Column(length=100,name="tipo_cambio")
 	private String tipoCambio;
 	@Column(name="ar_condicionado")
@@ -32,10 +34,20 @@ public class Categoria {
 	private boolean radio;
 	private boolean dvd;
 	private boolean mp3;
+	@Column(length=50)
+	private String situacao;
 	@Column(name="camera_re")
 	private boolean cameraRe;
 	
 	public Categoria() {}
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
 
 	public Integer getId() {
 		return id;
@@ -138,6 +150,7 @@ public class Categoria {
 		result = prime * result + nPassageiro;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + (radio ? 1231 : 1237);
+		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
 		result = prime * result + ((tipoCambio == null) ? 0 : tipoCambio.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valor);
@@ -177,6 +190,11 @@ public class Categoria {
 		} else if (!nome.equals(other.nome))
 			return false;
 		if (radio != other.radio)
+			return false;
+		if (situacao == null) {
+			if (other.situacao != null)
+				return false;
+		} else if (!situacao.equals(other.situacao))
 			return false;
 		if (tipoCambio == null) {
 			if (other.tipoCambio != null)

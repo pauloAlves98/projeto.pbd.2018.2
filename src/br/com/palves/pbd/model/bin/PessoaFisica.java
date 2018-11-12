@@ -25,8 +25,8 @@ public class PessoaFisica extends Pessoa implements Serializable{
 	@Column(name="data_nascimento")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
-	@NotNull(message="Campo Nº Habilitação Nulo!")
-	@Column(name="n_habilitacao",nullable=false,unique=true)
+	//@NotNull(message="Campo Nº Habilitação Nulo!")
+	@Column(name="n_habilitacao",unique=true)
 	private String nHabilitacao;
 	@Temporal(TemporalType.DATE)
 	private Date dataVencHabilitacao;

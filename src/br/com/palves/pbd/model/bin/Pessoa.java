@@ -36,12 +36,22 @@ public abstract class Pessoa implements Serializable{
 	@NotNull(message="Campo Senha Nulo!")
 	@Column(length=11)
 	private String senha;
+	@Column(length=50)
+	private String situacao;
 	@OneToOne(cascade=CascadeType.ALL) //Salva atualiza e deleta
 	@JoinColumn(name="endereco_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "endereco_fkey"))
 	private Endereco endereco;
 	
 	public Pessoa() {
 		
+	}
+	
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
 	}
 
 	public Integer getId() {
@@ -93,6 +103,7 @@ public abstract class Pessoa implements Serializable{
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
 		return result;
 	}
 
@@ -129,6 +140,11 @@ public abstract class Pessoa implements Serializable{
 			if (other.senha != null)
 				return false;
 		} else if (!senha.equals(other.senha))
+			return false;
+		if (situacao == null) {
+			if (other.situacao != null)
+				return false;
+		} else if (!situacao.equals(other.situacao))
 			return false;
 		return true;
 	}
