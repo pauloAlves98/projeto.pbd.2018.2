@@ -83,7 +83,7 @@ public class CategoriaCargaDao implements ICategoriaCargaDao{
 		CategoriaCarga var = null;
 		try {
 			em.getTransaction().begin();
-			var = em.find( CategoriaCarga.class,id);
+			var = em.find(CategoriaCarga.class,id);
 			em.remove(var);
 			em.getTransaction().commit();
 		}
@@ -94,6 +94,23 @@ public class CategoriaCargaDao implements ICategoriaCargaDao{
 			em.close();
 		}
 		return var;
+	}
+	@Override
+	public CategoriaCarga refresh(CategoriaCarga categoriaCarga) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		String op = "Refresh";
+		try {
+			em.getTransaction().begin();
+			em.refresh(categoriaCarga);
+			em.getTransaction().commit();
+		}
+		catch(Exception e){
+			em.getTransaction().rollback();
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return categoriaCarga;
 	}
 
 }

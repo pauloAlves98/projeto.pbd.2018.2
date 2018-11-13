@@ -12,4 +12,5 @@ public interface ICategoriaCargaDao {
 	public  CategoriaCarga findById(Integer id) throws DaoException;
 	public List< CategoriaCarga> findAll() throws DaoException;
 	public  CategoriaCarga deleteById (int id) throws DaoException;
+	public CategoriaCarga refresh (CategoriaCarga categoriaCarga) throws DaoException;
 }

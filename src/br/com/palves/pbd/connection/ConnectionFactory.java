@@ -19,5 +19,7 @@ public class ConnectionFactory {
 	public EntityManager getConnection() {
 		return emf.createEntityManager();
 	}
-	
+	/*
+	 * class DaoG < T extends En>
+	 * */
 }

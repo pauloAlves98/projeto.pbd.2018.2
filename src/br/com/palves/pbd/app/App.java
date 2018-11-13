@@ -1,33 +1,44 @@
 package br.com.palves.pbd.app;
 
-import java.util.List;
-
 import br.com.palves.pbd.exception.DaoException;
-import br.com.palves.pbd.model.bin.PessoaFisica;
-import br.com.palves.pbd.model.dao.PessoaFisicaDao;
+import br.com.palves.pbd.model.bin.CategoriaCarga;
+import br.com.palves.pbd.model.dao.CategoriaCargaDao;
 
 public class App {
 	public static void main(String[] args) {
-		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
-		PessoaFisica cg = new PessoaFisica();
-		PessoaFisicaDao dao = PessoaFisicaDao.getInstance();
-		//cg.setLogin("NN@gmail.com");
-		cg.setNome("KIll");
-		cg.setCpf("1");
+		CategoriaCarga cg = new CategoriaCarga();
+		CategoriaCargaDao dao = CategoriaCargaDao.getInstance();
+		
+		cg.setId(4);
+		
 		try {
-			dao.persistOrMerge(cg);
-			//System.out.println(dao.findById(7).getNome());
-			//dao.persisteOrMerge(cg);
-			List<PessoaFisica>ld = dao.findAll();
-			for(PessoaFisica e:ld) {
-				System.out.println("ID:"+e.getId());
-				System.out.println("UF:"+ e.getNome());
-				System.out.println("End id:" + e.getEndereco().getId());
-			}
-		}catch (DaoException e) {
+			cg = dao.findById(4);
+			System.out.println(cg.getNome());
+			System.out.println(cg.getPotenciaMotor());
+		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
+//		PessoaFisica cg = new PessoaFisica();
+//		PessoaFisicaDao dao = PessoaFisicaDao.getInstance();
+//		//cg.setLogin("NN@gmail.com");
+//		cg.setNome("KIll");
+//		cg.setCpf("1");
+//		try {
+//			dao.persistOrMerge(cg);
+//			//System.out.println(dao.findById(7).getNome());
+//			//dao.persisteOrMerge(cg);
+//			List<PessoaFisica>ld = dao.findAll();
+//			for(PessoaFisica e:ld) {
+//				System.out.println("ID:"+e.getId());
+//				System.out.println("UF:"+ e.getNome());
+//				System.out.println("End id:" + e.getEndereco().getId());
+//			}
+//		}catch (DaoException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		/**
 		Endereco end = new Endereco();
 		EnderecoDao daoEnd = EnderecoDao.getInstance();
