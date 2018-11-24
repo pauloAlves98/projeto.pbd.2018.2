@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Revisao {
+public class Revisao implements Generico{
 	@Id
 	@SequenceGenerator(name="seq_revisao",sequenceName="seq_revisao_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_revisao",strategy=GenerationType.SEQUENCE)

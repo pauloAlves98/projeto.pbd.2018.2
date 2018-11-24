@@ -7,9 +7,9 @@ import br.com.palves.pbd.model.bin.Configuracao;
 import br.com.palves.pbd.model.bin.Filial;
 
 public interface IFilialDao {
-	public Filial persistOrMerge(Filial filial) throws DaoException;
-	public  Filial findById(Integer id) throws DaoException;
-	public List< Filial> findAll() throws DaoException;
-	public  Filial deleteById (int id) throws DaoException;
+//	public Filial persistOrMerge(Filial filial) throws DaoException;
+//	public  Filial findById(Integer id) throws DaoException;
+//	public List< Filial> findAll() throws DaoException;
+//	public  Filial deleteById (int id) throws DaoException;
 	
 }

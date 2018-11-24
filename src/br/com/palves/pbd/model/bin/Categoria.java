@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Categoria {
+public class Categoria implements Generico {
 	@Id
 	@SequenceGenerator(name="seq_categoria",sequenceName="seq_categoria_id",allocationSize=1,initialValue=1)
 	@GeneratedValue(generator="seq_categoria",strategy=GenerationType.SEQUENCE)

@@ -13,7 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Filial {
+public class Filial implements Generico{
 	@Id
 	@SequenceGenerator(name="seq_filial",sequenceName="seq_flial_id",allocationSize=1,initialValue=1)
 	@GeneratedValue(generator = "seq_filial",strategy = GenerationType.SEQUENCE)

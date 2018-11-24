@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="lib/postgresql-9.3-1101-jdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql-9.4.1212.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-2.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

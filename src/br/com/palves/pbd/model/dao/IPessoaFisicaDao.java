@@ -10,8 +10,8 @@ import br.com.palves.pbd.model.bin.Log;
 import br.com.palves.pbd.model.bin.PessoaFisica;
 
 public interface IPessoaFisicaDao {
-	public PessoaFisica persistOrMerge(PessoaFisica pessoaF) throws DaoException;
-	public PessoaFisica findById(Integer id) throws DaoException;
-	public List<PessoaFisica> findAll() throws DaoException;
-	public  PessoaFisica deleteById (int id) throws DaoException;
+//	public PessoaFisica persistOrMerge(PessoaFisica pessoaF) throws DaoException;
+//	public PessoaFisica findById(Integer id) throws DaoException;
+//	public List<PessoaFisica> findAll() throws DaoException;
+//	public  PessoaFisica deleteById (int id) throws DaoException;
 }

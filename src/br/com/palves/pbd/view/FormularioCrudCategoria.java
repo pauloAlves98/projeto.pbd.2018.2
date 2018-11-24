@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class FormularioCrudCategoria extends JDialog{
 	private RoundButton salvarCNButton;
@@ -24,11 +24,19 @@ public class FormularioCrudCategoria extends JDialog{
 	private RoundButton irButton;
 	private RoundButton allButton;
 	private RoundedCornerButton removerButton;
-	private RoundButton esquerdaField,direitaField;
+	private RoundButton esquerdaButton,direitaButton;
 	private JLabel lblCategoriaNormal;
 	private JLabel lblTipoDeCmbio;
 	private JLabel arLabel;
-	private ButtonGroup bAr,bDvd,bRadio,bMp3,bCamera,bDirecao,bCinto,bControle,bLigaLeve;
+	private JComboBox cambioCombo;
+	private JRadioButton simDvdRadio,simRadioRadio,simMp3Radio,simCameraReRadio,naoCameraReRadio,
+	naoMp3Radio,naoRadioRadio,naoDvdRadio, naoArRadio;
+	private ButtonGroup bAr,bDvd,bRadio,bMp3,bCamera,bDirecao,bCinto,bControle,bLigaLeve,bCategoria;
+	private JPanel panelCG,panelCP,panelCN ;
+	private JComboBox airBagCombo;
+	private RoundButton salvarCPButton;
+	private JRadioButton simLigaLeveRadio,simDirecaoRadio,simCintoRadi,simControlePoluicaoRadio,simCintoRadio;
+	private RoundButton salvarCGButton;
 	public FormularioCrudCategoria() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(900,544);
@@ -101,25 +109,25 @@ public class FormularioCrudCategoria extends JDialog{
 		removerButton.setBounds(709, 177, 165, 42);
 		getContentPane().add(removerButton);
 		
-		esquerdaField = new RoundButton("Salvar");
-		esquerdaField.setFont(new Font("Tahoma", Font.BOLD, 13));
-		esquerdaField.setText("<");
-		esquerdaField.setForeground(Color.WHITE);
-		esquerdaField.setBackground(new Color(0, 128, 128));
-		esquerdaField.setBounds(750, 292, 43, 42);
-		getContentPane().add(esquerdaField);
+		esquerdaButton = new RoundButton("Salvar");
+		esquerdaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+		esquerdaButton.setText("<");
+		esquerdaButton.setForeground(Color.WHITE);
+		esquerdaButton.setBackground(new Color(0, 128, 128));
+		esquerdaButton.setBounds(751, 332, 43, 42);
+		getContentPane().add(esquerdaButton);
 		
-		direitaField = new RoundButton("Salvar");
-		direitaField.setFont(new Font("Tahoma", Font.BOLD, 13));
-		direitaField.setText(">");
-		direitaField.setForeground(Color.WHITE);
-		direitaField.setBackground(new Color(0, 128, 128));
-		direitaField.setBounds(803, 292, 43, 42);
-		getContentPane().add(direitaField);
+		direitaButton = new RoundButton("Salvar");
+		direitaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+		direitaButton.setText(">");
+		direitaButton.setForeground(Color.WHITE);
+		direitaButton.setBackground(new Color(0, 128, 128));
+		direitaButton.setBounds(804, 332, 43, 42);
+		getContentPane().add(direitaButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(744, 245, 140, 55);
+		lblNavegao.setBounds(734, 281, 140, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panelDiv2 = new JPanel();
@@ -132,7 +140,8 @@ public class FormularioCrudCategoria extends JDialog{
 		getContentPane().add(idField);
 		idField.setColumns(10);
 		
-		JPanel panelCN = new JPanel();
+		panelCN = new JPanel();
+		panelCN.setBackground(Color.WHITE);
 		panelCN.setBounds(0, 87, 289, 418);
 		getContentPane().add(panelCN);
 		panelCN.setLayout(null);
@@ -182,7 +191,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(lblTipoDeCmbio);
 		lblTipoDeCmbio.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JComboBox cambioCombo = new JComboBox();
+		cambioCombo = new JComboBox();
 		cambioCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		cambioCombo.setBounds(10, 295, 150, 33);
 		panelCN.add(cambioCombo);
@@ -234,7 +243,7 @@ public class FormularioCrudCategoria extends JDialog{
 		cameraLabel.setBounds(178, 266, 82, 22);
 		panelCN.add(cameraLabel);
 		
-		JRadioButton simDvdRadio = new JRadioButton("Sim");
+		simDvdRadio = new JRadioButton("Sim");
 		simDvdRadio.setSelected(true);
 		simDvdRadio.setOpaque(false);
 		simDvdRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -243,7 +252,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(simDvdRadio);
 		bDvd.add(simDvdRadio);
 		
-		JRadioButton simRadioRadio = new JRadioButton("Sim");
+		simRadioRadio = new JRadioButton("Sim");
 		simRadioRadio.setSelected(true);
 		simRadioRadio.setOpaque(false);
 		simRadioRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -252,7 +261,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(simRadioRadio);
 		bRadio.add(simRadioRadio);
 		
-		JRadioButton simMp3Radio = new JRadioButton("Sim");
+		simMp3Radio = new JRadioButton("Sim");
 		simMp3Radio.setSelected(true);
 		simMp3Radio.setOpaque(false);
 		simMp3Radio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -261,7 +270,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(simMp3Radio);
 		bMp3.add(simMp3Radio);
 		
-		JRadioButton simCameraReRadio = new JRadioButton("Sim");
+		simCameraReRadio = new JRadioButton("Sim");
 		simCameraReRadio.setSelected(true);
 		simCameraReRadio.setOpaque(false);
 		simCameraReRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -270,7 +279,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(simCameraReRadio);
 		bCamera.add(simCameraReRadio);
 		
-		JRadioButton naoCameraReRadio = new JRadioButton("N\u00E3o");
+		naoCameraReRadio = new JRadioButton("N\u00E3o");
 		naoCameraReRadio.setSelected(true);
 		naoCameraReRadio.setOpaque(false);
 		naoCameraReRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -279,7 +288,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(naoCameraReRadio);
 		bCamera.add(naoCameraReRadio);
 		
-		JRadioButton naoMp3Radio = new JRadioButton("N\u00E3o");
+		naoMp3Radio = new JRadioButton("N\u00E3o");
 		naoMp3Radio.setSelected(true);
 		naoMp3Radio.setOpaque(false);
 		naoMp3Radio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -288,7 +297,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(naoMp3Radio);
 		bMp3.add(naoMp3Radio);
 		
-		JRadioButton naoRadioRadio = new JRadioButton("N\u00E3o");
+		naoRadioRadio = new JRadioButton("N\u00E3o");
 		naoRadioRadio.setSelected(true);
 		naoRadioRadio.setOpaque(false);
 		naoRadioRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -297,7 +306,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(naoRadioRadio);
 		bRadio.add(naoRadioRadio);
 		
-		JRadioButton naoDvdRadio = new JRadioButton("N\u00E3o");
+		naoDvdRadio = new JRadioButton("N\u00E3o");
 		naoDvdRadio.setSelected(true);
 		naoDvdRadio.setOpaque(false);
 		naoDvdRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -306,7 +315,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(naoDvdRadio);
 		bDvd.add(naoDvdRadio);
 		
-		JRadioButton naoArRadio = new JRadioButton("N\u00E3o");
+		naoArRadio = new JRadioButton("N\u00E3o");
 		naoArRadio.setSelected(true);
 		naoArRadio.setOpaque(false);
 		naoArRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -315,7 +324,8 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(naoArRadio);
 		bAr.add(naoArRadio);
 		
-		JPanel panelCP = new JPanel();
+		panelCP = new JPanel();
+		panelCP.setBackground(Color.WHITE);
 		panelCP.setLayout(null);
 		panelCP.setBounds(288, 87, 195, 418);
 		getContentPane().add(panelCP);
@@ -325,14 +335,15 @@ public class FormularioCrudCategoria extends JDialog{
 		airBagLabel.setBounds(10, 31, 132, 22);
 		panelCP.add(airBagLabel);
 		
-		JComboBox airBagCombo = new JComboBox();
+		airBagCombo = new JComboBox();
+		airBagCombo.setModel(new DefaultComboBoxModel(new String[] {"Simples-Dianteira", "Duplo-Dianteira", "Total"}));
 		airBagCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		airBagCombo.setEditable(true);
 		airBagCombo.setBackground(Color.WHITE);
 		airBagCombo.setBounds(10, 52, 150, 33);
 		panelCP.add(airBagCombo);
 		
-		RoundButton salvarCPButton = new RoundButton("Salvar");
+		salvarCPButton = new RoundButton("Salvar");
 		salvarCPButton.setBounds(10, 365, 89, 42);
 		panelCP.add(salvarCPButton);
 		
@@ -342,7 +353,7 @@ public class FormularioCrudCategoria extends JDialog{
 		lblCategoriaPassageiro.setBounds(10, 0, 188, 42);
 		panelCP.add(lblCategoriaPassageiro);
 		
-		JRadioButton simLigaLeveRadio = new JRadioButton("Sim");
+		simLigaLeveRadio = new JRadioButton("Sim");
 		simLigaLeveRadio.setSelected(true);
 		simLigaLeveRadio.setOpaque(false);
 		simLigaLeveRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -365,7 +376,7 @@ public class FormularioCrudCategoria extends JDialog{
 		direcaoAssistidaLabel.setBounds(10, 84, 118, 22);
 		panelCP.add(direcaoAssistidaLabel);
 		
-		JRadioButton simDirecaoRadio = new JRadioButton("Sim");
+		simDirecaoRadio = new JRadioButton("Sim");
 		simDirecaoRadio.setSelected(true);
 		simDirecaoRadio.setOpaque(false);
 		simDirecaoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -388,7 +399,7 @@ public class FormularioCrudCategoria extends JDialog{
 		lblCintoDeSeguraca.setBounds(10, 149, 188, 22);
 		panelCP.add(lblCintoDeSeguraca);
 		
-		JRadioButton simCintoRadio = new JRadioButton("Sim");
+		simCintoRadio = new JRadioButton("Sim");
 		simCintoRadio.setSelected(true);
 		simCintoRadio.setOpaque(false);
 		simCintoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -416,7 +427,7 @@ public class FormularioCrudCategoria extends JDialog{
 		controlePouluicaoLabel.setBounds(10, 266, 188, 22);
 		panelCP.add(controlePouluicaoLabel);
 		
-		JRadioButton simControlePoluicaoRadio = new JRadioButton("Sim");
+		simControlePoluicaoRadio = new JRadioButton("Sim");
 		simControlePoluicaoRadio.setSelected(true);
 		simControlePoluicaoRadio.setOpaque(false);
 		simControlePoluicaoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -433,6 +444,117 @@ public class FormularioCrudCategoria extends JDialog{
 		naoControlePoluicaoRadio.setBounds(73, 294, 69, 33);
 		panelCP.add(naoControlePoluicaoRadio);
 		bControle.add(naoControlePoluicaoRadio);
+		
+		panelCG = new JPanel();
+		panelCG.setBackground(Color.WHITE);
+		panelCG.setLayout(null);
+		panelCG.setBounds(483, 87, 209, 418);
+		getContentPane().add(panelCG);
+		
+		salvarCGButton = new RoundButton("Salvar");
+		salvarCGButton.setBounds(10, 365, 89, 42);
+		panelCG.add(salvarCGButton);
+		
+		JLabel lblCategoriaCg = new JLabel("CATEGORIA  CG");
+		lblCategoriaCg.setForeground(Color.BLACK);
+		lblCategoriaCg.setFont(new Font("Bradley Hand ITC", Font.BOLD, 20));
+		lblCategoriaCg.setBounds(10, 0, 188, 42);
+		panelCG.add(lblCategoriaCg);
+		
+		FieldRedondo capacidadeCargaField = new FieldRedondo();
+		capacidadeCargaField.setColumns(10);
+		capacidadeCargaField.setBounds(10, 53, 69, 33);
+		panelCG.add(capacidadeCargaField);
+		
+		JLabel lblCapacidadeDaCarga = new JLabel("Capacidade da Carga");
+		lblCapacidadeDaCarga.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCapacidadeDaCarga.setBounds(10, 31, 132, 22);
+		panelCG.add(lblCapacidadeDaCarga);
+		
+		JLabel lblPotnciaDoMotor = new JLabel("Pot\u00EAncia do Motor");
+		lblPotnciaDoMotor.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPotnciaDoMotor.setBounds(10, 87, 132, 22);
+		panelCG.add(lblPotnciaDoMotor);
+		
+		FieldRedondo potenciaMotorField = new FieldRedondo();
+		potenciaMotorField.setColumns(10);
+		potenciaMotorField.setBounds(10, 109, 69, 33);
+		panelCG.add(potenciaMotorField);
+		
+		FieldRedondo volumeCombustivelField = new FieldRedondo();
+		volumeCombustivelField.setColumns(10);
+		volumeCombustivelField.setBounds(10, 168, 69, 33);
+		panelCG.add(volumeCombustivelField);
+		
+		JLabel lblVolumeDoCombustivel = new JLabel("Volume do Combustivel");
+		lblVolumeDoCombustivel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblVolumeDoCombustivel.setBounds(10, 147, 188, 22);
+		panelCG.add(lblVolumeDoCombustivel);
+		
+		JLabel lblDistnciaEixos = new JLabel("Dist\u00E2ncia Eixos");
+		lblDistnciaEixos.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDistnciaEixos.setBounds(10, 203, 132, 22);
+		panelCG.add(lblDistnciaEixos);
+		
+		FieldRedondo dostanciaEixosField = new FieldRedondo();
+		dostanciaEixosField.setColumns(10);
+		dostanciaEixosField.setBounds(10, 222, 69, 33);
+		panelCG.add(dostanciaEixosField);
+		
+		JLabel lblTipoDaEmbreagem = new JLabel("Tipo da Embreagem");
+		lblTipoDaEmbreagem.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTipoDaEmbreagem.setBounds(10, 255, 132, 22);
+		panelCG.add(lblTipoDaEmbreagem);
+		
+		JLabel lblConsumoKml = new JLabel("Consumo Km/L");
+		lblConsumoKml.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblConsumoKml.setBounds(10, 307, 132, 22);
+		panelCG.add(lblConsumoKml);
+		
+		FieldRedondo consumoKmField = new FieldRedondo();
+		consumoKmField.setColumns(10);
+		consumoKmField.setBounds(10, 327, 69, 33);
+		panelCG.add(consumoKmField);
+		
+		JComboBox tipoEmbreagemCombo = new JComboBox();
+		tipoEmbreagemCombo.setModel(new DefaultComboBoxModel(new String[] {"Manual", "Hidraulica"}));
+		tipoEmbreagemCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		tipoEmbreagemCombo.setEditable(true);
+		tipoEmbreagemCombo.setBackground(Color.WHITE);
+		tipoEmbreagemCombo.setBounds(10, 275, 150, 33);
+		panelCG.add(tipoEmbreagemCombo);
+		
+		JLabel tonelada = new JLabel("Toneladas");
+		tonelada.setFont(new Font("Tahoma", Font.BOLD, 12));
+		tonelada.setBounds(89, 57, 71, 22);
+		panelCG.add(tonelada);
+		
+		bCategoria = new ButtonGroup();
+		JRadioButton cnRadio = new JRadioButton("CN");
+		cnRadio.setSelected(true);
+		cnRadio.setOpaque(false);
+		cnRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cnRadio.setBackground(Color.WHITE);
+		cnRadio.setBounds(698, 269, 69, 33);
+		getContentPane().add(cnRadio);
+		bCategoria.add(cnRadio);
+		
+		JRadioButton cpRadio = new JRadioButton("CP");
+		cpRadio.setSelected(true);
+		cpRadio.setOpaque(false);
+		cpRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cpRadio.setBackground(Color.WHITE);
+		cpRadio.setBounds(761, 269, 69, 33);
+		getContentPane().add(cpRadio);
+		bCategoria.add(cpRadio);
+		JRadioButton cgRadio = new JRadioButton("CG");
+		cgRadio.setSelected(true);
+		cgRadio.setOpaque(false);
+		cgRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cgRadio.setBackground(Color.WHITE);
+		cgRadio.setBounds(830, 269, 69, 33);
+		bCategoria.add(cgRadio);
+		getContentPane().add(cgRadio);
 		//setVisible(true);
 	}
 }

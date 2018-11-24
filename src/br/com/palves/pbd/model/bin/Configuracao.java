@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Configuracao {
+public class Configuracao implements Generico {
 	@Id
 	@SequenceGenerator(name="seq_configuracao",sequenceName="seq_configuracao_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_configuracao",strategy=GenerationType.SEQUENCE)

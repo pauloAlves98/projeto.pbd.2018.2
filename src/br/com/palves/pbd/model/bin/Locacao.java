@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class Locacao {
+public class Locacao implements Generico{
 	@Id
 	@SequenceGenerator(name="seq_locacao",sequenceName="seq_locacao_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_locacao",strategy=GenerationType.SEQUENCE)
@@ -26,9 +26,8 @@ public class Locacao {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false, name= "data_retirada")
 	private Date dataRetirada;
-	@NotNull(message="Campo Data Entrega Nulo")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable=false, name= "data_entrega")
+	@Column(name= "data_entrega") //Adicionar atributo data real da entrega
 	private Date dataEntrega;
 	@Column(name="km_livre")
 	private boolean kmLivre;

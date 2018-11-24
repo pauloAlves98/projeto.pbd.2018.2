@@ -12,7 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Funcionario {
+public class Funcionario implements Generico {
 	@Id
 	@SequenceGenerator(name="seq_funcionario",sequenceName="seq_funcionario_id",allocationSize=1,initialValue=1)
 	@GeneratedValue(generator="seq_funcionario",strategy=GenerationType.SEQUENCE)

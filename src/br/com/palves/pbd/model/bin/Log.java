@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Log {
+public class Log implements Generico{
 	@Id
 	@SequenceGenerator(name="seq_log",sequenceName="seq_log_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_log",strategy=GenerationType.SEQUENCE)

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="categoria_carga")
 @PrimaryKeyJoinColumn(name="id")
-public class CategoriaCarga extends Categoria{
+public class CategoriaCarga extends Categoria {
 	@Column(name="capacidade_carga")
 	private int capacidadeCarga;
 	@Column(name="potencia_motor")

@@ -1,24 +1,72 @@
 package br.com.palves.pbd.app;
 
-import br.com.palves.pbd.exception.DaoException;
-import br.com.palves.pbd.model.bin.CategoriaCarga;
-import br.com.palves.pbd.model.dao.CategoriaCargaDao;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
-public class App {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+/**
+ * @author: P Alves
+ * */
+public class App extends Application{
+	
+	@Override
+	public void start(Stage palcoStage) throws Exception {		
+		Pane loginPane = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/Login.fxml"));
+		Scene cenaLogin = new Scene(loginPane,1000,600);
+		palcoStage.setScene(cenaLogin);
+		palcoStage.centerOnScreen();
+		palcoStage.show();
+		Stage palcoStage1 = new Stage();
+		palcoStage1.setScene(cenaLogin);
+		palcoStage1.centerOnScreen();
+		palcoStage1.show();
+	}
+	
 	public static void main(String[] args) {
-		CategoriaCarga cg = new CategoriaCarga();
-		CategoriaCargaDao dao = CategoriaCargaDao.getInstance();
-		
-		cg.setId(4);
-		
-		try {
-			cg = dao.findById(4);
-			System.out.println(cg.getNome());
-			System.out.println(cg.getPotenciaMotor());
-		} catch (DaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		launch(args);
+		System.out.println("Passou");
+//		PessoaDao daoPessoa = PessoaDao.getInstance();
+//		
+//		Object obj[]=null;
+//		try {
+//			obj = daoPessoa.buscarIdPorLogin("nn@gmail.com","12345678");
+//			if(obj == null)
+//				System.out.println("Eh Nulo");
+//			else
+//			{
+//				System.out.println("Tamanho: "+obj.length);
+//				int j = (int) obj[1];
+//				System.out.println("ID "+ obj[0] );
+//				
+//			
+//			}
+//		} catch (DaoException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	
+//		CategoriaCarga cg = new CategoriaCarga();
+//		CategoriaCargaDao dao = CategoriaCargaDao.getInstance();
+//		cg.setNome("categoria Carga cg3");
+//		cg.setPotenciaMotor(100);
+//		//cg.setId(4);
+//		
+//		try {
+//			cg = dao.findById(CategoriaCarga.class,4);
+//			System.out.println(cg.getNome());
+//			for(CategoriaCarga c:dao.findAll(CategoriaCarga.class)) {
+//				System.out.println(c.getNome());
+//				System.out.println(c.getId());
+//				System.out.println(c.getPotenciaMotor());
+//			}
+//		} catch (DaoException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+	//	}
 //		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
 //		PessoaFisica cg = new PessoaFisica();
 //		PessoaFisicaDao dao = PessoaFisicaDao.getInstance();
@@ -109,6 +157,33 @@ public class App {
 		}
 		 */
 
+	}
+	public static void lookPadrao(){
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Passando LookAndFeel padrão do sistema operacional
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+			System.out.println("Nao Pegou");
+		}
 
 	}
+	public static void lookWindows(){
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Passando LookAndFeel padrão do sistema operacional
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+			System.out.println("Nao Pegou");
+		}
+	}
+	public static void lookNimbus(){
+				try {
+					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+					    if ("Nimbus".equals(info.getName())) {
+					        UIManager.setLookAndFeel(info.getClassName());
+					        break;
+					    }
+					}
+					} catch (Exception e) {
+					   // If Nimbus is not available, you can set the GUI to another look and feel.
+					}
+	}
+	
 }

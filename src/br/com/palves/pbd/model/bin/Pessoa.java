@@ -12,17 +12,23 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import br.com.palves.pbd.sql.SQLUtil;
 
 /**
  * @author Palves
  * */
+//@NamedQueries({
+//	@NamedQuery(name = "Pessoa.buscarLogin",query="Select p from Pessoa p Where p.login =")
+//})
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Pessoa implements Serializable{
+public abstract class Pessoa implements Serializable,Generico{
 	@Id
 	@SequenceGenerator(name="seq_pessoa",sequenceName="seq_pessoa_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_pessoa",strategy=GenerationType.SEQUENCE)
@@ -38,12 +44,21 @@ public abstract class Pessoa implements Serializable{
 	private String senha;
 	@Column(length=50)
 	private String situacao;
+	@Column(length=50)
+	private String discriminador;
 	@OneToOne(cascade=CascadeType.ALL) //Salva atualiza e deleta
 	@JoinColumn(name="endereco_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "endereco_fkey"))
 	private Endereco endereco;
 	
 	public Pessoa() {
 		
+	}
+	public String getDiscriminador() {
+		return discriminador;
+	}
+
+	public void setDiscriminador(String discriminador) {
+		this.discriminador = discriminador;
 	}
 	
 	public String getSituacao() {
@@ -93,11 +108,11 @@ public abstract class Pessoa implements Serializable{
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((discriminador == null) ? 0 : discriminador.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
@@ -106,7 +121,6 @@ public abstract class Pessoa implements Serializable{
 		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -116,6 +130,11 @@ public abstract class Pessoa implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
+		if (discriminador == null) {
+			if (other.discriminador != null)
+				return false;
+		} else if (!discriminador.equals(other.discriminador))
+			return false;
 		if (endereco == null) {
 			if (other.endereco != null)
 				return false;

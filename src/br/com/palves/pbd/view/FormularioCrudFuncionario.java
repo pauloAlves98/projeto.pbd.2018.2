@@ -27,7 +27,7 @@ public class FormularioCrudFuncionario extends JDialog{
 	private RoundButton irButton;
 	private RoundButton allButton;
 	private RoundedCornerButton removerButton;
-	private RoundButton esquerdaField,direitaField;
+	private RoundButton esquerdaButton,direitaButton;
 	private JComboBox filialCombo;
 	private FieldRedondo codFilialField;
 	public FormularioCrudFuncionario() {
@@ -204,21 +204,21 @@ public class FormularioCrudFuncionario extends JDialog{
 		removerButton.setBounds(509, 173, 165, 42);
 		getContentPane().add(removerButton);
 		
-		esquerdaField = new RoundButton("Salvar");
-		esquerdaField.setFont(new Font("Tahoma", Font.BOLD, 13));
-		esquerdaField.setText("<");
-		esquerdaField.setForeground(Color.WHITE);
-		esquerdaField.setBackground(new Color(0, 128, 128));
-		esquerdaField.setBounds(542, 292, 43, 42);
-		getContentPane().add(esquerdaField);
+		esquerdaButton = new RoundButton("Salvar");
+		esquerdaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+		esquerdaButton.setText("<");
+		esquerdaButton.setForeground(Color.WHITE);
+		esquerdaButton.setBackground(new Color(0, 128, 128));
+		esquerdaButton.setBounds(542, 292, 43, 42);
+		getContentPane().add(esquerdaButton);
 		
-		direitaField = new RoundButton("Salvar");
-		direitaField.setFont(new Font("Tahoma", Font.BOLD, 13));
-		direitaField.setText(">");
-		direitaField.setForeground(Color.WHITE);
-		direitaField.setBackground(new Color(0, 128, 128));
-		direitaField.setBounds(604, 292, 43, 42);
-		getContentPane().add(direitaField);
+		direitaButton = new RoundButton("Salvar");
+		direitaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+		direitaButton.setText(">");
+		direitaButton.setForeground(Color.WHITE);
+		direitaButton.setBackground(new Color(0, 128, 128));
+		direitaButton.setBounds(604, 292, 43, 42);
+		getContentPane().add(direitaButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));

@@ -12,8 +12,8 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Veiculo {
-	
+public class Veiculo implements Generico{
+	//Faltou a placa
 	@Id
 	@SequenceGenerator(name="seq_veiculo",sequenceName="seq_veiculo_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_veiculo",strategy=GenerationType.SEQUENCE)

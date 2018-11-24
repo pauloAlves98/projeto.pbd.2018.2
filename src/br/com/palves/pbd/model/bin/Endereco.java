@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Endereco implements Serializable {
+public class Endereco implements Serializable,Generico {
 	@Id
 	@SequenceGenerator(name="seq_endereco",sequenceName="seq_endereco_id",allocationSize = 1,initialValue=1)
 	@GeneratedValue(generator="seq_endereco",strategy = GenerationType.SEQUENCE)

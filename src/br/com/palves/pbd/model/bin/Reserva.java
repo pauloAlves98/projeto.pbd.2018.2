@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Reserva {
+public class Reserva implements Generico{
 	@Id
 	@SequenceGenerator(name="seq_reserva",sequenceName="seq_reserva_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_reserva",strategy=GenerationType.SEQUENCE)
