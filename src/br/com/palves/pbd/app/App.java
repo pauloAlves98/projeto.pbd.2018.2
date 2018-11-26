@@ -6,6 +6,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
@@ -19,11 +20,11 @@ public class App extends Application{
 		Scene cenaLogin = new Scene(loginPane,1000,600);
 		palcoStage.setScene(cenaLogin);
 		palcoStage.centerOnScreen();
-		palcoStage.show();
-		Stage palcoStage1 = new Stage();
-		palcoStage1.setScene(cenaLogin);
-		palcoStage1.centerOnScreen();
-		palcoStage1.show();
+		palcoStage.show();		
+//		Stage palcoStage1 = new Stage();
+//		palcoStage1.setScene(cenaLogin);
+//		palcoStage1.centerOnScreen();
+//		palcoStage1.show();
 	}
 	
 	public static void main(String[] args) {

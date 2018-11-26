@@ -7,6 +7,7 @@ import br.com.palves.pbd.model.bin.Filial;
 import br.com.palves.pbd.model.bin.Funcionario;
 
 public interface IFuncionarioDao {
+	public Object[]buscarIdPorLogin(String email,String senha) throws DaoException;
 //	public Funcionario persistOrMerge(Funcionario funcionario) throws DaoException;
 //	public  Funcionario findById(Integer id) throws DaoException;
 //	public List<Funcionario> findAll() throws DaoException;

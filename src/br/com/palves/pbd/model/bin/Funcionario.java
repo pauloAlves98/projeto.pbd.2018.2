@@ -35,7 +35,7 @@ public class Funcionario implements Generico {
 	private String sexo;
 	@Column(length=150,nullable=false)
 	private String cargo;
-	private String salario;
+	private float salario;
 	@ManyToOne   //Muitos funcionarios para uma filial
 	@JoinColumn(name="filial_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "filial_func_fkey"))
 	private Filial filial;
@@ -106,11 +106,11 @@ public class Funcionario implements Generico {
 		this.cargo = cargo;
 	}
 
-	public String getSalario() {
+	public float getSalario() {
 		return salario;
 	}
 
-	public void setSalario(String salario) {
+	public void setSalario(float salario) {
 		this.salario = salario;
 	}
 
@@ -132,7 +132,7 @@ public class Funcionario implements Generico {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((salario == null) ? 0 : salario.hashCode());
+		result = prime * result + Float.floatToIntBits(salario);
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
 		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
@@ -178,10 +178,7 @@ public class Funcionario implements Generico {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (salario == null) {
-			if (other.salario != null)
-				return false;
-		} else if (!salario.equals(other.salario))
+		if (Float.floatToIntBits(salario) != Float.floatToIntBits(other.salario))
 			return false;
 		if (senha == null) {
 			if (other.senha != null)
