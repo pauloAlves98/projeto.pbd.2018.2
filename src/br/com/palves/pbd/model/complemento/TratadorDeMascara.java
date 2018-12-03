@@ -1,12 +1,49 @@
 package br.com.palves.pbd.model.complemento;
 
+import java.awt.event.KeyAdapter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
+
 import  br.com.palves.pbd.exception.ValidacaoException;
+import br.com.palves.pbd.view.FieldRedondo;
 
 public class TratadorDeMascara {
+	
+	public static void aplicarMascaraCPF(JFormattedTextField cpfField) {
+		try{
+			javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("###.###.###-##");
+			data.install(cpfField);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+//	private void mascaraCep() {
+//		try{
+//			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("#####-###");
+//			format_textField4.install(cepField);
+//		}catch (Exception e){}
+//	}
+	
+	public static void aplicarMascaraData(JFormattedTextField dateF) {
+		try{
+			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("##/##/####");
+			format_textField4.install(dateF);
+		}catch (Exception e){}
+	}
+	
+	public static void aplicarMascaraCnpj(JFormattedTextField cnpjField) {
+		try{
+			javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##.###.###/####-##");
+			data.install(cnpjField);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static Date coletorDeData(String nas) throws ValidacaoException{
 		String []data = nas.split("/");
 		Calendar c = Calendar.getInstance();
@@ -88,6 +125,20 @@ public class TratadorDeMascara {
 	public static void validaRg(String rg) throws ValidacaoException {
 		if(rg.length() !=9)
 			throw new ValidacaoException("RG Inválido");
+	}
+	public static void soNumero(JTextField j) {
+		j.addKeyListener(new KeyAdapter() {
+			@Override 
+			/**
+			 * @author: Créditos DevMedia adaptação P_ALVES
+			 * */
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				String caracteres="0987654321";
+				if(!caracteres.contains(evt.getKeyChar()+"")){
+					evt.consume();  		
+				}
+			}
+		});
 	}
 //	 public static Boolean ValidaCep(string cep)
 //     {

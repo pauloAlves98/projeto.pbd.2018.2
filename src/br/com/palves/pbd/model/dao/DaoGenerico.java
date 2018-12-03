@@ -1,5 +1,6 @@
 package br.com.palves.pbd.model.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,7 +8,6 @@ import javax.persistence.Query;
 
 import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.exception.DaoException;
-import br.com.palves.pbd.model.bin.CategoriaCarga;
 import br.com.palves.pbd.model.bin.Generico;
 
 public class DaoGenerico <T extends Generico>{
@@ -30,7 +30,10 @@ public class DaoGenerico <T extends Generico>{
 		}
 		catch(Exception e){
 			em.getTransaction().rollback();
+			if (e.getMessage().trim().contains("Key (login)=(NN@gmail.com) already exists")) {System.out.println("Duplicado"); } else { 
+				System.out.println(e.toString());
 			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+			}
 		}finally {
 			em.close();
 		}

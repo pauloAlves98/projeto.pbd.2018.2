@@ -26,7 +26,7 @@ public class Endereco implements Serializable,Generico {
 	private String cep;
 	@Column(length = 100)
 	private String cidade;
-	@Column(length=2)
+	@Column(length=4)
 	private String uf;
 	
 	public Endereco() {}

@@ -7,9 +7,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 
 public class FormularioCrudPJ extends JDialog{
 	private RoundButton salvarButton;
@@ -17,7 +19,7 @@ public class FormularioCrudPJ extends JDialog{
 	private FieldRedondo senhaField;
 	private FieldRedondo loginField;
 	private FieldRedondo idField;
-	private FieldRedondo cnpjField;
+	private FieldFormattedRedondo cnpjField;
 	private FieldRedondo incEstadualField; 
 	private FieldRedondo ruaField;
 	private FieldRedondo numeroField;
@@ -31,6 +33,9 @@ public class FormularioCrudPJ extends JDialog{
 	private RoundButton allButton;
 	private RoundedCornerButton removerButton;
 	private RoundButton esquerdaButton,direitaButton;
+	private RoundedCornerButton limparButton;
+	private JTextField idEnd;
+	private JLabel operacaoLabel;
 	public FormularioCrudPJ() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(700,544);
@@ -90,13 +95,18 @@ public class FormularioCrudPJ extends JDialog{
 		idField.setBounds(20, 0, 38, 22);
 		panelPessoa.add(idField);
 		
+		idEnd  = new JTextField();
+		idEnd.setBounds(-100, 0, 38, 22);
+		panelPessoa.add(idEnd);
+		
 		JPanel panelPj = new JPanel();
 		panelPj.setBackground(new Color(255, 255, 255));
 		panelPj.setBounds(0, 173, 484, 64);
 		getContentPane().add(panelPj);
 		panelPj.setLayout(null);
 		
-		cnpjField = new FieldRedondo();
+		
+		cnpjField = new FieldFormattedRedondo();
 		cnpjField.setHorizontalAlignment(SwingConstants.CENTER);
 		cnpjField.setBounds(10, 25, 220, 33);
 		cnpjField.setColumns(10);
@@ -255,15 +265,173 @@ public class FormularioCrudPJ extends JDialog{
 		direitaButton.setBounds(604, 292, 43, 42);
 		getContentPane().add(direitaButton);
 		
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60, 179, 113));
+		limparButton.setBounds(509, 218, 165, 42);
+		getContentPane().add(limparButton);
+		
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(221, -1, 203, 22);
+		panelPessoa.add(operacaoLabel);
+		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(534, 236, 140, 55);
+		lblNavegao.setBounds(545, 246, 140, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 0, 0));
 		panel_1.setBounds(0, 76, 684, 10);
 		getContentPane().add(panel_1);
+		
+		TratadorDeMascara.aplicarMascaraCnpj(cnpjField);
 		//setVisible(true);
 	}
+	
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
+	}
+
+	public void setOperacaoLabel(JLabel operacaoLabel) {
+		this.operacaoLabel = operacaoLabel;
+	}
+
+	public RoundButton getSalvarButton() {
+		return salvarButton;
+	}
+	public void setSalvarButton(RoundButton salvarButton) {
+		this.salvarButton = salvarButton;
+	}
+	public FieldRedondo getNomeField() {
+		return nomeField;
+	}
+	public void setNomeField(FieldRedondo nomeField) {
+		this.nomeField = nomeField;
+	}
+	public FieldRedondo getSenhaField() {
+		return senhaField;
+	}
+	public void setSenhaField(FieldRedondo senhaField) {
+		this.senhaField = senhaField;
+	}
+	public FieldRedondo getLoginField() {
+		return loginField;
+	}
+	public void setLoginField(FieldRedondo loginField) {
+		this.loginField = loginField;
+	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public void setIdField(FieldRedondo idField) {
+		this.idField = idField;
+	}
+	public FieldFormattedRedondo getCnpjField() {
+		return cnpjField;
+	}
+	public void setCnpjField(FieldFormattedRedondo cnpjField) {
+		this.cnpjField = cnpjField;
+	}
+	public FieldRedondo getIncEstadualField() {
+		return incEstadualField;
+	}
+	public void setIncEstadualField(FieldRedondo incEstadualField) {
+		this.incEstadualField = incEstadualField;
+	}
+	public FieldRedondo getRuaField() {
+		return ruaField;
+	}
+	public void setRuaField(FieldRedondo ruaField) {
+		this.ruaField = ruaField;
+	}
+	public FieldRedondo getNumeroField() {
+		return numeroField;
+	}
+	public void setNumeroField(FieldRedondo numeroField) {
+		this.numeroField = numeroField;
+	}
+	public FieldRedondo getBairroField() {
+		return bairroField;
+	}
+	public void setBairroField(FieldRedondo bairroField) {
+		this.bairroField = bairroField;
+	}
+	public FieldRedondo getCepField() {
+		return cepField;
+	}
+	public void setCepField(FieldRedondo cepField) {
+		this.cepField = cepField;
+	}
+	public FieldRedondo getUfField() {
+		return ufField;
+	}
+	public void setUfField(FieldRedondo ufField) {
+		this.ufField = ufField;
+	}
+	public FieldRedondo getCidadeField() {
+		return cidadeField;
+	}
+	public void setCidadeField(FieldRedondo cidadeField) {
+		this.cidadeField = cidadeField;
+	}
+	public RoundButton getAutoButton() {
+		return autoButton;
+	}
+	public void setAutoButton(RoundButton autoButton) {
+		this.autoButton = autoButton;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public void setBuscarField(FieldRedondo buscarField) {
+		this.buscarField = buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public void setIrButton(RoundButton irButton) {
+		this.irButton = irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public void setAllButton(RoundButton allButton) {
+		this.allButton = allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public void setRemoverButton(RoundedCornerButton removerButton) {
+		this.removerButton = removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public void setEsquerdaButton(RoundButton esquerdaButton) {
+		this.esquerdaButton = esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public void setDireitaButton(RoundButton direitaButton) {
+		this.direitaButton = direitaButton;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	public void setLimparButton(RoundedCornerButton limparButton) {
+		this.limparButton = limparButton;
+	}
+	public JTextField getIdEnd() {
+		return idEnd;
+	}
+	public void setIdEnd(JTextField idEnd) {
+		this.idEnd = idEnd;
+	}
+	
 }

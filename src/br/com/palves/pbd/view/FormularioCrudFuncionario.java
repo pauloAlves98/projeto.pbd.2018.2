@@ -9,8 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import br.com.palves.pbd.model.complemento.TratadorDeMascara;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -20,7 +24,7 @@ public class FormularioCrudFuncionario extends JDialog{
 	private FieldRedondo senhaField;
 	private FieldRedondo loginField;
 	private FieldRedondo idField;
-	private FieldRedondo cpfField;
+	private FieldFormattedRedondo cpfField;
 	private JRadioButton sexoMradio,sexoFradio;
 	private RoundButton autoButton;
 	private FieldRedondo buscarField;
@@ -30,6 +34,12 @@ public class FormularioCrudFuncionario extends JDialog{
 	private RoundButton esquerdaButton,direitaButton;
 	private JComboBox filialCombo;
 	private FieldRedondo codFilialField;
+	private JLabel operacaoLabel;
+	private JTextField idEnd;
+	private JLabel lblCargo;
+	private JComboBox cargoBox;
+	private FieldRedondo salarioField;
+	private RoundedCornerButton limparButton;
 	public FormularioCrudFuncionario() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(700,544);
@@ -50,7 +60,7 @@ public class FormularioCrudFuncionario extends JDialog{
 		
 		JPanel panelPessoa = new JPanel();
 		panelPessoa.setBackground(new Color(255, 255, 255));
-		panelPessoa.setBounds(0, 90, 484, 84);
+		panelPessoa.setBounds(0, 90, 493, 84);
 		getContentPane().add(panelPessoa);
 		panelPessoa.setLayout(null);
 		
@@ -61,7 +71,7 @@ public class FormularioCrudFuncionario extends JDialog{
 		
 		senhaField = new FieldRedondo();
 		senhaField.setColumns(10);
-		senhaField.setBounds(320, 46, 150, 33);
+		senhaField.setBounds(320, 46, 173, 33);
 		panelPessoa.add(senhaField);
 		
 		loginField = new FieldRedondo();
@@ -85,17 +95,18 @@ public class FormularioCrudFuncionario extends JDialog{
 		panelPessoa.add(senhaLabel);
 		
 		idField = new FieldRedondo();
+		idField.setEditable(false);
 		idField.setColumns(10);
 		idField.setBounds(20, 0, 38, 22);
 		panelPessoa.add(idField);
 		
 		JPanel panelPf = new JPanel();
 		panelPf.setBackground(new Color(255, 255, 255));
-		panelPf.setBounds(0, 173, 484, 75);
+		panelPf.setBounds(0, 173, 493, 130);
 		getContentPane().add(panelPf);
 		panelPf.setLayout(null);
 		
-		cpfField = new FieldRedondo();
+		cpfField = new FieldFormattedRedondo();
 		cpfField.setHorizontalAlignment(SwingConstants.CENTER);
 		cpfField.setBounds(10, 25, 150, 33);
 		cpfField.setColumns(10);
@@ -130,7 +141,7 @@ public class FormularioCrudFuncionario extends JDialog{
 		
 		filialCombo = new JComboBox();
 		filialCombo.setEditable(true);
-		filialCombo.setBounds(340, 27, 134, 32);
+		filialCombo.setBounds(340, 27, 153, 32);
 		panelPf.add(filialCombo);
 		
 		codFilialField = new FieldRedondo();
@@ -150,13 +161,37 @@ public class FormularioCrudFuncionario extends JDialog{
 		lblFilial.setBounds(340, 0, 56, 22);
 		panelPf.add(lblFilial);
 		
+		lblCargo = new JLabel("Cargo");
+		lblCargo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCargo.setBounds(18, 65, 82, 22);
+		panelPf.add(lblCargo);
+		
+		cargoBox = new JComboBox();
+		cargoBox.setBackground(Color.WHITE);
+		cargoBox.setFont(new Font("Tahoma", Font.BOLD, 12));
+		cargoBox.setModel(new DefaultComboBoxModel(new String[] {"ATENDENTE", "ADMINISTRADOR"}));
+		cargoBox.setBounds(10, 87, 150, 32);
+		panelPf.add(cargoBox);
+		
+		JLabel lblSalario = new JLabel("Salario");
+		lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSalario.setBounds(182, 65, 82, 22);
+		panelPf.add(lblSalario);
+		
+		salarioField = new FieldRedondo();
+		salarioField.setEditable(false);
+		salarioField.setColumns(10);
+		salarioField.setBackground(Color.WHITE);
+		salarioField.setBounds(172, 87, 114, 33);
+		panelPf.add(salarioField);
+		
 		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(2, 279, 89, 42);
+		salvarButton.setBounds(4, 313, 89, 42);
 		getContentPane().add(salvarButton);
 		
 		autoButton = new RoundButton("Salvar");
 		autoButton.setText("Auto");
-		autoButton.setBounds(101, 279, 89, 42);
+		autoButton.setBounds(101, 313, 89, 42);
 		getContentPane().add(autoButton);
 		
 		JSeparator separator = new JSeparator();
@@ -220,15 +255,107 @@ public class FormularioCrudFuncionario extends JDialog{
 		direitaButton.setBounds(604, 292, 43, 42);
 		getContentPane().add(direitaButton);
 		
+		idEnd  = new JTextField();
+		idEnd.setBounds(-60, 292, 43, 42);
+		idEnd.setVisible(false);
+		panelPessoa.add(idEnd);
+		
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(221, -1, 203, 22);
+		panelPessoa.add(operacaoLabel);
+		
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60, 179, 113));
+		limparButton.setBounds(509, 218, 165, 42);
+		getContentPane().add(limparButton);
+		
+		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(534, 236, 140, 55);
+		lblNavegao.setBounds(544, 248, 140, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 0, 0));
 		panel_1.setBounds(0, 76, 684, 10);
 		getContentPane().add(panel_1);
+		
+		TratadorDeMascara.aplicarMascaraCPF(cpfField);
 		//setVisible(true);
 	}
+	public RoundButton getSalvarButton() {
+		return salvarButton;
+	}
+	public FieldRedondo getNomeField() {
+		return nomeField;
+	}
+	public FieldRedondo getSenhaField() {
+		return senhaField;
+	}
+	public FieldRedondo getLoginField() {
+		return loginField;
+	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public FieldFormattedRedondo getCpfField() {
+		return cpfField;
+	}
+	public JRadioButton getSexoMradio() {
+		return sexoMradio;
+	}
+	public JRadioButton getSexoFradio() {
+		return sexoFradio;
+	}
+	public RoundButton getAutoButton() {
+		return autoButton;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public JComboBox getFilialCombo() {
+		return filialCombo;
+	}
+	public FieldRedondo getCodFilialField() {
+		return codFilialField;
+	}
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
+	}
+	public JTextField getIdEnd() {
+		return idEnd;
+	}
+	public JLabel getLblCargo() {
+		return lblCargo;
+	}
+	public JComboBox getCargoBox() {
+		return cargoBox;
+	}
+	public FieldRedondo getSalarioField() {
+		return salarioField;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	
 }

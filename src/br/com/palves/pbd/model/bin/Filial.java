@@ -19,7 +19,7 @@ public class Filial implements Generico{
 	@GeneratedValue(generator = "seq_filial",strategy = GenerationType.SEQUENCE)
 	private Integer id;
 	@NotNull(message="Campo Nome Nulo!")
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	private String nome;
 	@OneToOne(cascade=CascadeType.ALL) //Salva atualiza e deleta
 	@JoinColumn(name="endereco_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "endereco_filial_fkey"))

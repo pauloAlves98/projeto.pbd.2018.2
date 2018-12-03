@@ -3,10 +3,10 @@ package br.com.palves.pbd.app;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import br.com.palves.pbd.controller.ControllerCrudFuncionario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
@@ -20,7 +20,9 @@ public class App extends Application{
 		Scene cenaLogin = new Scene(loginPane,1000,600);
 		palcoStage.setScene(cenaLogin);
 		palcoStage.centerOnScreen();
-		palcoStage.show();		
+		//palcoStage.show();	
+		App.lookWindows();
+		new ControllerCrudFuncionario();
 //		Stage palcoStage1 = new Stage();
 //		palcoStage1.setScene(cenaLogin);
 //		palcoStage1.centerOnScreen();
