@@ -58,19 +58,20 @@ public class FormularioCrudLocacao extends JDialog{
 	private JTextArea veiculoTextArea;
 	private RoundButton buscarMotoristaButton;
 	private RoundButton outroVeiculoButton;
+	private RoundedCornerButton limparButton;
 	public  FormularioCrudLocacao() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(825,606);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
+		JPanel panel = new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panel.setBackground(new Color(0, 204, 153));
 		panel.setBounds(0, 0, 809, 76);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel Locação = new JLabel("VE\u00CDCULO");
+		JLabel Locação = new JLabel("LOCA\u00C7\u00C3O");
 		Locação.setForeground(new Color(255, 255, 255));
 		Locação.setFont(new Font("Bradley Hand ITC", Font.BOLD, 38));
 		Locação.setBounds(29, 11, 642, 54);
@@ -96,9 +97,16 @@ public class FormularioCrudLocacao extends JDialog{
 		panelVeiculo.add(idField);
 		
 		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(10, 427, 89, 42);
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		//salvarButton.setBounds(-48, 366, 150, 42);
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setInitialColor();
+		//salvarButton.setInitialColor(Color.black);
+		salvarButton.setForeground(Color.WHITE);
+		//salvarButton.setBounds(10, 427, 95, 42);
+		salvarButton.setBounds(10, 394, 74, 75);
 		panelVeiculo.add(salvarButton);
-		
+	
 		JScrollPane scrollPaneReserva = new JScrollPane();
 		scrollPaneReserva.setBounds(10, 79, 629, 106);
 		panelVeiculo.add(scrollPaneReserva);
@@ -348,7 +356,7 @@ public class FormularioCrudLocacao extends JDialog{
 		esquerdaButton.setText("<");
 		esquerdaButton.setForeground(Color.WHITE);
 		esquerdaButton.setBackground(new Color(0, 128, 128));
-		esquerdaButton.setBounds(677, 292, 43, 42);
+		esquerdaButton.setBounds(675, 324, 43, 42);
 		getContentPane().add(esquerdaButton);
 		
 		direitaButton = new RoundButton("Salvar");
@@ -356,19 +364,27 @@ public class FormularioCrudLocacao extends JDialog{
 		direitaButton.setText(">");
 		direitaButton.setForeground(Color.WHITE);
 		direitaButton.setBackground(new Color(0, 128, 128));
-		direitaButton.setBounds(730, 292, 43, 42);
+		direitaButton.setBounds(730, 324, 43, 42);
 		getContentPane().add(direitaButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(669, 226, 130, 55);
+		lblNavegao.setBounds(675, 275, 130, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 0, 0));
 		panel_1.setBounds(0, 76, 809, 10);
 		getContentPane().add(panel_1);
-		setVisible(true);
+		setVisible(false);
+		
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60,179,113));
+		limparButton.setBounds(675, 222, 124, 42);
+		getContentPane().add(limparButton);
 	}
 	class CellRendererToolTip extends DefaultTableCellRenderer {  
 	    // Mantém todos os tooltips com suas linhas.   

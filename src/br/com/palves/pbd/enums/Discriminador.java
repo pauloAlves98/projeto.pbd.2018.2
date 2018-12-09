@@ -1,7 +1,7 @@
 package br.com.palves.pbd.enums;
 
 public enum Discriminador {
-	PF("PF"),PJ("PJ");
+	PF("PF"),PJ("PJ"),CP("CP"),CN("CN"),CG("CG");
 	
 	private String valor;
 	

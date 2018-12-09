@@ -1,10 +1,11 @@
 package br.com.palves.pbd.model.dao;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import org.hibernate.exception.ConstraintViolationException;
 
 import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.exception.DaoException;
@@ -14,7 +15,7 @@ public class DaoGenerico <T extends Generico>{
 	protected EntityManager em;
 	private static DaoGenerico instance;
 	protected DaoGenerico() {}
-	
+
 	public T persistOrMerge(T obj) throws DaoException {
 		em = ConnectionFactory.getInstance().getConnection();
 		String op = "Persist";
@@ -28,13 +29,53 @@ public class DaoGenerico <T extends Generico>{
 			}
 			em.getTransaction().commit();
 		}
+		catch(org.hibernate.exception.ConstraintViolationException e1) {
+			System.out.println("Constraint Exception");
+		}
 		catch(Exception e){
-			em.getTransaction().rollback();
-			if (e.getMessage().trim().contains("Key (login)=(NN@gmail.com) already exists")) {System.out.println("Duplicado"); } else { 
-				System.out.println(e.toString());
-			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+			//Desembrulha as Exceptions;
+			for (Throwable t = e.getCause(); t != null; t = t.getCause()) {//sai pegando a causa da causa!
+				if(t instanceof org.postgresql.util.PSQLException) {
+					org.postgresql.util.PSQLException psqlException =(org.postgresql.util.PSQLException)t; //Faz o cast
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+							psqlException.getMessage().trim().contains("cpf")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("O CPF já existe!");
+					}
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+							psqlException.getMessage().trim().contains("cnpj")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("O CNPJ já existe!");
+					}
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+							psqlException.getMessage().trim().contains("login")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("O Login já existe: Tente outro login!");
+					}
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+							psqlException.getMessage().trim().contains("nome")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("O Nome já existe: Tente outro Nome!");
+						
+					}
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+							psqlException.getMessage().trim().contains("numero_chassi")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("O Chassi já existe!");
+					}
+				}
 			}
-		}finally {
+			//Caso não encontre um PSQLException
+			em.getTransaction().rollback();
+			e.printStackTrace();
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getSimpleName()+": Contate o ADM!");
+		}
+		finally {
 			em.close();
 		}
 		return obj;

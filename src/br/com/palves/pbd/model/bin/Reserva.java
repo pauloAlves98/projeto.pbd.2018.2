@@ -21,7 +21,7 @@ public class Reserva implements Generico{
 	@GeneratedValue(generator="seq_reserva",strategy=GenerationType.SEQUENCE)
 	private Integer id;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="data_hora_reserva", nullable=false)
+	@Column(name="data_hora_reserva", nullable=false)//Olhar se eh realmente necessario
 	private Date dataHoraReserva;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_hora_retirada", nullable=false)

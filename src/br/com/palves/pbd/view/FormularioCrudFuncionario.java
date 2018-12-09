@@ -140,7 +140,6 @@ public class FormularioCrudFuncionario extends JDialog{
 		panelPf.add(sexoLabel);
 		
 		filialCombo = new JComboBox();
-		filialCombo.setEditable(true);
 		filialCombo.setBounds(340, 27, 153, 32);
 		panelPf.add(filialCombo);
 		
@@ -179,7 +178,6 @@ public class FormularioCrudFuncionario extends JDialog{
 		panelPf.add(lblSalario);
 		
 		salarioField = new FieldRedondo();
-		salarioField.setEditable(false);
 		salarioField.setColumns(10);
 		salarioField.setBackground(Color.WHITE);
 		salarioField.setBounds(172, 87, 114, 33);

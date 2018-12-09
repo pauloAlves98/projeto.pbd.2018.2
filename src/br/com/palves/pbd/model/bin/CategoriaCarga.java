@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="id")
 public class CategoriaCarga extends Categoria {
 	@Column(name="capacidade_carga")
-	private int capacidadeCarga;
+	private float capacidadeCarga;
 	@Column(name="potencia_motor")
 	private int potenciaMotor;
 	@Column(name="volume_combustivel")
@@ -24,7 +24,7 @@ public class CategoriaCarga extends Categoria {
 	
 	public CategoriaCarga() {}
 
-	public int getCapacidadeCarga() {
+	public float getCapacidadeCarga() {
 		return capacidadeCarga;
 	}
 
@@ -76,13 +76,17 @@ public class CategoriaCarga extends Categoria {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + capacidadeCarga;
+		result = prime * result + Float.floatToIntBits(capacidadeCarga);
 		result = prime * result + ((consumoKm == null) ? 0 : consumoKm.hashCode());
 		result = prime * result + distanciaEixo;
 		result = prime * result + potenciaMotor;
 		result = prime * result + ((tipoEmbreagem == null) ? 0 : tipoEmbreagem.hashCode());
 		result = prime * result + volumeCombustivel;
 		return result;
+	}
+
+	public void setCapacidadeCarga(float capacidadeCarga) {
+		this.capacidadeCarga = capacidadeCarga;
 	}
 
 	@Override
@@ -94,7 +98,7 @@ public class CategoriaCarga extends Categoria {
 		if (getClass() != obj.getClass())
 			return false;
 		CategoriaCarga other = (CategoriaCarga) obj;
-		if (capacidadeCarga != other.capacidadeCarga)
+		if (Float.floatToIntBits(capacidadeCarga) != Float.floatToIntBits(other.capacidadeCarga))
 			return false;
 		if (consumoKm == null) {
 			if (other.consumoKm != null)
@@ -116,7 +120,7 @@ public class CategoriaCarga extends Categoria {
 	}
 	@Override
 	public String toString() {
-		return "CategoriaCarga [capacidadeCarga=" + capacidadeCarga + ", potenciaMotor=" + potenciaMotor
+		return super.toString()+" [capacidadeCarga=" + capacidadeCarga + ", potenciaMotor=" + potenciaMotor
 				+ ", volumeCombustivel=" + volumeCombustivel + ", distanciaEixo=" + distanciaEixo + ", tipoEmbreagem="
 				+ tipoEmbreagem + ", consumoKm=" + consumoKm + "]";
 	}

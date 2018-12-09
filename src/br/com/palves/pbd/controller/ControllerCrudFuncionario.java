@@ -70,7 +70,7 @@ public class ControllerCrudFuncionario {
 	private void preencherCampos(Funcionario func) throws NumberFormatException{
 		String  nomeField = this.fpf.getNomeField().getText();
 		String senhaField = this.fpf.getSenhaField().getText();
-		String loginField = this.fpf.getLoginField().getText();
+		String loginField = this.fpf.getCargoBox().getSelectedItem().toString()+"-"+this.fpf.getLoginField().getText();
 		String idField = this.fpf.getIdField().getText();
 		String cpfField = this.fpf.getCpfField().getText();
 		String  sexo = this.fpf.getSexoFradio().isSelected()?this.fpf.getSexoFradio().getText():this.fpf.getSexoMradio().getText();
@@ -110,7 +110,7 @@ public class ControllerCrudFuncionario {
 					this.fpf.getCpfField().setText("");
 					preencherBusca(p);
 				}else
-					JOptionPane.showMessageDialog(null,"Nenhum cliente encontrado para o id:"+id);
+					JOptionPane.showMessageDialog(null,"Nenhum Funcionario encontrado para o id:"+id);
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null,e.getMessage());
 
@@ -147,14 +147,14 @@ public class ControllerCrudFuncionario {
 			try {
 				funcionario = daoPF.findAll(Funcionario.class);
 				if(funcionario!=null) {
-					JOptionPane.showMessageDialog(null,"Foram Encontrados: "+funcionario.size()+" Clientes!");
+					JOptionPane.showMessageDialog(null,"Foram Encontrados: "+funcionario.size()+" Funcionarios!");
 					this.preencherBusca(funcionario.get(0));
 					indiceCorrente = 0;
 					this.fpf.getOperacaoLabel().setText("Modo Update");
 					this.fpf.getOperacaoLabel().setForeground(Color.blue);
 					//this.fpf.getCpfField().setText("");
 				}else
-					JOptionPane.showMessageDialog(null,"Nenhum cliente encontrado!");
+					JOptionPane.showMessageDialog(null,"Nenhum Funcionario encontrado!");
 			} catch (DaoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -204,7 +204,7 @@ public class ControllerCrudFuncionario {
 				fpf.getFilialCombo().addItem(lts.get(i).getNome());
 			}
 		} catch (DaoException e) {
-			JOptionPane.showMessageDialog(null,"Não foi possivel atualizar as filiais");
+			JOptionPane.showMessageDialog(null,"Não foi possivel atualizar as filiais no combo!");
 			e.printStackTrace();
 		}	
 	}
@@ -215,7 +215,7 @@ public class ControllerCrudFuncionario {
 			if(this.fpf.getFilialCombo().getModel().getSize()>0) {
 			Object[ ] f = fd.buscaIdPorNome(this.fpf.getFilialCombo().getSelectedItem().toString());//Criar um native query
 			if(f==null)
-				throw new DaoException("");
+				throw new DaoException("Sem filiais!");
 			this.fpf.getCodFilialField().setText(f[1]+"");
 			}
 		} catch (DaoException e) {

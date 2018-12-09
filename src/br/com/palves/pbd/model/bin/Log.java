@@ -18,12 +18,14 @@ public class Log implements Generico{
 	@GeneratedValue(generator="seq_log",strategy=GenerationType.SEQUENCE)
 	private Integer id;
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date data;
+	private Date dataAlteracao;
 	private String usuario;
 	@Column(name="registro_antigo")
 	private String registroAntigo;
 	@Column(name="tipo_alteracao", length=30)
 	private String tipoAlteracao;
+	@Column(length=30)
+	private String tabela;
 	public Log() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -35,10 +37,10 @@ public class Log implements Generico{
 		this.id = id;
 	}
 	public Date getData() {
-		return data;
+		return dataAlteracao;
 	}
 	public void setData(Date data) {
-		this.data = data;
+		this.dataAlteracao = data;
 	}
 	public String getUsuario() {
 		return usuario;
@@ -62,7 +64,7 @@ public class Log implements Generico{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((dataAlteracao == null) ? 0 : dataAlteracao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((registroAntigo == null) ? 0 : registroAntigo.hashCode());
 		result = prime * result + ((tipoAlteracao == null) ? 0 : tipoAlteracao.hashCode());
@@ -78,10 +80,10 @@ public class Log implements Generico{
 		if (getClass() != obj.getClass())
 			return false;
 		Log other = (Log) obj;
-		if (data == null) {
-			if (other.data != null)
+		if (dataAlteracao == null) {
+			if (other.dataAlteracao != null)
 				return false;
-		} else if (!data.equals(other.data))
+		} else if (!dataAlteracao.equals(other.dataAlteracao))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -107,8 +109,14 @@ public class Log implements Generico{
 	}
 	@Override
 	public String toString() {
-		return "Log [id=" + id + ", data=" + data + ", usuario=" + usuario + ", registroAntigo=" + registroAntigo
+		return "Log [id=" + id + ", data=" + dataAlteracao + ", usuario=" + usuario + ", registroAntigo=" + registroAntigo
 				+ ", tipoAlteracao=" + tipoAlteracao + "]";
+	}
+	public String getTabela() {
+		return tabela;
+	}
+	public void setTabela(String tabela) {
+		this.tabela = tabela;
 	}
 	
 }

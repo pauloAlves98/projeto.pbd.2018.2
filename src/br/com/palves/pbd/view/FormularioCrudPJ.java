@@ -27,7 +27,6 @@ public class FormularioCrudPJ extends JDialog{
 	private FieldRedondo cepField;
 	private FieldRedondo ufField;
 	private FieldRedondo cidadeField;
-	private RoundButton autoButton;
 	private FieldRedondo buscarField;
 	private RoundButton irButton;
 	private RoundButton allButton;
@@ -42,7 +41,7 @@ public class FormularioCrudPJ extends JDialog{
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
+		JPanel panel =  new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panel.setBackground(new Color(0, 204, 153));
 		panel.setBounds(0, 0, 701, 76);
 		getContentPane().add(panel);
@@ -131,7 +130,7 @@ public class FormularioCrudPJ extends JDialog{
 		
 		JPanel enderecoPanel = new JPanel();
 		enderecoPanel.setBackground(Color.WHITE);
-		enderecoPanel.setBounds(0, 236, 484, 139);
+		enderecoPanel.setBounds(0, 236, 484, 226);
 		getContentPane().add(enderecoPanel);
 		enderecoPanel.setLayout(null);
 		
@@ -195,15 +194,6 @@ public class FormularioCrudPJ extends JDialog{
 		cidadeLabel.setBounds(211, 68, 140, 22);
 		enderecoPanel.add(cidadeLabel);
 		
-		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(10, 386, 89, 42);
-		getContentPane().add(salvarButton);
-		
-		autoButton = new RoundButton("Salvar");
-		autoButton.setText("Auto");
-		autoButton.setBounds(109, 386, 89, 42);
-		getContentPane().add(autoButton);
-		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(Color.DARK_GRAY);
@@ -225,14 +215,24 @@ public class FormularioCrudPJ extends JDialog{
 		lblId.setBounds(512, 141, 29, 14);
 		getContentPane().add(lblId);
 		
+		salvarButton = new RoundButton("Salvar");
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		salvarButton.setBounds(20, 128, 68, 68);
+		enderecoPanel.add(salvarButton);
+		salvarButton.setText("Salvar");
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setInitialColor();
+		//salvarButton.setInitialColor(Color.black);
+		salvarButton.setForeground(Color.WHITE);
+
 		irButton = new RoundButton("Salvar");
 		irButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		irButton.setForeground(Color.WHITE);
-		irButton.setBackground(Color.BLUE);
+		irButton.setBackground(new Color(25,25,112));
 		irButton.setText("Ir");
 		irButton.setBounds(590, 128, 43, 42);
 		getContentPane().add(irButton);
-		
+
 		allButton = new RoundButton("Salvar");
 		allButton.setForeground(Color.WHITE);
 		allButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -240,15 +240,15 @@ public class FormularioCrudPJ extends JDialog{
 		allButton.setBackground(Color.BLACK);
 		allButton.setBounds(635, 128, 43, 42);
 		getContentPane().add(allButton);
-		
+
 		removerButton = new RoundedCornerButton("Salvar");
 		removerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		removerButton.setText("Remover");
 		removerButton.setForeground(Color.WHITE);
-		removerButton.setBackground(Color.RED);
+		removerButton.setBackground(new Color(178,34,34));
 		removerButton.setBounds(509, 173, 165, 42);
 		getContentPane().add(removerButton);
-		
+
 		esquerdaButton = new RoundButton("Salvar");
 		esquerdaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		esquerdaButton.setText("<");
@@ -256,7 +256,7 @@ public class FormularioCrudPJ extends JDialog{
 		esquerdaButton.setBackground(new Color(0, 128, 128));
 		esquerdaButton.setBounds(542, 292, 43, 42);
 		getContentPane().add(esquerdaButton);
-		
+
 		direitaButton = new RoundButton("Salvar");
 		direitaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		direitaButton.setText(">");
@@ -264,12 +264,12 @@ public class FormularioCrudPJ extends JDialog{
 		direitaButton.setBackground(new Color(0, 128, 128));
 		direitaButton.setBounds(604, 292, 43, 42);
 		getContentPane().add(direitaButton);
-		
+
 		limparButton = new RoundedCornerButton("Salvar");
 		limparButton.setText("Limpar");
 		limparButton.setForeground(Color.WHITE);
 		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		limparButton.setBackground(new Color(60, 179, 113));
+		limparButton.setBackground(new Color(60,179,113));
 		limparButton.setBounds(509, 218, 165, 42);
 		getContentPane().add(limparButton);
 		
@@ -378,12 +378,6 @@ public class FormularioCrudPJ extends JDialog{
 	}
 	public void setCidadeField(FieldRedondo cidadeField) {
 		this.cidadeField = cidadeField;
-	}
-	public RoundButton getAutoButton() {
-		return autoButton;
-	}
-	public void setAutoButton(RoundButton autoButton) {
-		this.autoButton = autoButton;
 	}
 	public FieldRedondo getBuscarField() {
 		return buscarField;

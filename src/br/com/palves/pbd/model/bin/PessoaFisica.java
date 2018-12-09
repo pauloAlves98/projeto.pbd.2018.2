@@ -23,11 +23,11 @@ public class PessoaFisica extends Pessoa implements Serializable{
 	private String cpf;
 	@Column(length=2)
 	private String sexo;
-	@Column(name="data_nascimento")
+	@Column(name="data_nascimento",nullable=true)
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	//@NotNull(message="Campo Nº Habilitação Nulo!")
-	@Column(name="n_habilitacao",unique=true)
+	@Column(name="n_habilitacao",unique=false)
 	private String nHabilitacao;
 	@Temporal(TemporalType.DATE)
 	private Date dataVencHabilitacao;

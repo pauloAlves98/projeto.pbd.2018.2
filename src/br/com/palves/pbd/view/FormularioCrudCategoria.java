@@ -14,7 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 public class FormularioCrudCategoria extends JDialog{
-	private RoundButton salvarCNButton;
+	private RoundButton salvarButton;
 	private FieldRedondo nomeField ;
 	private FieldRedondo valorField;
 	private FieldRedondo nPassageirosField;
@@ -29,21 +29,35 @@ public class FormularioCrudCategoria extends JDialog{
 	private JLabel lblTipoDeCmbio;
 	private JLabel arLabel;
 	private JComboBox cambioCombo;
+	private JRadioButton cgRadio;
+	private JRadioButton cnRadio;
 	private JRadioButton simDvdRadio,simRadioRadio,simMp3Radio,simCameraReRadio,naoCameraReRadio,
 	naoMp3Radio,naoRadioRadio,naoDvdRadio, naoArRadio;
 	private ButtonGroup bAr,bDvd,bRadio,bMp3,bCamera,bDirecao,bCinto,bControle,bLigaLeve,bCategoria;
 	private JPanel panelCG,panelCP,panelCN ;
 	private JComboBox airBagCombo;
-	private RoundButton salvarCPButton;
 	private JRadioButton simLigaLeveRadio,simDirecaoRadio,simCintoRadi,simControlePoluicaoRadio,simCintoRadio;
-	private RoundButton salvarCGButton;
+	private RoundedCornerButton limparButton;
+	private JLabel operacaoLabel;
+	private JRadioButton cpRadio;
+	private FieldRedondo horaLimpeza;
+	private FieldRedondo capacidadeCargaField;
+	private FieldRedondo potenciaMotorField;
+	private FieldRedondo volumeCombustivelField;
+	private FieldRedondo dostanciaEixosField;
+	private JComboBox tipoEmbreagemCombo;
+	private FieldRedondo consumoKmField ;
+	private JRadioButton naoDirecaoRadio;
+	private JRadioButton naoCintoRadio;
+	private JRadioButton naoLigaLeveRadio;
+	private JRadioButton naoControlePoluicaoRadio;
 	public FormularioCrudCategoria() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(900,544);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		JPanel panelDiv1 = new JPanel();
+		JPanel panelDiv1 = new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panelDiv1.setBackground(new Color(0, 204, 153));
 		panelDiv1.setBounds(0, 0, 899, 76);
 		getContentPane().add(panelDiv1);
@@ -85,10 +99,18 @@ public class FormularioCrudCategoria extends JDialog{
 		lblId.setBounds(702, 141, 29, 14);
 		getContentPane().add(lblId);
 		
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60,179,113));
+		limparButton.setBounds(709, 221, 165, 42);
+		getContentPane().add(limparButton);
+		
 		irButton = new RoundButton("Salvar");
 		irButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		irButton.setForeground(Color.WHITE);
-		irButton.setBackground(Color.BLUE);
+		irButton.setBackground(new Color(25,25,112));
 		irButton.setText("Ir");
 		irButton.setBounds(787, 128, 43, 42);
 		getContentPane().add(irButton);
@@ -105,7 +127,7 @@ public class FormularioCrudCategoria extends JDialog{
 		removerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		removerButton.setText("Remover");
 		removerButton.setForeground(Color.WHITE);
-		removerButton.setBackground(Color.RED);
+		removerButton.setBackground(new Color(178,34,34));
 		removerButton.setBounds(709, 177, 165, 42);
 		getContentPane().add(removerButton);
 		
@@ -114,20 +136,26 @@ public class FormularioCrudCategoria extends JDialog{
 		esquerdaButton.setText("<");
 		esquerdaButton.setForeground(Color.WHITE);
 		esquerdaButton.setBackground(new Color(0, 128, 128));
-		esquerdaButton.setBounds(751, 332, 43, 42);
+		esquerdaButton.setBounds(750, 365, 43, 42);
 		getContentPane().add(esquerdaButton);
 		
-		direitaButton = new RoundButton("Salvar");
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(183, -2, 203, 22);
+		
+		
+		direitaButton = new RoundButton(">");
 		direitaButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		direitaButton.setText(">");
 		direitaButton.setForeground(Color.WHITE);
 		direitaButton.setBackground(new Color(0, 128, 128));
-		direitaButton.setBounds(804, 332, 43, 42);
+		direitaButton.setBounds(804, 365, 43, 42);
 		getContentPane().add(direitaButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(734, 281, 140, 55);
+		lblNavegao.setBounds(734, 321, 140, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panelDiv2 = new JPanel();
@@ -136,7 +164,8 @@ public class FormularioCrudCategoria extends JDialog{
 		getContentPane().add(panelDiv2);
 		
 		idField = new FieldRedondo();
-		idField.setBounds(774, 230, 38, 22);
+		idField.setEditable(false);
+		idField.setBounds(766, 288, 38, 22);
 		getContentPane().add(idField);
 		idField.setColumns(10);
 		
@@ -144,6 +173,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.setBackground(Color.WHITE);
 		panelCN.setBounds(0, 87, 289, 418);
 		getContentPane().add(panelCN);
+		panelCN.add(operacaoLabel);
 		panelCN.setLayout(null);
 		
 		nomeField = new FieldRedondo();
@@ -176,7 +206,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCN.add(senhaLabel);
 		senhaLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		FieldRedondo horaLimpeza = new FieldRedondo();
+		horaLimpeza = new FieldRedondo();
 		horaLimpeza.setBounds(10, 222, 69, 33);
 		panelCN.add(horaLimpeza);
 		horaLimpeza.setColumns(10);
@@ -196,12 +226,20 @@ public class FormularioCrudCategoria extends JDialog{
 		cambioCombo.setBounds(10, 295, 150, 33);
 		panelCN.add(cambioCombo);
 		cambioCombo.setModel(new DefaultComboBoxModel(new String[] {"Automatico", "Manual"}));
-		cambioCombo.setEditable(true);
 		cambioCombo.setBackground(Color.WHITE);
 		
-		salvarCNButton = new RoundButton("Salvar");
-		salvarCNButton.setBounds(10, 365, 89, 42);
-		panelCN.add(salvarCNButton);
+		
+		
+		salvarButton = new RoundButton("Salvar");
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		salvarButton.setBounds(10, 339, 69, 68);
+		panelCN.add(salvarButton);
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setInitialColor();
+		//salvarButton.setInitialColor(Color.black);
+		salvarButton.setForeground(Color.WHITE);
+		
+	
 		
 		lblCategoriaNormal = new JLabel("CATEGORIA CN");
 		lblCategoriaNormal.setBounds(10, -1, 286, 42);
@@ -338,14 +376,11 @@ public class FormularioCrudCategoria extends JDialog{
 		airBagCombo = new JComboBox();
 		airBagCombo.setModel(new DefaultComboBoxModel(new String[] {"Simples-Dianteira", "Duplo-Dianteira", "Total"}));
 		airBagCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		airBagCombo.setEditable(true);
 		airBagCombo.setBackground(Color.WHITE);
 		airBagCombo.setBounds(10, 52, 150, 33);
 		panelCP.add(airBagCombo);
 		
-		salvarCPButton = new RoundButton("Salvar");
-		salvarCPButton.setBounds(10, 365, 89, 42);
-		panelCP.add(salvarCPButton);
+	
 		
 		JLabel lblCategoriaPassageiro = new JLabel("CATEGORIA  CP");
 		lblCategoriaPassageiro.setForeground(Color.BLACK);
@@ -362,7 +397,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCP.add(simLigaLeveRadio);
 		bLigaLeve.add(simLigaLeveRadio);
 		
-		JRadioButton naoLigaLeveRadio = new JRadioButton("N\u00E3o");
+		 naoLigaLeveRadio = new JRadioButton("N\u00E3o");
 		naoLigaLeveRadio.setSelected(true);
 		naoLigaLeveRadio.setOpaque(false);
 		naoLigaLeveRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -385,7 +420,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCP.add(simDirecaoRadio);
 		bDirecao.add(simDirecaoRadio);
 		
-		JRadioButton naoDirecaoRadio = new JRadioButton("N\u00E3o");
+		 naoDirecaoRadio = new JRadioButton("N\u00E3o");
 		naoDirecaoRadio.setSelected(true);
 		naoDirecaoRadio.setOpaque(false);
 		naoDirecaoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -408,7 +443,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCP.add(simCintoRadio);
 		bCinto.add(simCintoRadio);
 		
-		JRadioButton naoCintoRadio = new JRadioButton("N\u00E3o");
+		naoCintoRadio = new JRadioButton("N\u00E3o");
 		naoCintoRadio.setSelected(true);
 		naoCintoRadio.setOpaque(false);
 		naoCintoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -436,7 +471,7 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCP.add(simControlePoluicaoRadio);
 		bControle.add(simControlePoluicaoRadio);
 		
-		JRadioButton naoControlePoluicaoRadio = new JRadioButton("N\u00E3o");
+		naoControlePoluicaoRadio = new JRadioButton("N\u00E3o");
 		naoControlePoluicaoRadio.setSelected(true);
 		naoControlePoluicaoRadio.setOpaque(false);
 		naoControlePoluicaoRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -451,17 +486,14 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCG.setBounds(483, 87, 209, 418);
 		getContentPane().add(panelCG);
 		
-		salvarCGButton = new RoundButton("Salvar");
-		salvarCGButton.setBounds(10, 365, 89, 42);
-		panelCG.add(salvarCGButton);
-		
+	
 		JLabel lblCategoriaCg = new JLabel("CATEGORIA  CG");
 		lblCategoriaCg.setForeground(Color.BLACK);
 		lblCategoriaCg.setFont(new Font("Bradley Hand ITC", Font.BOLD, 20));
 		lblCategoriaCg.setBounds(10, 0, 188, 42);
 		panelCG.add(lblCategoriaCg);
 		
-		FieldRedondo capacidadeCargaField = new FieldRedondo();
+		capacidadeCargaField = new FieldRedondo();
 		capacidadeCargaField.setColumns(10);
 		capacidadeCargaField.setBounds(10, 53, 69, 33);
 		panelCG.add(capacidadeCargaField);
@@ -476,12 +508,13 @@ public class FormularioCrudCategoria extends JDialog{
 		lblPotnciaDoMotor.setBounds(10, 87, 132, 22);
 		panelCG.add(lblPotnciaDoMotor);
 		
-		FieldRedondo potenciaMotorField = new FieldRedondo();
+		potenciaMotorField = new FieldRedondo();
 		potenciaMotorField.setColumns(10);
 		potenciaMotorField.setBounds(10, 109, 69, 33);
 		panelCG.add(potenciaMotorField);
 		
-		FieldRedondo volumeCombustivelField = new FieldRedondo();
+
+		volumeCombustivelField = new FieldRedondo();
 		volumeCombustivelField.setColumns(10);
 		volumeCombustivelField.setBounds(10, 168, 69, 33);
 		panelCG.add(volumeCombustivelField);
@@ -496,7 +529,7 @@ public class FormularioCrudCategoria extends JDialog{
 		lblDistnciaEixos.setBounds(10, 203, 132, 22);
 		panelCG.add(lblDistnciaEixos);
 		
-		FieldRedondo dostanciaEixosField = new FieldRedondo();
+		dostanciaEixosField = new FieldRedondo();
 		dostanciaEixosField.setColumns(10);
 		dostanciaEixosField.setBounds(10, 222, 69, 33);
 		panelCG.add(dostanciaEixosField);
@@ -511,15 +544,14 @@ public class FormularioCrudCategoria extends JDialog{
 		lblConsumoKml.setBounds(10, 307, 132, 22);
 		panelCG.add(lblConsumoKml);
 		
-		FieldRedondo consumoKmField = new FieldRedondo();
+		consumoKmField = new FieldRedondo();
 		consumoKmField.setColumns(10);
 		consumoKmField.setBounds(10, 327, 69, 33);
 		panelCG.add(consumoKmField);
 		
-		JComboBox tipoEmbreagemCombo = new JComboBox();
+		tipoEmbreagemCombo = new JComboBox();
 		tipoEmbreagemCombo.setModel(new DefaultComboBoxModel(new String[] {"Manual", "Hidraulica"}));
 		tipoEmbreagemCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		tipoEmbreagemCombo.setEditable(true);
 		tipoEmbreagemCombo.setBackground(Color.WHITE);
 		tipoEmbreagemCombo.setBounds(10, 275, 150, 33);
 		panelCG.add(tipoEmbreagemCombo);
@@ -530,31 +562,217 @@ public class FormularioCrudCategoria extends JDialog{
 		panelCG.add(tonelada);
 		
 		bCategoria = new ButtonGroup();
-		JRadioButton cnRadio = new JRadioButton("CN");
+		cnRadio = new JRadioButton("CN");
 		cnRadio.setSelected(true);
 		cnRadio.setOpaque(false);
 		cnRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
 		cnRadio.setBackground(Color.WHITE);
-		cnRadio.setBounds(698, 269, 69, 33);
+		cnRadio.setBounds(690, 310, 69, 33);
 		getContentPane().add(cnRadio);
 		bCategoria.add(cnRadio);
 		
-		JRadioButton cpRadio = new JRadioButton("CP");
+		cpRadio = new JRadioButton("CP");
 		cpRadio.setSelected(true);
 		cpRadio.setOpaque(false);
 		cpRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
 		cpRadio.setBackground(Color.WHITE);
-		cpRadio.setBounds(761, 269, 69, 33);
+		cpRadio.setBounds(761, 310, 69, 33);
 		getContentPane().add(cpRadio);
 		bCategoria.add(cpRadio);
-		JRadioButton cgRadio = new JRadioButton("CG");
+		cgRadio = new JRadioButton("CG");
 		cgRadio.setSelected(true);
 		cgRadio.setOpaque(false);
 		cgRadio.setFont(new Font("Tahoma", Font.BOLD, 12));
 		cgRadio.setBackground(Color.WHITE);
-		cgRadio.setBounds(830, 269, 69, 33);
+		cgRadio.setBounds(831, 310, 69, 33);
 		bCategoria.add(cgRadio);
 		getContentPane().add(cgRadio);
+		
+		JLabel lblCod = new JLabel("Cod");
+		lblCod.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCod.setBounds(721, 287, 35, 22);
+		getContentPane().add(lblCod);
 		//setVisible(true);
 	}
+	public RoundButton getSalvarButton() {
+		return salvarButton;
+	}
+	public FieldRedondo getNomeField() {
+		return nomeField;
+	}
+	public FieldRedondo getValorField() {
+		return valorField;
+	}
+	public FieldRedondo getnPassageirosField() {
+		return nPassageirosField;
+	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public JRadioButton getSimArRadio() {
+		return simArRadio;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public JLabel getLblCategoriaNormal() {
+		return lblCategoriaNormal;
+	}
+	public JLabel getLblTipoDeCmbio() {
+		return lblTipoDeCmbio;
+	}
+	public JLabel getArLabel() {
+		return arLabel;
+	}
+	public JComboBox getCambioCombo() {
+		return cambioCombo;
+	}
+	public JRadioButton getCgRadio() {
+		return cgRadio;
+	}
+	public JRadioButton getCnRadio() {
+		return cnRadio;
+	}
+	public JRadioButton getSimDvdRadio() {
+		return simDvdRadio;
+	}
+	public JRadioButton getSimRadioRadio() {
+		return simRadioRadio;
+	}
+	public JRadioButton getSimMp3Radio() {
+		return simMp3Radio;
+	}
+	public JRadioButton getSimCameraReRadio() {
+		return simCameraReRadio;
+	}
+	public JRadioButton getNaoCameraReRadio() {
+		return naoCameraReRadio;
+	}
+	public JRadioButton getNaoMp3Radio() {
+		return naoMp3Radio;
+	}
+	public JRadioButton getNaoRadioRadio() {
+		return naoRadioRadio;
+	}
+	public JRadioButton getNaoDvdRadio() {
+		return naoDvdRadio;
+	}
+	public JRadioButton getNaoArRadio() {
+		return naoArRadio;
+	}
+	public ButtonGroup getbAr() {
+		return bAr;
+	}
+	public ButtonGroup getbDvd() {
+		return bDvd;
+	}
+	public ButtonGroup getbRadio() {
+		return bRadio;
+	}
+	public ButtonGroup getbMp3() {
+		return bMp3;
+	}
+	public ButtonGroup getbCamera() {
+		return bCamera;
+	}
+	public ButtonGroup getbDirecao() {
+		return bDirecao;
+	}
+	public ButtonGroup getbCinto() {
+		return bCinto;
+	}
+	public ButtonGroup getbControle() {
+		return bControle;
+	}
+	public ButtonGroup getbLigaLeve() {
+		return bLigaLeve;
+	}
+	public ButtonGroup getbCategoria() {
+		return bCategoria;
+	}
+	public JPanel getPanelCG() {
+		return panelCG;
+	}
+	public JPanel getPanelCP() {
+		return panelCP;
+	}
+	public JPanel getPanelCN() {
+		return panelCN;
+	}
+	public JComboBox getAirBagCombo() {
+		return airBagCombo;
+	}
+	public JRadioButton getSimLigaLeveRadio() {
+		return simLigaLeveRadio;
+	}
+	public JRadioButton getSimDirecaoRadio() {
+		return simDirecaoRadio;
+	}
+	public JRadioButton getSimCintoRadi() {
+		return simCintoRadi;
+	}
+	public JRadioButton getSimControlePoluicaoRadio() {
+		return simControlePoluicaoRadio;
+	}
+	public JRadioButton getSimCintoRadio() {
+		return simCintoRadio;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
+	}
+	public JRadioButton getCpRadio() {
+		return cpRadio;
+	}
+	public FieldRedondo getHoraLimpeza() {
+		return horaLimpeza;
+	}
+	public FieldRedondo getCapacidadeCargaField() {
+		return capacidadeCargaField;
+	}
+	public FieldRedondo getPotenciaMotorField() {
+		return potenciaMotorField;
+	}
+	public FieldRedondo getVolumeCombustivelField() {
+		return volumeCombustivelField;
+	}
+	public FieldRedondo getDostanciaEixosField() {
+		return dostanciaEixosField;
+	}
+	public JComboBox getTipoEmbreagemCombo() {
+		return tipoEmbreagemCombo;
+	}
+	public FieldRedondo getConsumoKmField() {
+		return consumoKmField;
+	}
+	public JRadioButton getNaoDirecaoRadio() {
+		return naoDirecaoRadio;
+	}
+	public JRadioButton getNaoCintoRadio() {
+		return naoCintoRadio;
+	}
+	public JRadioButton getNaoLigaLeveRadio() {
+		return naoLigaLeveRadio;
+	}
+	public JRadioButton getNaoControlePoluicaoRadio() {
+		return naoControlePoluicaoRadio;
+	}
+	
 }

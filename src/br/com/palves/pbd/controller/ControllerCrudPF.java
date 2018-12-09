@@ -21,6 +21,7 @@ public class ControllerCrudPF {
 	private FormularioCrudPF fpf =  new FormularioCrudPF() ;
 	private List<PessoaFisica> pessoasF  = null;
 	private int indiceCorrente;
+	private String nHabMult = "";//armazena o numero de habilitação logo após a busca.
 	public ControllerCrudPF() {
 		this.fpf.setVisible(true);
 		this.fpf.getSalvarButton().addActionListener(ActionEvent -> salvarPF());	
@@ -39,7 +40,7 @@ public class ControllerCrudPF {
 		try {
 			this.validacoesDeNull();
 			PessoaFisica pessoaF = new PessoaFisica();
-			this.preencherCampos(pessoaF);
+			this.preencherCamposDaTelaParaEntidade(pessoaF);
 			daoPF.persistOrMerge(pessoaF);
 			JOptionPane.showMessageDialog(null,pessoaF.getNome()+(this.fpf.getOperacaoLabel().getText().equalsIgnoreCase("Modo Inserção")?" Inserido":" Atualizado")+" com sucesso!");
 			this.limparCampos();
@@ -60,6 +61,10 @@ public class ControllerCrudPF {
 		if(this.fpf.getnHabilitacaoField().getText().length()!=0)
 			if(this.fpf.getDataVencHabField().getDate()==null)
 				throw new ValidacaoException("Campo data de vencimento habilitação nulo!");
+		if(this.fpf.getDataVencHabField().getDate()!=null) {
+			if(this.fpf.getnHabilitacaoField().getText().replace(" ", "").length()<=0)
+				throw new ValidacaoException("Ja que possui data é nescessario informar o número da Habilitação!");
+		}
 		if(this.fpf.getSenhaField().getText().length()<6 || this.fpf.getSenhaField().getText().length()>11 )
 			throw new ValidacaoException("A senha deve Conter entre 6 e 11 caracteres!");
 		if(this.fpf.getNomeField().getText().length()<=0)
@@ -70,7 +75,8 @@ public class ControllerCrudPF {
 			throw new ValidacaoException("O CPF não pode ser nulo!");
 		}
 	}
-	private void preencherCampos(PessoaFisica pessoaF) {
+	private void preencherCamposDaTelaParaEntidade(PessoaFisica pessoaF) throws DaoException, ValidacaoException {
+	
 		String  nomeField = this.fpf.getNomeField().getText();
 		String senhaField = this.fpf.getSenhaField().getText();
 		String loginField = this.fpf.getLoginField().getText();
@@ -98,8 +104,15 @@ public class ControllerCrudPF {
 		if(idField.trim().length()>0) {//então eh update
 			pessoaF.setId(Integer.parseInt(idField));
 			pessoaF.getEndereco().setId(Integer.parseInt(this.fpf.getIdEnd().getText()));
-		}else
-			this.fpf.getIdEnd().setText("");//OLHAR                                     OLHAR      AKIIIIIIIIIIIIIIIIIIIIIIII
+			if(nHabilitacaoField!=null && nHabilitacaoField.replace(" ","").length()> 0  && !nHabilitacaoField.equalsIgnoreCase(nHabMult)) {//Eh pq Mudou .. olha se o numero de habilitação mudou
+				verificaUnicidadeHab(nHabilitacaoField);
+			}
+		}else {//Verificação de nHab unicidade insert
+			this.fpf.getIdEnd().setText("");//OLHAR                                    OLHAR      AKIIIIIIIIIIIIIIIIIIIIIIII
+			if(nHabilitacaoField!=null && nHabilitacaoField.replace(" ","").length()>0) {
+				verificaUnicidadeHab(nHabilitacaoField);
+			}
+		}
 		pessoaF.setNome(nomeField);
 		pessoaF.setSenha(senhaField);
 		pessoaF.setLogin(loginField);
@@ -124,7 +137,7 @@ public class ControllerCrudPF {
 					this.fpf.getOperacaoLabel().setText("Modo Update");
 					this.fpf.getOperacaoLabel().setForeground(Color.blue);
 					this.fpf.getCpfField().setText("");
-					preencherBusca(p);
+					preencheBuscaDaEntidadeParaTela(p);
 				}else
 					JOptionPane.showMessageDialog(null,"Nenhum cliente encontrado para o id:"+id);
 			} catch (NumberFormatException e) {
@@ -139,7 +152,23 @@ public class ControllerCrudPF {
 
 		}
 	}
-	private void preencherBusca(PessoaFisica pessoaF) {	
+	private void verificaUnicidadeHab(String nHabilitacaoField) throws ValidacaoException, DaoException {
+		PessoaFisicaDao pf = PessoaFisicaDao.getInstance();
+		try {
+			boolean b = (boolean)pf.procedureValidaHabilitacao(nHabilitacaoField);
+			if(b==true)
+				throw new ValidacaoException("O número de habilitação tem que ser único!");
+		} 
+		catch (ValidacaoException e2) {
+			e2.printStackTrace();
+			throw new ValidacaoException(e2.getMessage());
+		}
+		catch (DaoException e1) {
+			e1.printStackTrace();
+			throw new DaoException("Erro ao executar procedure");
+		}
+	}
+	private void preencheBuscaDaEntidadeParaTela(PessoaFisica pessoaF) {	
 		this.fpf.getNomeField().setText(pessoaF.getNome());
 		this.fpf.getSenhaField().setText(pessoaF.getSenha());
 		this.fpf.getLoginField().setText(pessoaF.getLogin());
@@ -158,6 +187,7 @@ public class ControllerCrudPF {
 		this.fpf.getUfField().setText(pessoaF.getEndereco().getUf());
 		this.fpf.getCidadeField().setText(pessoaF.getEndereco().getCidade());
 		this.fpf.getIdEnd().setText(pessoaF.getEndereco().getId()+"");
+		nHabMult = pessoaF.getnHabilitacao();
 		
 	}
 	private void carregarAll() {
@@ -168,7 +198,7 @@ public class ControllerCrudPF {
 				pessoasF = daoPF.findAll(PessoaFisica.class);
 				if(pessoasF!=null) {
 					JOptionPane.showMessageDialog(null,"Foram Encontrados: "+pessoasF.size()+" Clientes!");
-					this.preencherBusca(pessoasF.get(0));
+					this.preencheBuscaDaEntidadeParaTela(pessoasF.get(0));
 					indiceCorrente = 0;
 					this.fpf.getOperacaoLabel().setText("Modo Update");
 					this.fpf.getOperacaoLabel().setForeground(Color.blue);
@@ -189,6 +219,7 @@ public class ControllerCrudPF {
 		this.pessoasF = null;
 		indiceCorrente = 0;
 		LimparCampo.limparCamposDialog(fpf.getContentPane().getComponents());
+		nHabMult = null;
 	}
 	private void direita() {
 		if(pessoasF!=null) {
@@ -196,7 +227,7 @@ public class ControllerCrudPF {
 				indiceCorrente = 0;//vai para o primeiro!
 			}else
 				indiceCorrente++;
-			this.preencherBusca(pessoasF.get(indiceCorrente));
+			this.preencheBuscaDaEntidadeParaTela(pessoasF.get(indiceCorrente));
 			System.out.println(indiceCorrente);
 		}
 		
@@ -207,7 +238,7 @@ public class ControllerCrudPF {
 				indiceCorrente = pessoasF.size()-1;
 			}else
 				indiceCorrente--;
-			this.preencherBusca(pessoasF.get(indiceCorrente));
+			this.preencheBuscaDaEntidadeParaTela(pessoasF.get(indiceCorrente));
 			System.out.println(indiceCorrente);
 		}
 	}

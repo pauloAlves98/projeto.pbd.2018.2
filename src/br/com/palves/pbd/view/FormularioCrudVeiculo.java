@@ -5,16 +5,17 @@ import java.awt.Font;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 public class FormularioCrudVeiculo extends JDialog{
 	private RoundButton salvarButton;
@@ -22,7 +23,6 @@ public class FormularioCrudVeiculo extends JDialog{
 	private FieldRedondo torqueMotorField;
 	private FieldRedondo numeroChassiField;
 	private FieldRedondo idField;
-	private RoundButton autoButton;
 	private FieldRedondo buscarField;
 	private RoundButton irButton;
 	private RoundButton allButton;
@@ -37,13 +37,17 @@ public class FormularioCrudVeiculo extends JDialog{
 	private JTextField codFilial;
 	private JComboBox categoriaCombo;
 	private JTextArea categoriaTextArea;
+	private RoundedCornerButton limparButton;
+	private JLabel operacaoLabel;
+	private JComboBox filialAtualCombo ;
+	private JTextArea filialTextArea;
 	public  FormularioCrudVeiculo() {
 		getContentPane().setBackground(new Color(255, 255, 255));
-		setSize(700,544);
+		setSize(700,570);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
+		JPanel panel = new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panel.setBackground(new Color(0, 204, 153));
 		panel.setBounds(0, 0, 701, 76);
 		getContentPane().add(panel);
@@ -57,7 +61,7 @@ public class FormularioCrudVeiculo extends JDialog{
 		
 		JPanel panelVeiculo = new JPanel();
 		panelVeiculo.setBackground(new Color(255, 255, 255));
-		panelVeiculo.setBounds(2, 87, 502, 418);
+		panelVeiculo.setBounds(2, 87, 502, 500);
 		getContentPane().add(panelVeiculo);
 		panelVeiculo.setLayout(null);
 		
@@ -230,7 +234,7 @@ public class FormularioCrudVeiculo extends JDialog{
 		codFilial.setBounds(326, 158, 38, 33);
 		panelVeiculo.add(codFilial);
 		
-		JComboBox filialAtualCombo = new JComboBox();
+		filialAtualCombo = new JComboBox();
 		filialAtualCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		filialAtualCombo.setEditable(true);
 		filialAtualCombo.setBackground(Color.WHITE);
@@ -241,7 +245,7 @@ public class FormularioCrudVeiculo extends JDialog{
 		scrollPane.setBounds(326, 192, 176, 54);
 		panelVeiculo.add(scrollPane);
 		
-		JTextArea filialTextArea = new JTextArea();
+		filialTextArea = new JTextArea();
 		filialTextArea.setLineWrap(true);
 		scrollPane.setViewportView(filialTextArea);
 		
@@ -273,19 +277,20 @@ public class FormularioCrudVeiculo extends JDialog{
 		scrollPane_1.setViewportView(categoriaTextArea);
 		
 		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(10, 366, 89, 42);
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		//salvarButton.setBounds(-48, 366, 150, 42);
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setInitialColor();
+		//salvarButton.setInitialColor(Color.black);
+		salvarButton.setForeground(Color.WHITE);
+		salvarButton.setBounds(10, 361, 82, 68);
 		panelVeiculo.add(salvarButton);
-		
-		autoButton = new RoundButton("Salvar");
-		autoButton.setBounds(109, 366, 89, 42);
-		panelVeiculo.add(autoButton);
-		autoButton.setText("Auto");
 		ButtonGroup b = new ButtonGroup();
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(Color.DARK_GRAY);
-		separator.setBounds(506, 87, 2, 423);
+		separator.setBounds(506, 87, 2, 500);
 		getContentPane().add(separator);
 		
 		buscarField = new FieldRedondo();
@@ -306,7 +311,7 @@ public class FormularioCrudVeiculo extends JDialog{
 		irButton = new RoundButton("Salvar");
 		irButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		irButton.setForeground(Color.WHITE);
-		irButton.setBackground(Color.BLUE);
+		irButton.setBackground(new Color(25,25,112));
 		irButton.setText("Ir");
 		irButton.setBounds(590, 128, 43, 42);
 		getContentPane().add(irButton);
@@ -323,8 +328,8 @@ public class FormularioCrudVeiculo extends JDialog{
 		removerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		removerButton.setText("Remover");
 		removerButton.setForeground(Color.WHITE);
-		removerButton.setBackground(Color.RED);
-		removerButton.setBounds(509, 177, 165, 42);
+		removerButton.setBackground(new Color(178,34,34));
+		removerButton.setBounds(509, 173, 165, 42);
 		getContentPane().add(removerButton);
 		
 		esquerdaButton = new RoundButton("Salvar");
@@ -332,7 +337,7 @@ public class FormularioCrudVeiculo extends JDialog{
 		esquerdaButton.setText("<");
 		esquerdaButton.setForeground(Color.WHITE);
 		esquerdaButton.setBackground(new Color(0, 128, 128));
-		esquerdaButton.setBounds(542, 292, 43, 42);
+		esquerdaButton.setBounds(534, 330, 43, 42);
 		getContentPane().add(esquerdaButton);
 		
 		direitaButton = new RoundButton("Salvar");
@@ -340,18 +345,130 @@ public class FormularioCrudVeiculo extends JDialog{
 		direitaButton.setText(">");
 		direitaButton.setForeground(Color.WHITE);
 		direitaButton.setBackground(new Color(0, 128, 128));
-		direitaButton.setBounds(604, 292, 43, 42);
+		direitaButton.setBounds(595, 330, 43, 42);
 		getContentPane().add(direitaButton);
+		
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60,179,113));
+		limparButton.setBounds(509, 218, 165, 42);
+		getContentPane().add(limparButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(534, 236, 140, 55);
+		lblNavegao.setBounds(534, 271, 140, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 0, 0));
 		panel_1.setBounds(0, 76, 684, 10);
 		getContentPane().add(panel_1);
+		
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(221, -1, 203, 22);
+		panelVeiculo.add(operacaoLabel);
+		
 		//setVisible(true);
 	}
+	public RoundButton getSalvarButton() {
+		return salvarButton;
+	}
+	public FieldRedondo getNomeField() {
+		return nomeField;
+	}
+	public FieldRedondo getTorqueMotorField() {
+		return torqueMotorField;
+	}
+	public FieldRedondo getNumeroChassiField() {
+		return numeroChassiField;
+	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public JTextField getCodCategoriaField() {
+		return codCategoriaField;
+	}
+	public FieldRedondo getNumeroPortasField() {
+		return numeroPortasField;
+	}
+	public JCheckBox getGasolinaCheck() {
+		return gasolinaCheck;
+	}
+	public JCheckBox getEtanolCheck() {
+		return etanolCheck;
+	}
+	public JCheckBox getDieselCheck() {
+		return dieselCheck;
+	}
+	public JCheckBox getBiocombustivelCheck() {
+		return biocombustivelCheck;
+	}
+	public JComboBox getTamanhoCombo() {
+		return tamanhoCombo;
+	}
+	public FieldRedondo getNumeroMotorField() {
+		return numeroMotorField;
+	}
+	public FieldRedondo getModeloField() {
+		return modeloField;
+	}
+	public FieldRedondo getAnoModeloField() {
+		return anoModeloField;
+	}
+	public FieldRedondo getCorField() {
+		return corField;
+	}
+	public FieldRedondo getFabricanteField() {
+		return fabricanteField;
+	}
+	public FieldRedondo getAnoFabricacaoField() {
+		return anoFabricacaoField;
+	}
+	public FieldRedondo getHorasRevisaoField() {
+		return horasRevisaoField;
+	}
+	public JTextField getCodFilial() {
+		return codFilial;
+	}
+	public JComboBox getCategoriaCombo() {
+		return categoriaCombo;
+	}
+	public JTextArea getCategoriaTextArea() {
+		return categoriaTextArea;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
+	}
+	public JComboBox getFilialAtualCombo() {
+		return filialAtualCombo;
+	}
+	public JTextArea getFilialTextArea() {
+		return filialTextArea;
+	}
+	
 }

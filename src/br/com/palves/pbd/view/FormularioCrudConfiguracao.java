@@ -16,6 +16,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/**
+ * @author p
+ *
+ */
 public class FormularioCrudConfiguracao extends JDialog{
 
 	private RoundButton salvarButton;
@@ -30,13 +34,15 @@ public class FormularioCrudConfiguracao extends JDialog{
 	private FieldRedondo taxaHigField;
 	private FieldRedondo taxaCombField;
 	private FieldRedondo taxaDevField;
+	private RoundedCornerButton limparButton;
+	private JLabel operacaoLabel;
 	public  FormularioCrudConfiguracao () {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(700,544);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 
-		JPanel panel = new JPanel();
+		JPanel panel = new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panel.setBackground(new Color(0, 204, 153));
 		panel.setBounds(0, 0, 701, 76);
 		getContentPane().add(panel);
@@ -75,6 +81,7 @@ public class FormularioCrudConfiguracao extends JDialog{
 		panelVeiculo.add(valorKlivreLabel);
 
 		idField = new FieldRedondo();
+		idField.setEditable(false);
 		idField.setColumns(10);
 		idField.setBounds(20, 0, 38, 22);
 		panelVeiculo.add(idField);
@@ -109,16 +116,7 @@ public class FormularioCrudConfiguracao extends JDialog{
 		taxaDevField.setBounds(10, 265, 82, 33);
 		panelVeiculo.add(taxaDevField);
 
-		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(10, 366, 89, 42);
-		panelVeiculo.add(salvarButton);
 		ButtonGroup b = new ButtonGroup();
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBackground(Color.DARK_GRAY);
-		separator.setBounds(506, 87, 2, 423);
-		getContentPane().add(separator);
 
 		buscarField = new FieldRedondo();
 		buscarField.setColumns(10);
@@ -135,10 +133,20 @@ public class FormularioCrudConfiguracao extends JDialog{
 		lblId.setBounds(512, 141, 29, 14);
 		getContentPane().add(lblId);
 
+		salvarButton = new RoundButton("Salvar");
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		salvarButton.setBounds(21, 309, 68, 68);
+		panelVeiculo.add(salvarButton);
+		salvarButton.setText("Salvar");
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setInitialColor();
+		//salvarButton.setInitialColor(Color.black);
+		salvarButton.setForeground(Color.WHITE);
+
 		irButton = new RoundButton("Salvar");
 		irButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		irButton.setForeground(Color.WHITE);
-		irButton.setBackground(Color.BLUE);
+		irButton.setBackground(new Color(25,25,112));
 		irButton.setText("Ir");
 		irButton.setBounds(590, 128, 43, 42);
 		getContentPane().add(irButton);
@@ -155,8 +163,8 @@ public class FormularioCrudConfiguracao extends JDialog{
 		removerButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		removerButton.setText("Remover");
 		removerButton.setForeground(Color.WHITE);
-		removerButton.setBackground(Color.RED);
-		removerButton.setBounds(509, 177, 165, 42);
+		removerButton.setBackground(new Color(178,34,34));
+		removerButton.setBounds(509, 173, 165, 42);
 		getContentPane().add(removerButton);
 
 		esquerdaButton = new RoundButton("Salvar");
@@ -164,7 +172,7 @@ public class FormularioCrudConfiguracao extends JDialog{
 		esquerdaButton.setText("<");
 		esquerdaButton.setForeground(Color.WHITE);
 		esquerdaButton.setBackground(new Color(0, 128, 128));
-		esquerdaButton.setBounds(542, 292, 43, 42);
+		esquerdaButton.setBounds(544, 308, 43, 42);
 		getContentPane().add(esquerdaButton);
 
 		direitaButton = new RoundButton("Salvar");
@@ -172,12 +180,32 @@ public class FormularioCrudConfiguracao extends JDialog{
 		direitaButton.setText(">");
 		direitaButton.setForeground(Color.WHITE);
 		direitaButton.setBackground(new Color(0, 128, 128));
-		direitaButton.setBounds(604, 292, 43, 42);
+		direitaButton.setBounds(595, 308, 43, 42);
 		getContentPane().add(direitaButton);
+
+		limparButton = new RoundedCornerButton("Salvar");
+		limparButton.setText("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		limparButton.setBackground(new Color(60,179,113));
+		limparButton.setBounds(509, 218, 165, 42);
+		getContentPane().add(limparButton);
+		
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(221, -1, 203, 22);
+		panelVeiculo.add(operacaoLabel);
+		
+				JSeparator separator = new JSeparator();
+				separator.setBounds(475, 0, 2, 423);
+				panelVeiculo.add(separator);
+				separator.setOrientation(SwingConstants.VERTICAL);
+				separator.setBackground(Color.DARK_GRAY);
 
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(534, 236, 140, 55);
+		lblNavegao.setBounds(534, 254, 140, 55);
 		getContentPane().add(lblNavegao);
 
 		JPanel panel_1 = new JPanel();
@@ -185,6 +213,51 @@ public class FormularioCrudConfiguracao extends JDialog{
 		panel_1.setBounds(0, 76, 684, 10);
 		getContentPane().add(panel_1);
 		//setVisible(true);
+	}
+	public RoundButton getSalvarButton() {
+		return salvarButton;
+	}
+	public FieldRedondo getValorKcontroleField() {
+		return valorKcontroleField;
+	}
+	public FieldRedondo getValorKlivreField() {
+		return valorKlivreField;
+	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public FieldRedondo getTaxaHigField() {
+		return taxaHigField;
+	}
+	public FieldRedondo getTaxaCombField() {
+		return taxaCombField;
+	}
+	public FieldRedondo getTaxaDevField() {
+		return taxaDevField;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
 	}
 
 }

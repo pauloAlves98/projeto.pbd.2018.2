@@ -3,7 +3,7 @@ package br.com.palves.pbd.app;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import br.com.palves.pbd.controller.ControllerCrudFuncionario;
+import br.com.palves.pbd.controller.ControllerCrudVeiculo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * @author: P Alves
  * */
 public class App extends Application{
-	
+
 	@Override
 	public void start(Stage palcoStage) throws Exception {		
 		Pane loginPane = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/Login.fxml"));
@@ -21,75 +21,109 @@ public class App extends Application{
 		palcoStage.setScene(cenaLogin);
 		palcoStage.centerOnScreen();
 		//palcoStage.show();	
-		App.lookWindows();
-		new ControllerCrudFuncionario();
-//		Stage palcoStage1 = new Stage();
-//		palcoStage1.setScene(cenaLogin);
-//		palcoStage1.centerOnScreen();
-//		palcoStage1.show();
+		App.lookNimbus();
+		
+		new ControllerCrudVeiculo();
+		//PessoaFisicaDao d = PessoaFisicaDao.getInstance();
+		
+		//System.out.println((boolean)d.procedureValidaHabilitacao("999"));
+//		int op = 0;
+//		switch(op) {
+//		case 1:{
+//
+//		}
+//		case 2:{
+//
+//		}
+//		case 3:{
+//
+//		}
+//		case 4:{
+//
+//		}
+//		case 5:{
+//
+//		}
+//		case 6:{
+//
+//		}
+//		case 7:{
+//
+//		}
+//		case 8:{
+//
+//		}
+//		case 9:{
+//
+//		}
+//		}
+		//		Stage palcoStage1 = new Stage();
+		//		palcoStage1.setScene(cenaLogin);
+		//		palcoStage1.centerOnScreen();
+		//		palcoStage1.show();
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 		System.out.println("Passou");
-//		PessoaDao daoPessoa = PessoaDao.getInstance();
-//		
-//		Object obj[]=null;
-//		try {
-//			obj = daoPessoa.buscarIdPorLogin("nn@gmail.com","12345678");
-//			if(obj == null)
-//				System.out.println("Eh Nulo");
-//			else
-//			{
-//				System.out.println("Tamanho: "+obj.length);
-//				int j = (int) obj[1];
-//				System.out.println("ID "+ obj[0] );
-//				
-//			
-//			}
-//		} catch (DaoException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	
-//		CategoriaCarga cg = new CategoriaCarga();
-//		CategoriaCargaDao dao = CategoriaCargaDao.getInstance();
-//		cg.setNome("categoria Carga cg3");
-//		cg.setPotenciaMotor(100);
-//		//cg.setId(4);
-//		
-//		try {
-//			cg = dao.findById(CategoriaCarga.class,4);
-//			System.out.println(cg.getNome());
-//			for(CategoriaCarga c:dao.findAll(CategoriaCarga.class)) {
-//				System.out.println(c.getNome());
-//				System.out.println(c.getId());
-//				System.out.println(c.getPotenciaMotor());
-//			}
-//		} catch (DaoException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-	//	}
-//		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
-//		PessoaFisica cg = new PessoaFisica();
-//		PessoaFisicaDao dao = PessoaFisicaDao.getInstance();
-//		//cg.setLogin("NN@gmail.com");
-//		cg.setNome("KIll");
-//		cg.setCpf("1");
-//		try {
-//			dao.persistOrMerge(cg);
-//			//System.out.println(dao.findById(7).getNome());
-//			//dao.persisteOrMerge(cg);
-//			List<PessoaFisica>ld = dao.findAll();
-//			for(PessoaFisica e:ld) {
-//				System.out.println("ID:"+e.getId());
-//				System.out.println("UF:"+ e.getNome());
-//				System.out.println("End id:" + e.getEndereco().getId());
-//			}
-//		}catch (DaoException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//		PessoaDao daoPessoa = PessoaDao.getInstance();
+		//		
+		//		Object obj[]=null;
+		//		try {
+		//			obj = daoPessoa.buscarIdPorLogin("nn@gmail.com","12345678");
+		//			if(obj == null)
+		//				System.out.println("Eh Nulo");
+		//			else
+		//			{
+		//				System.out.println("Tamanho: "+obj.length);
+		//				int j = (int) obj[1];
+		//				System.out.println("ID "+ obj[0] );
+		//				
+		//			
+		//			}
+		//		} catch (DaoException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
+
+		//		CategoriaCarga cg = new CategoriaCarga();
+		//		CategoriaCargaDao dao = CategoriaCargaDao.getInstance();
+		//		cg.setNome("categoria Carga cg3");
+		//		cg.setPotenciaMotor(100);
+		//		//cg.setId(4);
+		//		
+		//		try {
+		//			cg = dao.findById(CategoriaCarga.class,4);
+		//			System.out.println(cg.getNome());
+		//			for(CategoriaCarga c:dao.findAll(CategoriaCarga.class)) {
+		//				System.out.println(c.getNome());
+		//				System.out.println(c.getId());
+		//				System.out.println(c.getPotenciaMotor());
+		//			}
+		//		} catch (DaoException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//	}
+		//		//A relação tambem tem que ter o id modificado no merge, caso não ele persist um novo registro!!
+		//		PessoaFisica cg = new PessoaFisica();
+		//		PessoaFisicaDao dao = PessoaFisicaDao.getInstance();
+		//		//cg.setLogin("NN@gmail.com");
+		//		cg.setNome("KIll");
+		//		cg.setCpf("1");
+		//		try {
+		//			dao.persistOrMerge(cg);
+		//			//System.out.println(dao.findById(7).getNome());
+		//			//dao.persisteOrMerge(cg);
+		//			List<PessoaFisica>ld = dao.findAll();
+		//			for(PessoaFisica e:ld) {
+		//				System.out.println("ID:"+e.getId());
+		//				System.out.println("UF:"+ e.getNome());
+		//				System.out.println("End id:" + e.getEndereco().getId());
+		//			}
+		//		}catch (DaoException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 		/**
 		Endereco end = new Endereco();
 		EnderecoDao daoEnd = EnderecoDao.getInstance();
@@ -177,16 +211,16 @@ public class App extends Application{
 		}
 	}
 	public static void lookNimbus(){
-				try {
-					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-					    if ("Nimbus".equals(info.getName())) {
-					        UIManager.setLookAndFeel(info.getClassName());
-					        break;
-					    }
-					}
-					} catch (Exception e) {
-					   // If Nimbus is not available, you can set the GUI to another look and feel.
-					}
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 	}
-	
+
 }

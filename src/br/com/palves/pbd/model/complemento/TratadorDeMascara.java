@@ -1,6 +1,8 @@
 package br.com.palves.pbd.model.complemento;
 
 import java.awt.event.KeyAdapter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -9,10 +11,25 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
 import  br.com.palves.pbd.exception.ValidacaoException;
-import br.com.palves.pbd.view.FieldRedondo;
 
 public class TratadorDeMascara {
 	
+	public static String converterHoraString(Date horas) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		Date hora = horas; // Ou qualquer outra forma que tem
+		String dataFormatada = sdf.format(hora);
+		return dataFormatada;	
+	}
+	public static Date converterStringHora(String hora) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+			Date d = sdf.parse(hora);
+			return d;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public static void aplicarMascaraCPF(JFormattedTextField cpfField) {
 		try{
 			javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("###.###.###-##");

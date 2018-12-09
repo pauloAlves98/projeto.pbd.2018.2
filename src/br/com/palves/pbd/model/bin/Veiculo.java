@@ -1,5 +1,7 @@
 package br.com.palves.pbd.model.bin;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -24,7 +28,7 @@ public class Veiculo implements Generico{
 	private String nome;
 	@Column(name="n_porta")
 	private int nPorta;
-	@Column(name="tipo_combustivel",length=30)
+	@Column(name="tipo_combustivel",length=50)
 	private String tipoCombustivel;
 	@NotNull(message="Campo Tamanho Nulo!")
 	@Column(nullable=false)
@@ -47,7 +51,8 @@ public class Veiculo implements Generico{
 	@Column(name="km_restante_revisao")
 	private int kmRestanteRevisao;
 	@Column(name="hora_revisao")
-	private int horaRevisao;
+	@Temporal(TemporalType.TIME)
+	private Date horaRevisao;
 	@Column(length=50)
 	private String status;
 	@ManyToOne   //Muitos veiculos para uma filial atual;
@@ -221,12 +226,12 @@ public class Veiculo implements Generico{
 	}
 
 
-	public int getHoraRevisao() {
+	public Date getHoraRevisao() {
 		return horaRevisao;
 	}
 
 
-	public void setHoraRevisao(int horaRevisao) {
+	public void setHoraRevisao(Date horaRevisao) {
 		this.horaRevisao = horaRevisao;
 	}
 
@@ -271,7 +276,7 @@ public class Veiculo implements Generico{
 		result = prime * result + ((cor == null) ? 0 : cor.hashCode());
 		result = prime * result + ((fabricante == null) ? 0 : fabricante.hashCode());
 		result = prime * result + ((filialAtual == null) ? 0 : filialAtual.hashCode());
-		result = prime * result + horaRevisao;
+		result = prime * result + ((horaRevisao == null) ? 0 : horaRevisao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + kmAtual;
 		result = prime * result + kmRestanteRevisao;
@@ -322,7 +327,10 @@ public class Veiculo implements Generico{
 				return false;
 		} else if (!filialAtual.equals(other.filialAtual))
 			return false;
-		if (horaRevisao != other.horaRevisao)
+		if (horaRevisao == null) {
+			if (other.horaRevisao != null)
+				return false;
+		} else if (!horaRevisao.equals(other.horaRevisao))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -391,5 +399,4 @@ public class Veiculo implements Generico{
 				+ horaRevisao + ", status=" + status + ", filialAtual=" + filialAtual + ", categoria=" + categoria.getNome()
 				+ "]";
 	}
-	
 }

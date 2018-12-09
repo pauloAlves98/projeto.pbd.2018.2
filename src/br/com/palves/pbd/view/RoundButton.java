@@ -1,5 +1,6 @@
 package br.com.palves.pbd.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Ellipse2D;
 
@@ -7,9 +8,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 
 public class RoundButton extends RoundedCornerButton {
-    protected RoundButton() {
-        super();
-    }
+   
     protected RoundButton(Icon icon) {
         super(icon);
     }
