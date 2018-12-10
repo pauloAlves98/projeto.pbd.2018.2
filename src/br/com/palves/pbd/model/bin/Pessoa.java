@@ -40,7 +40,7 @@ public abstract class Pessoa implements Serializable,Generico{
 	@Column(unique=true,nullable=false)
 	private String login;
 	@NotNull(message="Campo Senha Nulo!")
-	@Column(length=11)
+	@Column(length=255)
 	private String senha;
 	@Column(length=50)
 	private String situacao;

@@ -32,7 +32,7 @@ public class Reserva implements Generico{
 	private double valorDiariaKcontrole;
 	private String situacao;
 	@ManyToOne   //Muitas reservas para uma pessoa
-	@JoinColumn(name="pessoa_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "reserva_pessoa_fkey"))
+	@JoinColumn(name="pessoa_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "reserva_pessoa_fkey"),nullable=true)
 	private Pessoa pessoa;
 	@ManyToOne   //Muitas reservas para uma categoria
 	@JoinColumn(name="categoria_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "reserva_categoria_fkey"))

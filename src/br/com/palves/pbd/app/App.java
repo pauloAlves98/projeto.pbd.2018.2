@@ -3,7 +3,7 @@ package br.com.palves.pbd.app;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import br.com.palves.pbd.controller.ControllerCrudVeiculo;
+import br.com.palves.pbd.controller.ControllerCrudFuncionario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +11,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
  * @author: P Alves
+ * */
+
+//Atenção
+/**
+ * O Codigo contem Gatilhos e procedures , caso seja o primeiro acesso estes terão que ser criados para bom
+ * funcionamento do sw, os mesmos estão disponiveis em no pacote SQL, classe SQLUtil.
+ * Para efetuar os cruds instanciar o controle correspondente!
+ * backup do banco disponivel na pastas documentacao!
  * */
 public class App extends Application{
 
@@ -20,10 +28,11 @@ public class App extends Application{
 		Scene cenaLogin = new Scene(loginPane,1000,600);
 		palcoStage.setScene(cenaLogin);
 		palcoStage.centerOnScreen();
+		//palcoStage.setOnCloseRequest();
 		//palcoStage.show();	
 		App.lookNimbus();
 		
-		new ControllerCrudVeiculo();
+		new ControllerCrudFuncionario();
 		//PessoaFisicaDao d = PessoaFisicaDao.getInstance();
 		
 		//System.out.println((boolean)d.procedureValidaHabilitacao("999"));

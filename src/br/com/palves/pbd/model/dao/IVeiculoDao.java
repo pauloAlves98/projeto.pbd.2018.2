@@ -11,4 +11,5 @@ public interface IVeiculoDao {
 //	public Veiculo findById(Integer id) throws DaoException;
 //	public List<Veiculo> findAll() throws DaoException;
 //	public  Veiculo deleteById (int id) throws DaoException;
+	public Object[]buscarIdPorNome(String nome) throws DaoException;
 }

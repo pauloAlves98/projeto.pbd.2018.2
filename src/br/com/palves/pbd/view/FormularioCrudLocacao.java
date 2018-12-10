@@ -7,28 +7,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
-
-import br.com.palves.pbd.app.App;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
 /**
  * @author P Alves
  * */
@@ -40,14 +32,13 @@ public class FormularioCrudLocacao extends JDialog{
 	private RoundButton allButton;
 	private RoundedCornerButton removerButton;
 	private RoundButton esquerdaButton,direitaButton;
-	private JTable reservaTable;
 	private JTextField filialEntregaIdField;
 	private JTextField veiculoIdField;
-	private JTextField motoristaIdField;
-	private JTextField motoristaCombo;
-	private FieldRedondo horaRealizacaoField;
+	private JComboBox motoristaCombo;
+	private JTextField idMotoristaField;
+	private FieldFormattedRedondo horaRealizacaoField;
 	private JDateChooser entregaDateChooser;
-	private FieldRedondo horaEntregaField ;
+	private FieldFormattedRedondo horaEntregaField ;
 	private JRadioButton kmLivreRadio;
 	private JTextField idFilialLocatariaField;
 	private JComboBox filialLocatariaCombo;
@@ -56,9 +47,12 @@ public class FormularioCrudLocacao extends JDialog{
 	private JTextArea filialLocatariaTextArea;
 	private JComboBox veiculoCombo;
 	private JTextArea veiculoTextArea;
-	private RoundButton buscarMotoristaButton;
-	private RoundButton outroVeiculoButton;
 	private RoundedCornerButton limparButton;
+	private JDateChooser RealizacaoDataChooser;
+	private JRadioButton rdbtnKmControle;
+	private JTextField clienteField;
+	private JComboBox clienteCombo;
+	 private JLabel operacaoLabel;
 	public  FormularioCrudLocacao() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setSize(825,606);
@@ -83,14 +77,6 @@ public class FormularioCrudLocacao extends JDialog{
 		getContentPane().add(panelVeiculo);
 		panelVeiculo.setLayout(null);
 		
-		JLabel reservaLabel = new JLabel("Reservas");
-		reservaLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		reservaLabel.setBounds(21, 21, 177, 22);
-		panelVeiculo.add(reservaLabel);
-		JDateChooser calendar  = new JDateChooser();
-		calendar.setBounds(10, 45, 177, 33);
-		panelVeiculo.add(calendar);
-		
 		idField = new FieldRedondo();
 		idField.setColumns(10);
 		idField.setBounds(20, 0, 38, 22);
@@ -104,134 +90,95 @@ public class FormularioCrudLocacao extends JDialog{
 		//salvarButton.setInitialColor(Color.black);
 		salvarButton.setForeground(Color.WHITE);
 		//salvarButton.setBounds(10, 427, 95, 42);
-		salvarButton.setBounds(10, 394, 74, 75);
+		salvarButton.setBounds(10, 287, 74, 75);
 		panelVeiculo.add(salvarButton);
-	
-		JScrollPane scrollPaneReserva = new JScrollPane();
-		scrollPaneReserva.setBounds(10, 79, 629, 106);
-		panelVeiculo.add(scrollPaneReserva);
-		scrollPaneReserva.setBorder(null);
-		reservaTable = new JTable()
-		{
-	        public Component prepareRenderer(TableCellRenderer renderer,
-	                                         int rowIndex, int vColIndex) 
-	        {
-	            Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
-	            if (c instanceof JComponent && c!=null) 
-	            {
-	                // Minha adaptação, pq quando um objeto da tabela eh do tipo Integer, por exemplo, não se converte para 
-	                //String com um simples cast, como citado no fonte desse exemplo.
-	                Object o = getValueAt(rowIndex, vColIndex); 
-	               //Fim adaptacao.
-	                JComponent jc = (JComponent)c;
-	                jc.setToolTipText(o.toString());
-	            }
-	            return c;
-	        }
-	 };
-		//table.getColumnModel().getColumn(3).setCellRenderer( new RendererOfTable() );
-		reservaTable.setModel(new DefaultTableModel(
-				new Object[][] {
-					{"123","j", "E", "João pereira da Silva","1234567890111","E"}
-				},
-				new String[] {
-					"<html><table><tr><td height=50><b>ID</b></td></tr></table></html>", "Data Hora", "Cod Cliente","Cliente","CPF","Situacao"
-				}
-			));
-		reservaTable.getTableHeader().setBorder(new LineBorder(Color.BLACK,1,true));
-		reservaTable.getTableHeader().setBackground(Color.BLACK);
-		reservaTable.getTableHeader().setForeground(Color.WHITE);
-		reservaTable.setRowHeight(40);
-		reservaTable.getColumnModel().getColumn(0).setWidth(20);
-		reservaTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		scrollPaneReserva.setViewportView(reservaTable);
 		
 		JLabel lblDatahoraRealizao = new JLabel("Data/Hora Realiza\u00E7\u00E3o");
 		lblDatahoraRealizao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDatahoraRealizao.setBounds(10, 185, 177, 22);
+		lblDatahoraRealizao.setBounds(10, 33, 177, 22);
 		panelVeiculo.add(lblDatahoraRealizao);
 		
-		JDateChooser RealizacaoDataChooser = new JDateChooser();
-		RealizacaoDataChooser.setBounds(10, 207, 89, 33);
+		 RealizacaoDataChooser = new JDateChooser();
+		RealizacaoDataChooser.setBounds(10, 59, 89, 33);
 		panelVeiculo.add(RealizacaoDataChooser);
 		
-		horaRealizacaoField = new FieldRedondo();
+		horaRealizacaoField = new FieldFormattedRedondo();
 		horaRealizacaoField.setColumns(10);
-		horaRealizacaoField.setBounds(103, 207, 105, 33);
+		horaRealizacaoField.setBounds(103, 59, 105, 33);
 		panelVeiculo.add(horaRealizacaoField);
 		horaRealizacaoField.setToolTipText("Preenchido quando Conclui a locação");
 		
 		JLabel lblDatahoraPrevistaPara = new JLabel("Data/Hora Prevista Para entrega");
 		lblDatahoraPrevistaPara.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDatahoraPrevistaPara.setBounds(10, 265, 211, 22);
+		lblDatahoraPrevistaPara.setBounds(10, 103, 211, 22);
 		panelVeiculo.add(lblDatahoraPrevistaPara);
 		
 		entregaDateChooser = new JDateChooser();
-		entregaDateChooser.setBounds(10, 288, 89, 33);
+		entregaDateChooser.setBounds(10, 136, 89, 33);
 		panelVeiculo.add(entregaDateChooser);
 		
-		horaEntregaField = new FieldRedondo();
+		horaEntregaField = new FieldFormattedRedondo();
 		horaEntregaField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
 		horaEntregaField.setColumns(10);
-		horaEntregaField.setBounds(103, 288, 105, 33);
+		horaEntregaField.setBounds(103, 136, 105, 33);
 		panelVeiculo.add(horaEntregaField);
 		
 		JLabel lblModalidadeDeLocao = new JLabel("Modalidade de Loca\u00E7\u00E3o");
 		lblModalidadeDeLocao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblModalidadeDeLocao.setBounds(10, 332, 211, 22);
+		lblModalidadeDeLocao.setBounds(10, 180, 211, 22);
 		panelVeiculo.add(lblModalidadeDeLocao);
 		
 		kmLivreRadio = new JRadioButton("Km Livre");
 		kmLivreRadio.setSelected(true);
 		kmLivreRadio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		kmLivreRadio.setForeground(Color.BLACK);
-		kmLivreRadio.setBounds(10, 352, 95, 23);
+		kmLivreRadio.setBounds(0, 209, 95, 23);
 		panelVeiculo.add(kmLivreRadio);
 		kmLivreRadio.setOpaque(false);
 		
-		JRadioButton rdbtnKmControle = new JRadioButton("Km Controle");
+		rdbtnKmControle = new JRadioButton("Km Controle");
 		rdbtnKmControle.setOpaque(false);
 		rdbtnKmControle.setForeground(Color.BLACK);
 		rdbtnKmControle.setFont(new Font("Tahoma", Font.BOLD, 11));
-		rdbtnKmControle.setBounds(90, 352, 109, 23);
+		rdbtnKmControle.setBounds(83, 209, 109, 23);
 		panelVeiculo.add(rdbtnKmControle);
 		
 		idFilialLocatariaField = new JTextField();
 		idFilialLocatariaField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
 		idFilialLocatariaField.setColumns(10);
-		idFilialLocatariaField.setBounds(215, 207, 48, 33);
+		idFilialLocatariaField.setBounds(218, 59, 48, 33);
 		panelVeiculo.add(idFilialLocatariaField);
 		
 		JLabel lblFilialLocataria = new JLabel("Filial Locataria");
 		lblFilialLocataria.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblFilialLocataria.setBounds(215, 185, 211, 22);
+		lblFilialLocataria.setBounds(215, 33, 211, 22);
 		panelVeiculo.add(lblFilialLocataria);
 		
 		filialLocatariaCombo = new JComboBox();
 		filialLocatariaCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		filialLocatariaCombo.setBackground(Color.WHITE);
-		filialLocatariaCombo.setBounds(260, 207, 150, 33);
+		filialLocatariaCombo.setBounds(260, 59, 150, 33);
 		panelVeiculo.add(filialLocatariaCombo);
 		
 		JLabel lblFilialEntrega = new JLabel("Filial Entrega");
 		lblFilialEntrega.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblFilialEntrega.setBounds(215, 332, 211, 22);
+		lblFilialEntrega.setBounds(218, 257, 211, 22);
 		panelVeiculo.add(lblFilialEntrega);
 		
 		filialEntregaIdField = new JTextField();
 		filialEntregaIdField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
 		filialEntregaIdField.setColumns(10);
-		filialEntregaIdField.setBounds(215, 358, 48, 33);
+		filialEntregaIdField.setBounds(215, 279, 48, 33);
 		panelVeiculo.add(filialEntregaIdField);
 		
 		filialEntregaCombo = new JComboBox();
 		filialEntregaCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		filialEntregaCombo.setBackground(Color.WHITE);
-		filialEntregaCombo.setBounds(260, 358, 150, 33);
+		filialEntregaCombo.setBounds(260, 279, 150, 33);
 		panelVeiculo.add(filialEntregaCombo);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(215, 240, 195, 81);
+		scrollPane_1.setBounds(218, 92, 195, 164);
 		panelVeiculo.add(scrollPane_1);
 		//scrollPane_1.setBorder(null);
 		scrollPane_1.setOpaque(false);
@@ -243,7 +190,7 @@ public class FormularioCrudLocacao extends JDialog{
 		filialLocatariaTextArea.setFont(new Font("Monospaced", Font.BOLD, 12));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(215, 394, 195, 81);
+		scrollPane_2.setBounds(215, 312, 195, 157);
 		panelVeiculo.add(scrollPane_2);
 		
 		filialEntregaTextArea = new JTextArea();
@@ -254,22 +201,22 @@ public class FormularioCrudLocacao extends JDialog{
 		veiculoCombo = new JComboBox();
 		veiculoCombo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		veiculoCombo.setBackground(Color.WHITE);
-		veiculoCombo.setBounds(449, 207, 190, 33);
+		veiculoCombo.setBounds(449, 59, 190, 33);
 		panelVeiculo.add(veiculoCombo);
 		
 		veiculoIdField = new JTextField();
 		veiculoIdField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
 		veiculoIdField.setColumns(10);
-		veiculoIdField.setBounds(413, 207, 48, 33);
+		veiculoIdField.setBounds(413, 59, 48, 33);
 		panelVeiculo.add(veiculoIdField);
 		
 		JLabel lblVeiculos = new JLabel("Veiculo");
 		lblVeiculos.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblVeiculos.setBounds(413, 185, 211, 22);
+		lblVeiculos.setBounds(413, 33, 211, 22);
 		panelVeiculo.add(lblVeiculos);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(413, 240, 226, 81);
+		scrollPane_3.setBounds(413, 92, 226, 164);
 		panelVeiculo.add(scrollPane_3);
 		
 		veiculoTextArea = new JTextArea();
@@ -280,31 +227,37 @@ public class FormularioCrudLocacao extends JDialog{
 		
 		JLabel lblMotorista = new JLabel("Motorista");
 		lblMotorista.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblMotorista.setBounds(413, 362, 211, 22);
+		lblMotorista.setBounds(413, 258, 211, 22);
 		panelVeiculo.add(lblMotorista);
 		
-		motoristaIdField = new JTextField();
-		motoristaIdField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
-		motoristaIdField.setColumns(10);
-		motoristaIdField.setBounds(413, 383, 48, 33);
-		panelVeiculo.add(motoristaIdField);
-		
-		motoristaCombo = new JTextField();
+		motoristaCombo = new JComboBox();
+		motoristaCombo.setBackground(Color.WHITE);
 		motoristaCombo.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
-		motoristaCombo.setColumns(10);
-		motoristaCombo.setBounds(464, 383, 175, 33);
+		motoristaCombo.setBounds(467, 279, 157, 33);
 		panelVeiculo.add(motoristaCombo);
 		
-		buscarMotoristaButton = new RoundButton("Salvar");
-		buscarMotoristaButton.setText("Buscar");
-		buscarMotoristaButton.setBounds(464, 427, 89, 42);
-		panelVeiculo.add(buscarMotoristaButton);
+		idMotoristaField = new JTextField();
+		idMotoristaField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
+		idMotoristaField.setColumns(10);
+		idMotoristaField.setBounds(413, 279, 57, 33);
+		panelVeiculo.add(idMotoristaField);
 		
-		outroVeiculoButton = new RoundButton("Salvar");
-		outroVeiculoButton.setText("Outro");
-		outroVeiculoButton.setBounds(464, 328, 89, 42);
-		panelVeiculo.add(outroVeiculoButton);
-		ButtonGroup b = new ButtonGroup();
+		clienteCombo = new JComboBox();
+		clienteCombo.setBackground(Color.WHITE);
+		clienteCombo.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
+		clienteCombo.setBounds(467, 350, 157, 33);
+		panelVeiculo.add(clienteCombo);
+		
+		clienteField = new JTextField();
+		clienteField.setToolTipText("Preenchido quando Conclui a loca\u00E7\u00E3o");
+		clienteField.setColumns(10);
+		clienteField.setBounds(413, 350, 57, 33);
+		panelVeiculo.add(clienteField);
+		
+		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCliente.setBounds(413, 317, 211, 22);
+		panelVeiculo.add(lblCliente);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -348,7 +301,7 @@ public class FormularioCrudLocacao extends JDialog{
 		removerButton.setText("Remover");
 		removerButton.setForeground(Color.WHITE);
 		removerButton.setBackground(Color.RED);
-		removerButton.setBounds(681, 177, 92, 42);
+		removerButton.setBounds(690, 177, 92, 42);
 		getContentPane().add(removerButton);
 		
 		esquerdaButton = new RoundButton("Salvar");
@@ -356,7 +309,7 @@ public class FormularioCrudLocacao extends JDialog{
 		esquerdaButton.setText("<");
 		esquerdaButton.setForeground(Color.WHITE);
 		esquerdaButton.setBackground(new Color(0, 128, 128));
-		esquerdaButton.setBounds(675, 324, 43, 42);
+		esquerdaButton.setBounds(690, 324, 43, 42);
 		getContentPane().add(esquerdaButton);
 		
 		direitaButton = new RoundButton("Salvar");
@@ -364,12 +317,12 @@ public class FormularioCrudLocacao extends JDialog{
 		direitaButton.setText(">");
 		direitaButton.setForeground(Color.WHITE);
 		direitaButton.setBackground(new Color(0, 128, 128));
-		direitaButton.setBounds(730, 324, 43, 42);
+		direitaButton.setBounds(756, 324, 43, 42);
 		getContentPane().add(direitaButton);
 		
 		JLabel lblNavegao = new JLabel("Navega\u00E7\u00E3o");
 		lblNavegao.setFont(new Font("Humanst521 BT", Font.BOLD, 20));
-		lblNavegao.setBounds(675, 275, 130, 55);
+		lblNavegao.setBounds(679, 272, 130, 55);
 		getContentPane().add(lblNavegao);
 		
 		JPanel panel_1 = new JPanel();
@@ -385,6 +338,14 @@ public class FormularioCrudLocacao extends JDialog{
 		limparButton.setBackground(new Color(60,179,113));
 		limparButton.setBounds(675, 222, 124, 42);
 		getContentPane().add(limparButton);
+		operacaoLabel = new JLabel("Modo Inser\u00E7\u00E3o");
+		operacaoLabel.setForeground(new Color(255, 0, 0));
+		operacaoLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		operacaoLabel.setBounds(221, -1, 203, 22);
+		panelVeiculo.add(operacaoLabel);
+		ButtonGroup b = new ButtonGroup();
+		b.add(kmLivreRadio);
+		b.add(rdbtnKmControle);
 	}
 	class CellRendererToolTip extends DefaultTableCellRenderer {  
 	    // Mantém todos os tooltips com suas linhas.   
@@ -432,8 +393,92 @@ public class FormularioCrudLocacao extends JDialog{
             return tf;
         }
     }
-	public static void main(String[] args) {
-		//App.lookWindows();
-		new FormularioCrudLocacao();
+	public RoundButton getSalvarButton() {
+		return salvarButton;
 	}
+	public FieldRedondo getIdField() {
+		return idField;
+	}
+	public FieldRedondo getBuscarField() {
+		return buscarField;
+	}
+	public RoundButton getIrButton() {
+		return irButton;
+	}
+	public RoundButton getAllButton() {
+		return allButton;
+	}
+	public RoundedCornerButton getRemoverButton() {
+		return removerButton;
+	}
+	public RoundButton getEsquerdaButton() {
+		return esquerdaButton;
+	}
+	public RoundButton getDireitaButton() {
+		return direitaButton;
+	}
+	public JTextField getFilialEntregaIdField() {
+		return filialEntregaIdField;
+	}
+	public JTextField getVeiculoIdField() {
+		return veiculoIdField;
+	}
+	public FieldFormattedRedondo getHoraRealizacaoField() {
+		return horaRealizacaoField;
+	}
+	public JDateChooser getEntregaDateChooser() {
+		return entregaDateChooser;
+	}
+	public FieldFormattedRedondo getHoraEntregaField() {
+		return horaEntregaField;
+	}
+	public JRadioButton getKmLivreRadio() {
+		return kmLivreRadio;
+	}
+	public JTextField getIdFilialLocatariaField() {
+		return idFilialLocatariaField;
+	}
+	public JComboBox getFilialLocatariaCombo() {
+		return filialLocatariaCombo;
+	}
+	public JComboBox getFilialEntregaCombo() {
+		return filialEntregaCombo;
+	}
+	public JTextArea getFilialEntregaTextArea() {
+		return filialEntregaTextArea;
+	}
+	public JTextArea getFilialLocatariaTextArea() {
+		return filialLocatariaTextArea;
+	}
+	public JComboBox getVeiculoCombo() {
+		return veiculoCombo;
+	}
+	public JTextArea getVeiculoTextArea() {
+		return veiculoTextArea;
+	}
+	public RoundedCornerButton getLimparButton() {
+		return limparButton;
+	}
+	public JDateChooser getRealizacaoDataChooser() {
+		return RealizacaoDataChooser;
+	}
+	public JRadioButton getRdbtnKmControle() {
+		return rdbtnKmControle;
+	}
+	public JTextField getIdMotoristaField() {
+		return idMotoristaField;
+	}
+	public JTextField getClienteField() {
+		return clienteField;
+	}
+	public JComboBox getClienteCombo() {
+		return clienteCombo;
+	}
+	public JLabel getOperacaoLabel() {
+		return operacaoLabel;
+	}
+	public JComboBox getMotoristaCombo() {
+		return motoristaCombo;
+	}
+	
 }

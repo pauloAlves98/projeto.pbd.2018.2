@@ -18,5 +18,10 @@
 	<classpathentry kind="lib" path="lib/validation-api-2.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11-test-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11-tests.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

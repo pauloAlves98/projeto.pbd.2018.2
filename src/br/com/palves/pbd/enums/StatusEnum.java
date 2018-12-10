@@ -1,7 +1,7 @@
 package br.com.palves.pbd.enums;
 
 public enum StatusEnum {
-	ATIVO("ATIVO");
+	ATIVO("ATIVO"),DESATIVADO("DESATIVADO"),EM_ESPERA("EM ESPERA"),CANCELADA("CANCELADA"),EFETUADA("EFETUADA");
 	
 	private String v;
 	private StatusEnum(String h) {

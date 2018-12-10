@@ -11,4 +11,5 @@ public interface IConfiguracaoDao {
 //	public  Configuracao findById(Integer id) throws DaoException;
 //	public List< Configuracao> findAll() throws DaoException;
 //	public  Configuracao deleteById (int id) throws DaoException;
+	public  Configuracao buscarUltimo () throws DaoException;
 }

@@ -9,6 +9,7 @@ import br.com.palves.pbd.model.bin.Funcionario;
 import br.com.palves.pbd.model.bin.PessoaFisica;
 import br.com.palves.pbd.model.bin.PessoaJuridica;
 import br.com.palves.pbd.model.complemento.Corrente;
+import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.dao.FuncionarioDao;
 import br.com.palves.pbd.model.dao.PessoaDao;
 import br.com.palves.pbd.model.dao.PessoaFisicaDao;
@@ -38,13 +39,16 @@ public class ControllerLogin implements Initializable {
 	@FXML
 	private Label recuperarSenhaLabel;
 
+	private Object EncriptaDecriptaApacheDoc;
+
 	/**@param: Loga Func e Usuarios , Futuramente eles serão diferenciados*/
 	@FXML
 	public void logar(ActionEvent event) {
 		PessoaDao pessoaDao = PessoaDao.getInstance();
 		FuncionarioDao funcionarioDao = FuncionarioDao.getInstance();
 		String email = emailField.getText();
-		String senha = senhaField.getText();
+		String senha = EncriptaDecriptaApacheCodec.codificaBase64Encoder(senhaField.getText());
+		System.out.println(senha);
 		try {
 			Object[] obj = pessoaDao.buscarIdPorLogin(email, senha);
 			if(obj==null) {//Então nehuma Pessoa Foi encontrada!
@@ -59,6 +63,8 @@ public class ControllerLogin implements Initializable {
 				}
 			}else {//Encontrou uma pessoa!
 				Discriminador discriminador = Enum.valueOf(Discriminador.class, obj[0]+"".toUpperCase());
+				Corrente.usuarioJuridico = null;
+				Corrente.usuarioFisico = null;
 				switch(discriminador) {
 				case PF:{
 					Corrente.usuarioFisico = PessoaFisicaDao.getInstance().findById(PessoaFisica.class,(int)obj[1]);

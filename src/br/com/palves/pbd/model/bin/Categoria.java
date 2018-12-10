@@ -232,10 +232,10 @@ public class Categoria implements Generico {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", nome=" + nome + ", nPassageiro=" + nPassageiro + ", valor=" + valor
-				+ ", horaLimpeza=" + horaLimpeza + ", discriminador=" + discriminador + ", tipoCambio=" + tipoCambio
-				+ ", arCondicionado=" + arCondicionado + ", radio=" + radio + ", dvd=" + dvd + ", mp3=" + mp3
-				+ ", situacao=" + situacao + ", cameraRe=" + cameraRe + "]";
+		return " id=" + id + ", Nome=" + nome + ", Numero Passageiros=" + nPassageiro + ", Valor=" + valor
+				+ ", Horas para Limpeza:=" + horaLimpeza + ", Discriminador=" + discriminador + ", Tipo Cambio=" + tipoCambio
+				+ ", ArCondicionado=" + arCondicionado + ", Radio=" + radio + ", Dvd=" + dvd + ", mp3=" + mp3
+				+ ", Situacao=" + situacao + ", Camera Re=" + cameraRe + "]";
 	}
 	
 }

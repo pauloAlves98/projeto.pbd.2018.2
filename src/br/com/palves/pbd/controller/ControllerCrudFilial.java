@@ -86,6 +86,7 @@ public class ControllerCrudFilial {
 		}else
 			this.fpf.getIdEnd().setText("");//OLHAR                                     OLHAR      AKIIIIIIIIIIIIIIIIIIIIIIII
 		filial.setNome(nomeField);
+		filial.setSituacao("ATIVO");
 		filial.setHoraInicioExpediente(horaInicio);
 		filial.setDataFimExpediente(horaFim);
 		//filial.setSituacao(StatusEnum.ATIVO.getValor());//tem que ser um campo

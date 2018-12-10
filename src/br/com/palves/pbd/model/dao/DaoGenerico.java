@@ -100,7 +100,9 @@ public class DaoGenerico <T extends Generico>{
 		String op = "Buscar CG";
 		try {
 			Query query = em.createQuery(" select ed from "+clazz.getSimpleName()+" ed");
-			var = query.getResultList();
+			var = query.getResultList( );
+			if(var.size()<=0)
+				return null;
 		}
 		catch(Exception e){
 			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());

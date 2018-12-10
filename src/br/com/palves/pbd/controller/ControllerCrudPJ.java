@@ -13,6 +13,7 @@ import br.com.palves.pbd.exception.ValidacaoException;
 import br.com.palves.pbd.model.bin.Endereco;
 import br.com.palves.pbd.model.bin.PessoaFisica;
 import br.com.palves.pbd.model.bin.PessoaJuridica;
+import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import br.com.palves.pbd.model.dao.PessoaFisicaDao;
@@ -72,7 +73,7 @@ public class ControllerCrudPJ {
 		String incEstadual = this.fpj.getIncEstadualField().getText().trim();
 		String cnpjField = this.fpj.getCnpjField().getText();
 		String  nomeField = this.fpj.getNomeField().getText();
-		String senhaField = this.fpj.getSenhaField().getText();
+		String senhaField = EncriptaDecriptaApacheCodec.codificaBase64Encoder(this.fpj.getSenhaField().getText());
 		String loginField = this.fpj.getLoginField().getText();
 		String idField = this.fpj.getIdField().getText();
 		String ruaField = this.fpj.getRuaField().getText();
@@ -135,7 +136,7 @@ public class ControllerCrudPJ {
 	}
 	private void preencherBusca(PessoaJuridica p) {	
 		this.fpj.getNomeField().setText(p.getNome());
-		this.fpj.getSenhaField().setText(p.getSenha());
+		this.fpj.getSenhaField().setText(EncriptaDecriptaApacheCodec.decodificaBase64Decoder(p.getSenha()));
 		this.fpj.getLoginField().setText(p.getLogin());
 		this.fpj.getIdField().setText(p.getId()+"");
 		this.fpj.getCnpjField().setCaretPosition(0);

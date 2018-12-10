@@ -12,6 +12,7 @@ import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.exception.ValidacaoException;
 import br.com.palves.pbd.model.bin.Endereco;
 import br.com.palves.pbd.model.bin.PessoaFisica;
+import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import br.com.palves.pbd.model.dao.PessoaFisicaDao;
@@ -78,7 +79,7 @@ public class ControllerCrudPF {
 	private void preencherCamposDaTelaParaEntidade(PessoaFisica pessoaF) throws DaoException, ValidacaoException {
 	
 		String  nomeField = this.fpf.getNomeField().getText();
-		String senhaField = this.fpf.getSenhaField().getText();
+		String senhaField = EncriptaDecriptaApacheCodec.codificaBase64Encoder(this.fpf.getSenhaField().getText());
 		String loginField = this.fpf.getLoginField().getText();
 		String idField = this.fpf.getIdField().getText();
 		String cpfField = this.fpf.getCpfField().getText();
@@ -170,7 +171,7 @@ public class ControllerCrudPF {
 	}
 	private void preencheBuscaDaEntidadeParaTela(PessoaFisica pessoaF) {	
 		this.fpf.getNomeField().setText(pessoaF.getNome());
-		this.fpf.getSenhaField().setText(pessoaF.getSenha());
+		this.fpf.getSenhaField().setText(EncriptaDecriptaApacheCodec.decodificaBase64Decoder(pessoaF.getSenha()));
 		this.fpf.getLoginField().setText(pessoaF.getLogin());
 		this.fpf.getIdField().setText(pessoaF.getId()+"");
 		this.fpf.getCpfField().setCaretPosition(0);

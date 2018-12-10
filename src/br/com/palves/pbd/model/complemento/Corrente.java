@@ -9,7 +9,7 @@ import br.com.palves.pbd.model.bin.PessoaJuridica;
  * */
 public class Corrente {
 	//public static Medico medicoCorrente = new Medico();
-	public static PessoaFisica usuarioFisico = new PessoaFisica();
-	public static PessoaJuridica usuarioJuridico = new PessoaJuridica();
-	public static Funcionario funcionario = new Funcionario();
+	public static PessoaFisica usuarioFisico;
+	public static PessoaJuridica usuarioJuridico;
+	public static Funcionario funcionario;
 }

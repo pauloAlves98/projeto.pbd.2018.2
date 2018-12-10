@@ -47,5 +47,45 @@ public class PessoaFisicaDao extends DaoGenerico<PessoaFisica> implements IPesso
 		}
 		return var;
 	}
+	@Override
+	public Object[] buscarIdPorNome(String nome) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		Object var[] = null;
+		String op = "Busca ID Pessoa";
+		try {
+			Query query = em.createNativeQuery(SQLUtil.PessoaFisica.NATIVEQUERY_BUSCAR_ID_POR_NOME);
+			query.setParameter(1,nome);
+			var = (Object[])query.getSingleResult();//Precisa que algo seja retornado; vetor para mais de um parametro.
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
+	@Override
+	public PessoaFisica buscarPorCpf(String cpf) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		PessoaFisica var = null;
+		String op = "Busca ID PessoaF";
+		try {
+			Query query = em.createNamedQuery("Pessoa_Fisica.buscarPorCpf");
+			query.setParameter("var",cpf);
+			var = (PessoaFisica) query.getSingleResult();//Precisa que algo seja retornado; vetor para mais de um parametro.
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
 
 }

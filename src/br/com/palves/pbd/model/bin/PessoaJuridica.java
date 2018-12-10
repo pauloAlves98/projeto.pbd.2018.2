@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
+@NamedQueries({
+	@NamedQuery(name="PessoaJuridica.buscarPorCnpj",query="Select pj from PessoaJuridica pj where pj.cnpj =:var")
+})
 @Entity
 @Table(name="pessoa_juridica")
 @PrimaryKeyJoinColumn(name="id")

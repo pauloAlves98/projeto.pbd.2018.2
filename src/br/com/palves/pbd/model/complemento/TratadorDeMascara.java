@@ -13,7 +13,49 @@ import javax.swing.JTextField;
 import  br.com.palves.pbd.exception.ValidacaoException;
 
 public class TratadorDeMascara {
-	
+	public static void  mascaraHora(JFormattedTextField hora) {
+		try{
+			javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##:##");
+			data.install(hora);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	public static Date unirDataHora(Date data, String hora) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String dataFormatada = converterDataString(data);
+		try {
+			return sdf.parse(dataFormatada+" "+hora);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static String converterDataHoraString(Date data) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//		String dataFormatada = converterDataString(data);
+//		String horaFormatada = converterHoraString(data);
+		String dataF = sdf.format(data);
+		return dataF;
+
+	}
+	public static String converterDataString(Date data) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date dat = data; // Ou qualquer outra forma que tem
+		String dataFormatada = sdf.format(dat);
+		return dataFormatada;	
+	}
+	public static Date converterStringData(String dat) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+			Date d = sdf.parse(dat);
+			return d;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public static String converterHoraString(Date horas) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		Date hora = horas; // Ou qualquer outra forma que tem
@@ -58,6 +100,26 @@ public class TratadorDeMascara {
 			data.install(cnpjField);
 		}catch (Exception e){
 			e.printStackTrace();
+		}
+	}
+	public static javax.swing.text.MaskFormatter aplicarMascaraCnpj2() {
+		javax.swing.text.MaskFormatter data = null;
+		try{
+			 data = new javax.swing.text.MaskFormatter("##.###.###/####-##");
+			return data;
+		}catch (Exception e){
+			e.printStackTrace();
+			return data;
+		}
+	}
+	public static javax.swing.text.MaskFormatter aplicarMascaraCpf2() {
+		javax.swing.text.MaskFormatter data = null;
+		try{
+			 data = new javax.swing.text.MaskFormatter("###.###.###-##");
+			return data;
+		}catch (Exception e){
+			e.printStackTrace();
+			return data;
 		}
 	}
 	

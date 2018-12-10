@@ -26,7 +26,6 @@ public class FormularioCrudFuncionario extends JDialog{
 	private FieldRedondo idField;
 	private FieldFormattedRedondo cpfField;
 	private JRadioButton sexoMradio,sexoFradio;
-	private RoundButton autoButton;
 	private FieldRedondo buscarField;
 	private RoundButton irButton;
 	private RoundButton allButton;
@@ -46,7 +45,7 @@ public class FormularioCrudFuncionario extends JDialog{
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
+		JPanel panel = new JGradientePanel(new Color(0, 64, 93),Color.BLACK);
 		panel.setBackground(new Color(0, 204, 153));
 		panel.setBounds(0, 0, 701, 76);
 		getContentPane().add(panel);
@@ -184,13 +183,13 @@ public class FormularioCrudFuncionario extends JDialog{
 		panelPf.add(salarioField);
 		
 		salvarButton = new RoundButton("Salvar");
-		salvarButton.setBounds(4, 313, 89, 42);
+		salvarButton.setForeground(Color.WHITE);
+		salvarButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		salvarButton.setBounds(4, 313, 89, 68);
+		salvarButton.setText("Salvar");
+		salvarButton.setBackground(new Color(0, 64, 93));
+		//salvarButton.setBounds(4, 313, 89, 42);
 		getContentPane().add(salvarButton);
-		
-		autoButton = new RoundButton("Salvar");
-		autoButton.setText("Auto");
-		autoButton.setBounds(101, 313, 89, 42);
-		getContentPane().add(autoButton);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -310,9 +309,7 @@ public class FormularioCrudFuncionario extends JDialog{
 	public JRadioButton getSexoFradio() {
 		return sexoFradio;
 	}
-	public RoundButton getAutoButton() {
-		return autoButton;
-	}
+	
 	public FieldRedondo getBuscarField() {
 		return buscarField;
 	}

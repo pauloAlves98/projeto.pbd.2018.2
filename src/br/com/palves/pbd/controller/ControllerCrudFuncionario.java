@@ -10,6 +10,7 @@ import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.exception.ValidacaoException;
 import br.com.palves.pbd.model.bin.Filial;
 import br.com.palves.pbd.model.bin.Funcionario;
+import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import br.com.palves.pbd.model.dao.FilialDao;
@@ -69,7 +70,7 @@ public class ControllerCrudFuncionario {
 	}
 	private void preencherCampos(Funcionario func) throws NumberFormatException{
 		String  nomeField = this.fpf.getNomeField().getText();
-		String senhaField = this.fpf.getSenhaField().getText();
+		String senhaField = EncriptaDecriptaApacheCodec.codificaBase64Encoder(this.fpf.getSenhaField().getText());
 		String loginField = this.fpf.getCargoBox().getSelectedItem().toString()+"-"+this.fpf.getLoginField().getText();
 		String idField = this.fpf.getIdField().getText();
 		String cpfField = this.fpf.getCpfField().getText();
@@ -79,6 +80,7 @@ public class ControllerCrudFuncionario {
 
 		if(idField.trim().length()>0) {//então eh update
 			func.setId(Integer.parseInt(idField));
+			loginField = this.fpf.getLoginField().getText();
 			//func.getEndereco().setId(Integer.parseInt(this.fpf.getIdEnd().getText()));
 		}
 //		else
@@ -125,7 +127,7 @@ public class ControllerCrudFuncionario {
 	}
 	private void preencherBusca(Funcionario p) {	
 		this.fpf.getNomeField().setText(p.getNome());
-		this.fpf.getSenhaField().setText(p.getSenha());
+		this.fpf.getSenhaField().setText(EncriptaDecriptaApacheCodec.decodificaBase64Decoder(p.getSenha()));
 		this.fpf.getLoginField().setText(p.getLogin());
 		this.fpf.getIdField().setText(p.getId()+"");
 		this.fpf.getCpfField().setCaretPosition(0);
@@ -200,6 +202,8 @@ public class ControllerCrudFuncionario {
 		FilialDao fd = FilialDao.getInstance();
 		try {
 			List<Filial>lts = fd.findAll(Filial.class);//Criar um native query
+			if(lts==null)
+				return;
 			for(int i = 0;i<lts.size();i++) {
 				fpf.getFilialCombo().addItem(lts.get(i).getNome());
 			}

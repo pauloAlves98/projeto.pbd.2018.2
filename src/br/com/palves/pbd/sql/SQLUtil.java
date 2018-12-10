@@ -3,7 +3,6 @@ package br.com.palves.pbd.sql;
 public class SQLUtil {//CONSULTAS EM SOMENTE CREATEQUERY E NATIVE;
 	public  static class Pessoa {
 		public static  String NATIVEQUERY_BUSCAR_ID_POR_LOGIN = "Select p.discriminador, p.id From Pessoa p Where p.login ILIKE ? and p.senha = ?";
-
 	}
 	public static class PessoaFisica {
 		//public static String NATIVEQUERY_BUSCAR_UNIQUE_CPF = "Select p.discriminador, p.id From Pessoa p Where p.login ILIKE ? and p.senha = ?";
@@ -19,6 +18,7 @@ public class SQLUtil {//CONSULTAS EM SOMENTE CREATEQUERY E NATIVE;
 				"END;$BODY$" + 
 				"  LANGUAGE plpgsql VOLATILE " + 
 				"  COST 100;";
+		public static String NATIVEQUERY_BUSCAR_ID_POR_NOME = "Select p.nome, p.id From Pessoa p Where p.nome = ? and p.discriminador = \'PF\'";
 	}
 	public static class Funcionario{
 		public static String NATIVEQUERY_BUSCAR_ID_POR_LOGIN = "Select p.nome, p.id From Funcionario p Where p.login ILIKE ? and p.senha = ?";
@@ -54,5 +54,8 @@ END; $BODY$
 	}
 	public static class  Categoria{
 		public static String NATIVEQUERY_BUSCAR_ID_DISC_POR_NOME = "SELECT p.id, p.discriminador FROM Categoria p WHERE p.nome = ?";
+	}
+	public static class Veiculo{
+		public static String NATIVEQUERY_BUSCAR_ID_POR_NOME = "Select p.nome, p.id From Veiculo p Where p.nome = ?";
 	}
 }

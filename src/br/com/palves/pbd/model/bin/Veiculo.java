@@ -391,12 +391,12 @@ public class Veiculo implements Generico{
 
 	@Override
 	public String toString() {
-		return "Veiculo [id=" + id + ", numeroChassi=" + numeroChassi + ", nome=" + nome + ", nPorta=" + nPorta
+		return "id=" + id + ", numeroChassi=" + numeroChassi + ", nome=" + nome + ", nPorta=" + nPorta
 				+ ", tipoCombustivel=" + tipoCombustivel + ", tamanho=" + tamanho + ", km_revisao=" + kmRevisao
 				+ ", torqueMotor=" + torqueMotor + ", numeroMotor=" + numeroMotor + ", modelo=" + modelo
 				+ ", anoModelo=" + anoModelo + ", cor=" + cor + ", fabricante=" + fabricante + ", anoFabricao="
 				+ anoFabricao + ", kmAtual=" + kmAtual + ", kmRestanteRevisao=" + kmRestanteRevisao + ", horaRevisao="
 				+ horaRevisao + ", status=" + status + ", filialAtual=" + filialAtual + ", categoria=" + categoria.getNome()
-				+ "]";
+				+ " ";
 	}
 }
