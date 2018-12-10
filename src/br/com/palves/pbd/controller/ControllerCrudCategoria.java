@@ -24,14 +24,15 @@ import br.com.palves.pbd.model.dao.CategoriaPassageiroDao;
 import br.com.palves.pbd.view.FormularioCrudCategoria;
 
 public class ControllerCrudCategoria {
-	private static FormularioCrudCategoria fpc =  new FormularioCrudCategoria() ;
+	public  static FormularioCrudCategoria fpc =  new FormularioCrudCategoria() ;
 	private List<Categoria> categorias  = null;
 	private List<CategoriaPassageiro> categoriasCP  = null;
 	private List<CategoriaCarga> categoriasCG  = null;
 	private static int indiceCorrente;
 	
 	public ControllerCrudCategoria() {
-		this.fpc.setVisible(true);
+		//this.fpc.setVisible(true);
+		this.fpc.setModal(true);
 		this.fpc.getSalvarButton().addActionListener(ActionEvent -> salvar());	
 		TratadorDeMascara.soNumero(fpc.getBuscarField());
 		TratadorDeMascara.soNumero(fpc.getIdField());		

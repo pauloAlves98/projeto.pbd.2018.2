@@ -27,11 +27,12 @@ import br.com.palves.pbd.model.dao.VeiculoDao;
 import br.com.palves.pbd.view.FormularioCrudLocacao;
 
 public class ControllerCrudLocacao {
-	private FormularioCrudLocacao fpl =  new FormularioCrudLocacao() ;
+	public static  FormularioCrudLocacao fpl =  new FormularioCrudLocacao() ;
 	private List<Locacao> locacoes  = null;
 	private int indiceCorrente;
 	public ControllerCrudLocacao() {
-		this.fpl.setVisible(true);
+		//this.fpl.setVisible(true);
+		this.fpl.setModal(true);
 		this.fpl.getSalvarButton().addActionListener(ActionEvent -> salvarPJ());	
 		TratadorDeMascara.soNumero(this.fpl.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpl.getIdField());

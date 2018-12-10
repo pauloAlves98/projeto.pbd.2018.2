@@ -3,7 +3,7 @@ package br.com.palves.pbd.app;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import br.com.palves.pbd.controller.ControllerCrudFuncionario;
+import br.com.palves.pbd.controller.ControllerMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  * backup do banco disponivel na pastas documentacao!
  * */
 public class App extends Application{
-
+	public static Stage stage;
 	@Override
 	public void start(Stage palcoStage) throws Exception {		
 		Pane loginPane = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/Login.fxml"));
@@ -29,10 +29,12 @@ public class App extends Application{
 		palcoStage.setScene(cenaLogin);
 		palcoStage.centerOnScreen();
 		//palcoStage.setOnCloseRequest();
-		//palcoStage.show();	
+		palcoStage.show();	
+		//stage =palcoStage;
 		App.lookNimbus();
 		
-		new ControllerCrudFuncionario();
+		new ControllerMenu();
+		//new ControllerCrudFuncionario();
 		//PessoaFisicaDao d = PessoaFisicaDao.getInstance();
 		
 		//System.out.println((boolean)d.procedureValidaHabilitacao("999"));

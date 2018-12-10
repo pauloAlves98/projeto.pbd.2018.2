@@ -25,11 +25,12 @@ import br.com.palves.pbd.model.dao.VeiculoDao;
 import br.com.palves.pbd.view.FormularioCrudVeiculo;
 
 public class ControllerCrudVeiculo {
-	private FormularioCrudVeiculo fpv =  new FormularioCrudVeiculo() ;
+	public static  FormularioCrudVeiculo fpv =  new FormularioCrudVeiculo() ;
 	private List<Veiculo> veiculos  = null;
 	private int indiceCorrente;
 	public ControllerCrudVeiculo() {
-		this.fpv.setVisible(true);
+		///this.fpv.setVisible(true);
+		this.fpv.setModal(true);
 		this.fpv.getSalvarButton().addActionListener(ActionEvent -> salvarPJ());	
 		TratadorDeMascara.soNumero(this.fpv.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpv.getIdField());

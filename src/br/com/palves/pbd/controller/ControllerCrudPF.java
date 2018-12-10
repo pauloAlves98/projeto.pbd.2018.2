@@ -19,12 +19,13 @@ import br.com.palves.pbd.model.dao.PessoaFisicaDao;
 import br.com.palves.pbd.view.FormularioCrudPF;
 
 public class ControllerCrudPF {
-	private FormularioCrudPF fpf =  new FormularioCrudPF() ;
+	public  static FormularioCrudPF fpf =  new FormularioCrudPF() ;
 	private List<PessoaFisica> pessoasF  = null;
 	private int indiceCorrente;
 	private String nHabMult = "";//armazena o numero de habilitação logo após a busca.
 	public ControllerCrudPF() {
-		this.fpf.setVisible(true);
+		//this.fpf.setVisible(true);
+		this.fpf.setModal(true);
 		this.fpf.getSalvarButton().addActionListener(ActionEvent -> salvarPF());	
 		TratadorDeMascara.soNumero(this.fpf.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpf.getIdField());

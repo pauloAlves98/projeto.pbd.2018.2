@@ -18,11 +18,12 @@ import br.com.palves.pbd.model.dao.FuncionarioDao;
 import br.com.palves.pbd.view.FormularioCrudFuncionario;
 
 public class ControllerCrudFuncionario {
-	private FormularioCrudFuncionario fpf =  new FormularioCrudFuncionario() ;
+	public static  FormularioCrudFuncionario fpf =  new FormularioCrudFuncionario() ;
 	private List<Funcionario> funcionario  = null;
 	private int indiceCorrente;
 	public ControllerCrudFuncionario() {
-		this.fpf.setVisible(true);
+		//this.fpf.setVisible(true);
+		this.fpf.setModal(true);
 		this.fpf.getSalvarButton().addActionListener(ActionEvent -> salvarFunc());	
 		TratadorDeMascara.soNumero(this.fpf.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpf.getIdField());

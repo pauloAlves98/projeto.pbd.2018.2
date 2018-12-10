@@ -18,11 +18,12 @@ import br.com.palves.pbd.model.dao.PessoaFisicaDao;
 import br.com.palves.pbd.view.FormularioCrudFilial;
 
 public class ControllerCrudFilial {
-	private FormularioCrudFilial fpf =  new FormularioCrudFilial() ;
+	public static FormularioCrudFilial fpf =  new FormularioCrudFilial() ;
 	private List<Filial> filiais  = null;
 	private int indiceCorrente;
 	public ControllerCrudFilial() {
-		this.fpf.setVisible(true);
+		//this.fpf.setVisible(true);
+		this.fpf.setModal(true);
 		this.fpf.getSalvarButton().addActionListener(ActionEvent -> salvarFilial());	
 		TratadorDeMascara.soNumero(this.fpf.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpf.getIdField());

@@ -28,11 +28,12 @@ import br.com.palves.pbd.model.dao.ReservaDao;
 import br.com.palves.pbd.view.FormularioCrudReserva;
 
 public class ControllerCrudReserva {
-	private FormularioCrudReserva fpv =  new FormularioCrudReserva() ;
+	public static  FormularioCrudReserva fpv =  new FormularioCrudReserva() ;
 	private List<Reserva> reservas  = null;
 	private int indiceCorrente;
 	public ControllerCrudReserva() {
-		this.fpv.setVisible(true);
+		//this.fpv.setVisible(true);
+		this.fpv.setModal(true);
 		this.fpv.getSalvarButton().addActionListener(ActionEvent -> salvarPJ());	
 		TratadorDeMascara.soNumero(this.fpv.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpv.getIdField());

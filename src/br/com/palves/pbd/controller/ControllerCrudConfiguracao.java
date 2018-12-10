@@ -20,11 +20,12 @@ import br.com.palves.pbd.model.dao.PessoaJuridicaDao;
 import br.com.palves.pbd.view.FormularioCrudConfiguracao;
 
 public class ControllerCrudConfiguracao {
-	private FormularioCrudConfiguracao fconfg =  new FormularioCrudConfiguracao() ;
+	public  static FormularioCrudConfiguracao fconfg =  new FormularioCrudConfiguracao() ;
 	private List<Configuracao> configs  = null;
 	private int indiceCorrente;
 	public ControllerCrudConfiguracao() {
-		this.fconfg.setVisible(true);
+		//this.fconfg.setVisible(true);
+		this.fconfg.setModal(true);
 		this.fconfg.getSalvarButton().addActionListener(ActionEvent -> salvarPJ());	
 		TratadorDeMascara.soNumero(this.fconfg.getBuscarField());
 		TratadorDeMascara.soNumero(this.fconfg.getIdField());

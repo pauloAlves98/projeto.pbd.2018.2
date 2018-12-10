@@ -17,9 +17,10 @@ import br.com.palves.pbd.model.dao.PessoaJuridicaDao;
 import br.com.palves.pbd.view.ResetSenha;
 
 public class ControllerResetarSenha {
-	private ResetSenha fpv = new ResetSenha(); 
+	public static  ResetSenha fpv = new ResetSenha(); 
 	public ControllerResetarSenha() {
-		this.fpv.setVisible(true);
+		//this.fpv.setVisible(true);
+		this.fpv.setModal(true);
 		this.fpv.getSalvarButton().addActionListener(ActionEvent ->alterarSenha());
 		TratadorDeMascara.aplicarMascaraCPF(this.fpv.getCpfField());
 		this.fpv.getCpfRadio().addItemListener(new ItemListener() {

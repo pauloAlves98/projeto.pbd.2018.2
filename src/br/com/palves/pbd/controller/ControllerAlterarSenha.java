@@ -15,9 +15,10 @@ import br.com.palves.pbd.model.dao.PessoaJuridicaDao;
 import br.com.palves.pbd.view.AlterarSenhaDialog;
 
 public class ControllerAlterarSenha {
-	private AlterarSenhaDialog fpv = new AlterarSenhaDialog(); 
+	public static  AlterarSenhaDialog fpv = new AlterarSenhaDialog(); 
 	public ControllerAlterarSenha() {
-		this.fpv.setVisible(true);
+		//this.fpv.setVisible(true);
+		this.fpv.setModal(true);
 		this.fpv.getSalvarButton().addActionListener(ActionEvent ->alterarSenha());
 		this.fpv.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent k) {
