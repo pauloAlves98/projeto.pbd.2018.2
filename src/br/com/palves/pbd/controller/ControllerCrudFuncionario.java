@@ -22,8 +22,8 @@ public class ControllerCrudFuncionario {
 	private List<Funcionario> funcionario  = null;
 	private int indiceCorrente;
 	public ControllerCrudFuncionario() {
-		//this.fpf.setVisible(true);
-		this.fpf.setModal(true);
+		this.fpf.setVisible(true);
+		//this.fpf.setModal(true);
 		this.fpf.getSalvarButton().addActionListener(ActionEvent -> salvarFunc());	
 		TratadorDeMascara.soNumero(this.fpf.getBuscarField());
 		TratadorDeMascara.soNumero(this.fpf.getIdField());

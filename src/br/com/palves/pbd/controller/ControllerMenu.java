@@ -20,6 +20,7 @@ public class ControllerMenu implements ActionListener{
 	ControllerCrudVeiculo cdVeiculo;
 	ControllerResetarSenha cdResetar;
 	ControllerCrudReserva cdcReserva;
+	ControllerCrudFuncionario ccF;
 	public ControllerMenu() {
 		menu =new Menu();
 		menu.setVisible(true);
@@ -32,9 +33,10 @@ public class ControllerMenu implements ActionListener{
 		menu.getLocacao().addActionListener(this);
 		menu.getPf().addActionListener(this);
 		menu.getPj().addActionListener(this);
-		//menu.getLog.addActionListener(this);
+		menu.getBtnResetSenha().addActionListener(this);
 		menu.getVeiculo().addActionListener(this);
 		menu.getLoginButton().addActionListener(this);
+		menu.getFuncionario().addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -114,7 +116,12 @@ public class ControllerMenu implements ActionListener{
 			}
 			cdcReserva.fpv.setVisible(true);
 		}
-		
+		if(e.getSource()==menu.getFuncionario()) {
+			if(ccF==null) {
+				ccF = new ControllerCrudFuncionario();
+			}
+			ccF.fpf.setVisible(true);
+		}
 	}
 	
 }

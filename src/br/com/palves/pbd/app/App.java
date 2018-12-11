@@ -32,8 +32,8 @@ public class App extends Application{
 		palcoStage.show();	
 		//stage =palcoStage;
 		App.lookNimbus();
-		
-		new ControllerMenu();
+		//new ControllerCrudFuncionario();
+		new ControllerMenu();;
 		//new ControllerCrudFuncionario();
 		//PessoaFisicaDao d = PessoaFisicaDao.getInstance();
 		
