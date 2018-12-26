@@ -11,9 +11,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
+
+import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 @NamedQueries(
 		{
-			@NamedQuery(name="Categoria.listartodos",query="SELECT c FROM Categoria c WHERE c.discriminador = :var")
+			@NamedQuery(name="Categoria.listartodos",query="SELECT c FROM Categoria c WHERE c.discriminador = :var"),
+			@NamedQuery(name="Categoria.listarPorParametro",query="SELECT c FROM Categoria c WHERE c.situacao = \'ATIVO\' and LOWER(c.discriminador) LIKE :var"
+					+ " or LOWER(c.nome) LIKE :var or  LOWER(c.tipoCambio) LIKE :var")
 			//@NamedQuery(name="",query="")
 		})
 //\"CN\" String com aspas
@@ -232,10 +236,10 @@ public class Categoria implements Generico {
 
 	@Override
 	public String toString() {
-		return " id=" + id + ", Nome=" + nome + ", Numero Passageiros=" + nPassageiro + ", Valor=" + valor
-				+ ", Horas para Limpeza:=" + horaLimpeza + ", Discriminador=" + discriminador + ", Tipo Cambio=" + tipoCambio
-				+ ", ArCondicionado=" + arCondicionado + ", Radio=" + radio + ", Dvd=" + dvd + ", mp3=" + mp3
-				+ ", Situacao=" + situacao + ", Camera Re=" + cameraRe + "]";
+		return ("COD: " + id + "\nNome: " + nome + "\nQtd Passageiros: " + nPassageiro + "\nValor:" + TratadorDeMascara.valorReais(valor)
+				+ "\nHoras para Limpeza: " + horaLimpeza +" h"+ "\nCambio: " + tipoCambio
+				+ "\nAr Condicionado: " + arCondicionado + "\nRadio: " + radio + "\nDvd: " + dvd + "\nMp3: " + mp3
+				+ "\nSituacao: " + situacao + "\nCamera Re: " + cameraRe + "").replace("false","Não").replace("true","Sim");
 	}
 	
 }

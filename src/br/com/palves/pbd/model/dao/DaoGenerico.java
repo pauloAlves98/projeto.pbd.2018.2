@@ -14,7 +14,19 @@ import br.com.palves.pbd.model.bin.Generico;
 public class DaoGenerico <T extends Generico>{
 	protected EntityManager em;
 	private static DaoGenerico instance;
-	protected DaoGenerico() {}
+	protected DaoGenerico() {
+		
+	}
+
+	public static DaoGenerico getInstance() {
+		if(instance==null)
+			instance=new DaoGenerico();
+		return instance;
+	}
+
+	public static void setInstance(DaoGenerico instance) {
+		DaoGenerico.instance = instance;
+	}
 
 	public T persistOrMerge(T obj) throws DaoException {
 		em = ConnectionFactory.getInstance().getConnection();
@@ -97,7 +109,7 @@ public class DaoGenerico <T extends Generico>{
 	public List<T> findAll(Class <T>clazz) throws DaoException {
 		em = ConnectionFactory.getInstance().getConnection();
 		List<T> var = null;
-		String op = "Buscar CG";
+		String op = "Buscar ALL";
 		try {
 			Query query = em.createQuery(" select ed from "+clazz.getSimpleName()+" ed");
 			var = query.getResultList( );
@@ -145,5 +157,18 @@ public class DaoGenerico <T extends Generico>{
 		}
 		return obj;
 	}
-
+	public void primeiroAcesso() throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		try {
+			//em.getTransaction().begin();
+			//em.createQuery("Pessoa e from pessoa e where e.id = 1");
+			//em.getTransaction().commit();
+		}
+		catch(Exception e){
+			em.getTransaction().rollback();
+			throw new DaoException("Erro ao Conectar ao Banco!");
+		}finally {
+			em.close();
+		}
+	}
 }

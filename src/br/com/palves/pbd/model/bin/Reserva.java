@@ -10,10 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+@NamedQueries(
+		{
+			@NamedQuery(name="Reserva.listarPorFiltro",query="SELECT c FROM Reserva c WHERE LOWER(c.situacao) LIKE :var1 and dataHoraRetirada BETWEEN :var2 and :var3")
+			//@NamedQuery(name="",query="")
+		})
 @Entity
 public class Reserva implements Generico{
 	@Id

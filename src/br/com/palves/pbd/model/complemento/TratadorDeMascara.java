@@ -1,11 +1,18 @@
 package br.com.palves.pbd.model.complemento;
 
 import java.awt.event.KeyAdapter;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.Locale;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
@@ -13,6 +20,25 @@ import javax.swing.JTextField;
 import  br.com.palves.pbd.exception.ValidacaoException;
 
 public class TratadorDeMascara {
+	public static LocalTime dateToLocalTime(Date d) {
+		 DateTimeFormatter formatter =
+		 DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		        String text = converterDataHoraString(d);
+		        LocalDateTime localDateTime = LocalDateTime.parse(text, formatter);
+		        LocalTime localTime = localDateTime.toLocalTime();
+		        return localTime;
+	}
+	public static LocalDate dateToLocalDate(Date d) {
+		return new Date(d.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	}
+	public static String valorReais(double valor) {
+        String formato = "R$ #,##0.00";
+        DecimalFormat d = new DecimalFormat(formato);
+        return d.format(valor);
+	}
+	public static Date localDatetoDate(LocalDate d) {
+		return Date.from(d.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	}
 	public static void  mascaraHora(JFormattedTextField hora) {
 		try{
 			javax.swing.text.MaskFormatter data = new javax.swing.text.MaskFormatter("##:##");
@@ -61,6 +87,17 @@ public class TratadorDeMascara {
 		Date hora = horas; // Ou qualquer outra forma que tem
 		String dataFormatada = sdf.format(hora);
 		return dataFormatada;	
+	}
+	public static Date localTimeToDate(LocalTime localTime) {
+	      Calendar calendar = Calendar.getInstance();
+	      calendar.clear();
+	      //assuming year/month/date information is not important
+	      calendar.set(0, 0, 0, localTime.getHour(), localTime.getMinute(), localTime.getSecond());
+	      
+	      return calendar.getTime();
+	}
+	public static String localTimetoString(LocalTime t) {
+		return converterHoraString(localTimeToDate(t));
 	}
 	public static Date converterStringHora(String hora) {
 		try {

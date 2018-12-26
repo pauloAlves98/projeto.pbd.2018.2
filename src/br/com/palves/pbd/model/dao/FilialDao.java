@@ -45,4 +45,26 @@ public class FilialDao extends DaoGenerico<Filial>implements IFilialDao{
 			return var;
 		
 	}
+	@Override
+	public List<Filial> buscarPorParametro(String disc) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var = null;
+		String op = "Busca Por Paramentro";
+		try {
+			Query query = em.createNamedQuery("Filial.listarPorParametro");
+			query.setParameter("var", disc);
+			var = query.getResultList();
+			if(var.size()<=0)
+				return null;
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
 }

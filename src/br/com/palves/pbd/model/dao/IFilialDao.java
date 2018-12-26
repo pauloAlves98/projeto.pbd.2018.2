@@ -12,4 +12,5 @@ public interface IFilialDao {
 //	public List< Filial> findAll() throws DaoException;
 //	public  Filial deleteById (int id) throws DaoException;
 	public Object[] buscaIdPorNome(String nome) throws DaoException;
+	public List< Filial> buscarPorParametro(String disc) throws DaoException;
 }

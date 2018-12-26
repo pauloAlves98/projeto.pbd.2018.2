@@ -64,9 +64,9 @@ public class CategoriaPassageiro extends Categoria{
 
 	@Override
 	public String toString() {
-		return super.toString()+" [tipoAirBag=" + tipoAirBag + ", direcaoAssistida=" + direcaoAssistida
-				+ ", cintoSeguancaTraseiro=" + cintoSeguancaTraseiro + ", rodaLigaLeve=" + rodaLigaLeve
-				+ ", controlePoluicaoAr=" + controlePoluicaoAr + "]";
+		return (super.toString()+"\nAir Bag: " + tipoAirBag + "\nDirecao Assistida: " + direcaoAssistida
+				+ "\nCinto Traseiro: " + cintoSeguancaTraseiro + "\nRoda Liga Leve: " + rodaLigaLeve
+				+ "\nControler Poluicao Ar: " + controlePoluicaoAr + "").replace("false","Não").replace("true","Sim");
 	}
 	
 	

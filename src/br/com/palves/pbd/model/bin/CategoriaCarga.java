@@ -16,7 +16,7 @@ public class CategoriaCarga extends Categoria {
 	@Column(name="volume_combustivel")
 	private int volumeCombustivel;
 	@Column(name="distancia_eixo")
-	private int distanciaEixo;
+	private int distanciaEixo;//em cm
 	@Column(name="tipo_embreagem",length=50)
 	private String tipoEmbreagem;
 	@Column(name="consumo_km",length=30)
@@ -120,8 +120,8 @@ public class CategoriaCarga extends Categoria {
 	}
 	@Override
 	public String toString() {
-		return super.toString()+" [capacidadeCarga=" + capacidadeCarga + ", potenciaMotor=" + potenciaMotor
-				+ ", volumeCombustivel=" + volumeCombustivel + ", distanciaEixo=" + distanciaEixo + ", tipoEmbreagem="
-				+ tipoEmbreagem + ", consumoKm=" + consumoKm + "]";
+		return super.toString()+"\nCapacidade: " + capacidadeCarga+" T" + "\nPotencia Motor: " + potenciaMotor
+				+" CV"+ "\nVolume Combustivel: " + volumeCombustivel +" L"+ "\nDistancia Eixos: " + distanciaEixo +" cm"+ "\nEmbreagem: "
+				+ tipoEmbreagem + "\nConsumo: " + consumoKm + "KM/L";
 	}
 }

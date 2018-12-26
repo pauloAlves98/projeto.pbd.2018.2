@@ -10,12 +10,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import br.com.palves.pbd.model.complemento.TratadorDeMascara;
+@NamedQueries(
+		{
+			@NamedQuery(name="Filial.listarPorParametro",query="SELECT c FROM Filial c  WHERE c.situacao = \'ATIVO\' and "
+					+ "LOWER(c.nome) LIKE :var")
+			//@NamedQuery(name="",query="")
+		})
 @Entity
 public class Filial implements Generico{
 	@Id
@@ -36,7 +45,13 @@ public class Filial implements Generico{
 	private Endereco endereco;
 	@Column(length=50)//banco
 	private String situacao;
+	
 	public Filial() {
+	}
+	public Filial(Integer id, @NotNull(message = "Campo Nome Nulo!") String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
 	}
 
 	public Integer getId() {
@@ -149,6 +164,17 @@ public class Filial implements Generico{
 	public void setSituacao(String situacao) {
 		this.situacao = situacao;
 	}
-
-
+	@Override
+	public String toString() {
+		return "Filial [id=" + id + ", horaInicioExpediente=" + horaInicioExpediente + ", horaFimExpediente="
+				+ horaFimExpediente + ", nome=" + nome + ", endereco=" + endereco + ", situacao=" + situacao + "]";
+	}
+	public String toStringArea() {
+		return  "COD: "+ id + "\nExpediente: " + TratadorDeMascara.converterHoraString(this.horaInicioExpediente) + " as "
+				+ TratadorDeMascara.converterHoraString(this.horaFimExpediente) + "\nNome: " + nome + "\nEndereco\nBairro: " + endereco.getBairro() +"\nCep: "+endereco.getCep()+
+				"\nCidade: "+endereco.getCidade()+"\nRua: "+endereco.getRua()+"\nNumero: "+endereco.getNumero()+"\nUF: "+endereco.getUf()+"\nSituacao: " + situacao + "";
+	}
+	public String formatada(String s) {
+		return "<html>"+"<b>"+s+"</b></html>";
+	}
 }

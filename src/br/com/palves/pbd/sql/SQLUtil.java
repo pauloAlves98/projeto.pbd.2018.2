@@ -7,6 +7,8 @@ public class SQLUtil {//CONSULTAS EM SOMENTE CREATEQUERY E NATIVE;
 	public static class PessoaFisica {
 		//public static String NATIVEQUERY_BUSCAR_UNIQUE_CPF = "Select p.discriminador, p.id From Pessoa p Where p.login ILIKE ? and p.senha = ?";
 		public static  String NATIVEQUERYPROCEDURE_VALIDA_HABILITACAO = "Select validahabilitacao(:nHab)";
+		public static String NATIVEQUERY_BUSCAR_ID_POR_NOME = "Select p.nome, p.id From Pessoa p Where p.nome = ? and p.discriminador = \'PF\'";
+		//Procedures e Gatilhos
 		public static String NATIVEQUERY_CREATEPROCEDURE_VALIDA_HABILITACAO = "CREATE OR REPLACE FUNCTION validahabilitacao(nHab varChar) "
 				+ "returns boolean AS $BODY$ "
 				+ "BEGIN "
@@ -18,7 +20,7 @@ public class SQLUtil {//CONSULTAS EM SOMENTE CREATEQUERY E NATIVE;
 				"END;$BODY$" + 
 				"  LANGUAGE plpgsql VOLATILE " + 
 				"  COST 100;";
-		public static String NATIVEQUERY_BUSCAR_ID_POR_NOME = "Select p.nome, p.id From Pessoa p Where p.nome = ? and p.discriminador = \'PF\'";
+	
 	}
 	public static class Funcionario{
 		public static String NATIVEQUERY_BUSCAR_ID_POR_LOGIN = "Select p.nome, p.id From Funcionario p Where p.login ILIKE ? and p.senha = ?";
