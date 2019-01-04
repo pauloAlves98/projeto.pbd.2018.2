@@ -11,4 +11,5 @@ public interface ICategoriaPassageiroDao {
 //	public CategoriaPassageiro findById(Integer id) throws DaoException;
 //	public List< CategoriaPassageiro> findAll() throws DaoException;
 //	public  CategoriaPassageiro deleteById (int id) throws DaoException;
+	public List< CategoriaPassageiro> buscarPorFiltro(String var) throws DaoException;
 }

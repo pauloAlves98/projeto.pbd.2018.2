@@ -307,7 +307,6 @@ public class ControllerFXCadastroReserva implements Initializable {
 	//Relacionado ao preenchimento dos campos!
 	public  void atualizarFilialeCategoria() 
 	{
-		
 		FilialDao fd = FilialDao.getInstance();
 		CategoriaDao cd = CategoriaDao.getInstance();
 		carregarConfiguracaoes();

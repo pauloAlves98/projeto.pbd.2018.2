@@ -90,11 +90,17 @@ public class ControllerFXAlterarSenha implements Initializable {
 			}
 		}else {
 			FuncionarioDao pd = FuncionarioDao.getInstance();
+			System.out.println("Func");
+			System.out.println(Corrente.funcionario.getSenha());
+			System.out.println(EncriptaDecriptaApacheCodec.codificaBase64Encoder(senhaAntigaField.getText().length()<=0?"":senhaAntigaField.getText()));
+			System.out.println("Func");
 			if(Corrente.funcionario.getSenha().equals(EncriptaDecriptaApacheCodec.codificaBase64Encoder(senhaAntigaField.getText().length()<=0?"":senhaAntigaField.getText()))) {
 				Funcionario pj = Corrente.funcionario;
 				pj.setSenha(EncriptaDecriptaApacheCodec.codificaBase64Encoder(senhaNovaField.getText()));
+				System.out.println(pj.getSenha());
 				String s = EncriptaDecriptaApacheCodec.codificaBase64Encoder(senhaNovaField.getText());
 				pj.setSenha(s);
+				System.out.println(s);
 				try {
 					Funcionario p = pd.persistOrMerge(pj);
 					Corrente.funcionario = p;

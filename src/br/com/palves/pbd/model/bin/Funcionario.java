@@ -8,9 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-
+@NamedQueries(
+		{
+			@NamedQuery(name="Funcionario.listarPorFiltro",query="SELECT c FROM Funcionario c WHERE (LOWER(c.situacao) LIKE :var1 or LOWER(c.nome) LIKE :var1 "
+					+ "or LOWER(c.cpf) LIKE :var1 or LOWER(c.login) LIKE :var1 or LOWER(c.cargo) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
+		})
 @Entity
 public class Funcionario implements Generico {
 	@Id
@@ -24,7 +30,7 @@ public class Funcionario implements Generico {
 	@Column(unique=true,nullable=false)
 	private String login;
 	@NotNull(message="Campo Senha Nulo!")
-	@Column(length=11)
+	@Column(length=50)
 	private String senha;
 	@Column(length=50)
 	private String situacao;
@@ -39,9 +45,9 @@ public class Funcionario implements Generico {
 	@ManyToOne   //Muitos funcionarios para uma filial
 	@JoinColumn(name="filial_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "filial_func_fkey"))
 	private Filial filial;
-	
+
 	public Funcionario() {
-		
+
 	}
 	public String getSexo() {
 		return sexo;
@@ -197,5 +203,5 @@ public class Funcionario implements Generico {
 			return false;
 		return true;
 	}
-	
+
 }

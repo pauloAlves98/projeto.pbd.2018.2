@@ -1,5 +1,7 @@
 package br.com.palves.pbd.model.dao;
 
+import java.util.List;
+
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.model.bin.PessoaFisica;
 
@@ -11,4 +13,5 @@ public interface IPessoaFisicaDao {
 //	public  PessoaFisica deleteById (int id) throws DaoException;
 	public Object[]buscarIdPorNome(String nome) throws DaoException;
 	public PessoaFisica buscarPorCpf(String cpf) throws DaoException;
+    public List<PessoaFisica> buscarPorFiltro(String var) throws DaoException;
 }

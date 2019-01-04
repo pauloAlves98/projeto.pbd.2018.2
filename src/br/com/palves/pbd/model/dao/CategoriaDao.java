@@ -10,6 +10,7 @@ import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.model.bin.Categoria;
 import br.com.palves.pbd.model.bin.CategoriaCarga;
+import br.com.palves.pbd.model.bin.Funcionario;
 import br.com.palves.pbd.sql.SQLUtil;
 
 public class CategoriaDao extends DaoGenerico<Categoria> implements ICategoriaDao{
@@ -89,4 +90,27 @@ public class CategoriaDao extends DaoGenerico<Categoria> implements ICategoriaDa
 		}
 		return var;
 	}
+	@Override
+	public List<Categoria> buscarPorFiltro(String var1) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var = null;
+		String op = "Busca Por Filtro";
+		try {
+			Query query = em.createNamedQuery("Categoria.listarPorFiltro");
+			query.setParameter("var1",var1);
+			var = query.getResultList();
+			if(var.size()<=0)
+				return null;
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
+	
 }

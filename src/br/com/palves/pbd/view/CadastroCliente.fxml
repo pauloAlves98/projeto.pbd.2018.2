@@ -8,6 +8,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,36 +19,10 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="cadastroPessoaFisicaPanel" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.palves.pbd.controller.ControllerFXCadastroClientePF">
-   <top>
-      <AnchorPane prefHeight="154.0" prefWidth="698.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane prefHeight="104.0" prefWidth="741.0" style="-fx-background-color: linear-gradient(to bottom,#00405d,#000000);" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label layoutX="6.0" layoutY="61.0" prefHeight="40.0" prefWidth="480.0" text="Veiculos Pajeú" textFill="WHITE" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="255.0">
-                     <font>
-                        <Font name="Bradley Hand ITC" size="24.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="74.0" fitWidth="111.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../res/iconepbd.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="33.0" prefHeight="57.0" prefWidth="741.0" text="CADASTRO CLIENTE" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <font>
-                        <Font name="Comic Sans MS" size="49.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <Separator layoutY="139.0" prefHeight="1.0" prefWidth="741.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         </children>
-      </AnchorPane>
-   </top>
    <center>
       <BorderPane prefHeight="516.0" prefWidth="856.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <left>
-            <AnchorPane opacity="0.0" prefHeight="516.0" prefWidth="448.0" BorderPane.alignment="CENTER" />
+            <AnchorPane opacity="0.0" prefHeight="670.0" prefWidth="307.0" BorderPane.alignment="CENTER" />
          </left>
          <center>
             <AnchorPane prefHeight="516.0" prefWidth="629.0" BorderPane.alignment="CENTER">
@@ -146,7 +121,10 @@
                   <TextField fx:id="cepField" layoutX="3.0" layoutY="377.0" prefHeight="33.0" prefWidth="149.0" style="-fx-background-radius: 90;" />
                   <TextField fx:id="cidadeField" layoutX="159.0" layoutY="377.0" prefHeight="33.0" prefWidth="218.0" style="-fx-background-radius: 90;" />
                   <TextField fx:id="ufField" layoutX="393.0" layoutY="377.0" prefHeight="33.0" prefWidth="74.0" style="-fx-background-radius: 90;" />
-                  <JFXButton fx:id="salvarButton" layoutX="14.0" layoutY="413.0" onAction="#salvar" prefHeight="57.0" prefWidth="58.0" style="-fx-background-color: linear-gradient(to bottom,#00405d,#000000); -fx-background-radius: 90;" text=" " textFill="#fff8fc" />
+                  <JFXButton fx:id="salvarButton" layoutX="14.0" layoutY="413.0" onAction="#salvar" prefHeight="57.0" prefWidth="58.0" style="-fx-background-color: linear-gradient(to bottom,#00405d,#000000); -fx-background-radius: 90;" text=" " textFill="#fff8fc">
+                     <tooltip>
+                        <Tooltip text="Salvar" />
+                     </tooltip></JFXButton>
                   <ImageView disable="true" fitHeight="24.0" fitWidth="26.0" layoutX="31.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../../res/salvar.png" />
@@ -154,12 +132,6 @@
                      <viewport>
                         <Rectangle2D />
                      </viewport>
-                  </ImageView>
-                  <JFXButton fx:id="voltarButton" layoutX="78.0" layoutY="414.0" onAction="#voltar" prefHeight="57.0" prefWidth="58.0" style="-fx-background-color: linear-gradient(to bottom,#00405d,#000000); -fx-background-radius: 90;" text=" " textFill="#fff8fc" />
-                  <ImageView disable="true" fitHeight="28.0" fitWidth="28.0" layoutX="93.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../res/voltar.png" />
-                     </image>
                   </ImageView>
                   <JFXDatePicker fx:id="dataDeNascimento" layoutX="290.0" layoutY="164.0" prefHeight="33.0" prefWidth="174.0">
                      <defaultColor>

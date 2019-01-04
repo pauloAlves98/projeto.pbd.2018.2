@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -30,7 +31,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -122,7 +126,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 
 	@FXML
 	private TextArea detalhesCategoriaArea;
-	
+
 	//@FXML
 	private TextField dataRealizacaoField;
 
@@ -136,7 +140,11 @@ public class ControllerFXBuscarReserva implements Initializable{
 	void buscarCategoria(ActionEvent event) {
 		try {
 			if(this.buscaCategoriaField.getText().replace(" ","").length()<=0) {
-				this.atualizarTabelaCategoria(CategoriaDao.getInstance().findAll(Categoria.class));
+				List<Categoria> l = CategoriaDao.getInstance().buscarPorParametro("%"+""+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaCategoria(l);
 			}else {
 
 				List<Categoria> l = CategoriaDao.getInstance().buscarPorParametro("%"+this.buscaCategoriaField.getText().toLowerCase()+"%");
@@ -186,21 +194,27 @@ public class ControllerFXBuscarReserva implements Initializable{
 			Alerta.mostrarAlertaErro("É preciso que o cliente esteja Logado  para executar esta operação!");
 		}else {
 			try {
-				this.validacoesDeNull();
+				//this.validacoesDeNull();
 				//Reserva pessoaJ = new Reserva();
 				//this.preencherCampos(pessoaJ);
-				Reserva r = tableReserva.getSelectionModel().getSelectedItem();
-				r.setSituacao(StatusEnum.CANCELADA.getValor());
-				daoPJ.persistOrMerge(r);
-				Alerta.mostrarAlertaInformacao("Reserva Cancelada com sucesso!");
-				this.limparCampos();
+				Alert alert = new Alert(AlertType.WARNING,"", ButtonType.YES, ButtonType.NO);  //new alert object
+			    //alert.setTitle("Warning!");  //warning box title
+			    alert.setHeaderText("WARNING!!!");// Header
+			    alert.setContentText("Deseja Realmente Cancelar a reserva???"); //Discription of warning
+			    alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
+			    Optional<ButtonType> result = alert.showAndWait();
+				if(result.get() == ButtonType.YES) {
+					Reserva r = tableReserva.getSelectionModel().getSelectedItem();
+					r.setSituacao(StatusEnum.CANCELADA.getValor());
+					daoPJ.persistOrMerge(r);
+					Alerta.mostrarAlertaInformacao("Reserva Cancelada com sucesso!");
+					this.limparCampos();
+				}else
+					System.out.println("Não cancelou!!!");
 			} 
 			catch (DaoException e1) {
 				Alerta.mostrarAlertaErro(e1.getMessage());
 				e1.printStackTrace();
-			}catch(ValidacaoException e3) {
-				Alerta.mostrarAlertaErro(e3.getMessage());
-				e3.printStackTrace();
 			}catch(java.lang.NumberFormatException e4) {
 				e4.printStackTrace();
 			}
@@ -250,7 +264,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 		}
 	}
 	@FXML
-	void clickEvent(MouseEvent event) {
+	void clickEvent(MouseEvent event) {//Tabela de reserva!
 		if(this.tableReserva.getItems().size()>0) {
 			this.carregar(tableReserva.getSelectionModel().getSelectedItem());
 			//O metodo de caaregar//this.preencherAreaCategoria(this.tableCategoria.getSelectionModel().getSelectedItem());
@@ -274,24 +288,32 @@ public class ControllerFXBuscarReserva implements Initializable{
 	}
 	@FXML
 	void buscarPorFiltro(ActionEvent event) {
+		int id = Corrente.usuarioFisico!=null?Corrente.usuarioFisico.getId():Corrente.usuarioJuridico.getId();
 		try {
 			if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+filtroField.getText().toLowerCase()+"%",
+				String txt = "%"+filtroField.getText().toLowerCase()+"%";
+				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
 						TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
-								new Date(),"23:59")
-						);	
+								TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
 				else
 					this.atualizarTabelaReserva(l);
 			}
 			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
-				this.atualizarTabelaReserva(ReservaDao.getInstance().findAll(Reserva.class));
+				String txt = "%"+"a"+"%";
+				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
+						TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
+								TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaReserva(l);
 			}
 			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null) {
 				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
 						TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59")
+								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
 						);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -301,7 +323,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataFinalPesquisa.getValue()==null) {
 				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
 						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59")
+								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
 						);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -311,7 +333,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 			else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataFinalPesquisa.getValue()==null) {
 				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
 						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59")
+								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
 						);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -321,7 +343,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 			else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null) {
 				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
 						TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59")
+								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
 						);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -331,7 +353,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 			else {
 				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
 						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59")
+								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
 						);	
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -359,17 +381,17 @@ public class ControllerFXBuscarReserva implements Initializable{
 				new PropertyValueFactory<>("nome"));
 		this.situacaoColumn.setCellValueFactory(
 				new PropertyValueFactory<>("situacao"));
-//		this.dataRetiradaColumn.setCellValueFactory(
-//				new PropertyValueFactory<>("dataRetirada"));
+		//		this.dataRetiradaColumn.setCellValueFactory(
+		//				new PropertyValueFactory<>("dataRetirada"));
 		this.codColumn.setCellValueFactory(
 				new PropertyValueFactory<>("id"));
-//		//this.tableFiilial.even
-//		//		ObservableList<Filial>l = this.listaDeClientes();
-//		//		tableFiilial.setItems(l);
-//		//		tableFiilial.getSelectionModel().select(l.get(1));
+		//		//this.tableFiilial.even
+		//		//		ObservableList<Filial>l = this.listaDeClientes();
+		//		//		tableFiilial.setItems(l);
+		//		//		tableFiilial.getSelectionModel().select(l.get(1));
 	}
-	
-	
+
+
 	//Relacionado ao salvamento
 	private void validacoesDeNull() throws ValidacaoException {
 		if(this.dataDeRetirada.getValue()==null)
@@ -469,8 +491,8 @@ public class ControllerFXBuscarReserva implements Initializable{
 	}
 	//Carregar
 	private void carregar(Reserva p) {
-				LimparCampo.limparCamposFX(this.cadastroReservaPane.getChildren());
-				preencherBusca(p);
+		LimparCampo.limparCamposFX(this.cadastroReservaPane.getChildren());
+		preencherBusca(p);
 	}
 	private void preencherBusca(Reserva p) {	
 		this.dataDeRetirada.setValue(TratadorDeMascara.dateToLocalDate(p.getDataHoraRetirada()));
@@ -488,6 +510,5 @@ public class ControllerFXBuscarReserva implements Initializable{
 		this.atualizarTabelaFilial(lf);
 		this.atualizarTabelaCategoria(lc);
 		//this.fpv.getCategoriaCombo().setSelectedItem(p.getCategoria().getNome());
-
 	}
 }

@@ -2,9 +2,16 @@ package br.com.palves.pbd.model.bin;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
+@NamedQueries(
+		{
+			@NamedQuery(name="CategoriaCarga.listarPorFiltro",query="SELECT c FROM CategoriaCarga c WHERE LOWER(c.discriminador) = \'cg\' and (LOWER(c.situacao) LIKE :var1 or LOWER(c.nome) LIKE :var1 "
+					+ "or LOWER(c.horaLimpeza) LIKE :var1  or LOWER(c.tipoCambio) LIKE :var1 or LOWER(c.tipoEmbreagem) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
+			//@NamedQuery(name="",query="")
+		})
 @Entity
 @Table(name="categoria_carga")
 @PrimaryKeyJoinColumn(name="id")

@@ -65,7 +65,7 @@
                   <Font name="Comic Sans MS Bold" size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="157.0" prefHeight="25.0" prefWidth="301.0" text="a">
+            <Label alignment="CENTER" layoutX="130.0" layoutY="157.0" prefHeight="25.0" prefWidth="35.0" text="a">
                <font>
                   <Font name="Comic Sans MS Bold" size="18.0" />
                </font>

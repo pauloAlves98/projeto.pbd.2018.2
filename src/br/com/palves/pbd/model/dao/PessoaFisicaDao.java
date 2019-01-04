@@ -87,5 +87,27 @@ public class PessoaFisicaDao extends DaoGenerico<PessoaFisica> implements IPesso
 		}
 		return var;
 	}
+	@Override
+	public List<PessoaFisica> buscarPorFiltro(String var) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var1 = null;
+		String op = "Busca Por Filtro";
+		try {
+			Query query = em.createNamedQuery("Pessoa_Fisica.listarPorFiltro");
+			query.setParameter("var",var);
+			var1 = query.getResultList();
+			if(var1.size()<=0)
+				return null;
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var1;
+	}
 
 }

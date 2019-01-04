@@ -77,8 +77,8 @@ public class ControllerFXCadastroClientePF implements Initializable{
 	@FXML
 	private JFXButton salvarButton;
 
-	@FXML
-	private JFXButton voltarButton;
+//	@FXML
+//	private JFXButton voltarButton;
 
 	@FXML
 	private JFXDatePicker dataDeNascimento;
@@ -116,20 +116,19 @@ public class ControllerFXCadastroClientePF implements Initializable{
 			e4.printStackTrace();
 		}
 	}
-	@FXML
-	void voltar(ActionEvent event) {
-		this.limparCampos();
-		App.stage.setScene(App.cenaLogin);
-		App.stage.centerOnScreen();
-		App.stage.show();
-	}
+//	@FXML
+//	void voltar(ActionEvent event) {
+//		this.limparCampos();
+//		App.stage.setScene(App.cenaLogin);
+//		App.stage.centerOnScreen();
+//		App.stage.show();
+//	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		ToggleGroup group = new ToggleGroup();
 		fRadio.setToggleGroup(group);
 		mRadio.setToggleGroup(group);
 		mRadio.setSelected(true);
-
 		MascaraFX.cpfField(cpfField);
 		MascaraFX.maxField(nHabilitacaoField, 11);
 		MascaraFX.numericField(nHabilitacaoField);

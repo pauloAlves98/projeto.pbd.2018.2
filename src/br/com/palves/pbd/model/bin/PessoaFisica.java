@@ -14,7 +14,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @NamedQueries({
-	@NamedQuery(name="Pessoa_Fisica.buscarPorCpf",query="Select p from PessoaFisica p where p.cpf =:var")
+	@NamedQuery(name="Pessoa_Fisica.buscarPorCpf",query="Select p from PessoaFisica p where p.cpf =:var"),
+	@NamedQuery(name="Pessoa_Fisica.listarPorFiltro",query="Select p from PessoaFisica p where LOWER(p.cpf) LIKE :var or LOWER(p.nome) LIKE :var or"
+			+ " LOWER(p.nHabilitacao) LIKE :var or LOWER(p.situacao) LIKE :var or LOWER(p.login) LIKE :var or LOWER(p.endereco.cidade) LIKE :var")
 })
 /**
  * @author Palves

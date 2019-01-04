@@ -25,7 +25,7 @@ public class ReservaDao extends DaoGenerico<Reserva> implements IReservaDao{
 
 	}
 	@Override
-	public List<Reserva> buscarPorFiltro(String var1, Date var2, Date var3) throws DaoException {
+	public List<Reserva> buscarPorFiltro(String var1, Date var2, Date var3,int var4) throws DaoException {
 		em = ConnectionFactory.getInstance().getConnection();
 		List var = null;
 		String op = "Busca Por Filtro";
@@ -34,6 +34,8 @@ public class ReservaDao extends DaoGenerico<Reserva> implements IReservaDao{
 			query.setParameter("var1",var1);
 			query.setParameter("var2",var2);
 			query.setParameter("var3",var3);
+			query.setParameter("var4",var4);
+			System.out.println(var1);
 			var = query.getResultList();
 			if(var.size()<=0)
 				return null;

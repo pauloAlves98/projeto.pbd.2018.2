@@ -11,5 +11,5 @@ public interface IReservaDao {
 //	public Reserva findById(Integer id) throws DaoException;
 //	public List<Reserva> findAll() throws DaoException;
 //	public  Reserva deleteById (int id) throws DaoException;
-	public List<Reserva> buscarPorFiltro(String var1,Date var2,Date var3) throws DaoException;
+	public List<Reserva> buscarPorFiltro(String var1,Date var2,Date var3,int var4) throws DaoException;
 }

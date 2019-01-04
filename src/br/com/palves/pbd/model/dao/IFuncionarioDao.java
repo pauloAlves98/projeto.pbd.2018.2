@@ -12,4 +12,5 @@ public interface IFuncionarioDao {
 //	public  Funcionario findById(Integer id) throws DaoException;
 //	public List<Funcionario> findAll() throws DaoException;
 //	public  Funcionario deleteById (int id) throws DaoException;
+	public List<Funcionario> buscarPorFiltro(String var1) throws DaoException;
 }

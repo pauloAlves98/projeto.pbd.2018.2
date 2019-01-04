@@ -9,7 +9,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 @NamedQueries({
-	@NamedQuery(name="PessoaJuridica.buscarPorCnpj",query="Select pj from PessoaJuridica pj where pj.cnpj =:var")
+	@NamedQuery(name="PessoaJuridica.buscarPorCnpj",query="Select pj from PessoaJuridica pj where pj.cnpj =:var"),
+	@NamedQuery(name="PessoaJuridica.listarPorFiltro",query="Select p from PessoaJuridica p where LOWER(p.cnpj) LIKE :var or LOWER(p.nome) LIKE :var or"
+			+ " LOWER(p.incEstadual) LIKE :var or LOWER(p.situacao) LIKE :var or LOWER(p.login) LIKE :var or LOWER(p.endereco.cidade) LIKE :var")
 })
 @Entity
 @Table(name="pessoa_juridica")

@@ -69,9 +69,9 @@ public class ControllerFXMenu  implements Initializable {
 	}
     @FXML
     private void buscarReserva(ActionEvent event) {
-    	//this.animationBuscarReserva();
-    	painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.buscarReservaPane);
+    	this.animationBuscarReserva();
+//    	painelCentral.getChildren().clear();
+//		painelCentral.setCenter(App.buscarReservaPane);
     }
     @FXML
    private  void realizarReserva(ActionEvent event) {
@@ -81,7 +81,7 @@ public class ControllerFXMenu  implements Initializable {
     }
     @FXML
     private void sair(ActionEvent event) {
-    	LimparCampo.limparCamposFX(App.menuClientePane.getChildren());
+    	LimparCampo.limparLogout();
     	App.stage.setScene(App.cenaLogin);
 		App.stage.centerOnScreen();
 		App.stage.show();
@@ -95,14 +95,14 @@ public class ControllerFXMenu  implements Initializable {
 	//Animations
 	private void animationAlterarSenha() {
 		//Set Y of second scene to Height of window
-		App.alterarSenhaPane.translateYProperty().set(App.cenaMenuCliente.getHeight());
+		App.getAlterarSenhaPane().translateYProperty().set(App.cenaMenuCliente.getHeight());
 		//Add second scene. Now both first and second scene is present
 		painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.alterarSenhaPane);
+		painelCentral.setCenter(App.getAlterarSenhaPane());
 		//Create new TimeLine animation
 		Timeline timeline = new Timeline();
 		//Animate Y property
-		KeyValue kv = new KeyValue(App.alterarSenhaPane.translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyValue kv = new KeyValue(App.getAlterarSenhaPane().translateYProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 		timeline.getKeyFrames().add(kf);
 		//After completing animation, remove first scene
@@ -113,14 +113,14 @@ public class ControllerFXMenu  implements Initializable {
 	}
 	private void animationEditarPF() {
 		//Set Y of second scene to Height of window
-		App.editarClienteFisicoPane.translateYProperty().set(App.cenaMenuCliente.getHeight());
+		App.getEditarClienteFisicoPane().translateYProperty().set(App.cenaMenuCliente.getHeight());
 		//Add second scene. Now both first and second scene is present
 		painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.editarClienteFisicoPane);
+		painelCentral.setCenter(App.getEditarClienteFisicoPane());
 		//Create new TimeLine animation
 		Timeline timeline = new Timeline();
 		//Animate Y property
-		KeyValue kv = new KeyValue(App.editarClienteFisicoPane.translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyValue kv = new KeyValue(App.getEditarClienteFisicoPane().translateYProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 		timeline.getKeyFrames().add(kf);
 		//After completing animation, remove first scene
@@ -131,14 +131,14 @@ public class ControllerFXMenu  implements Initializable {
 	}
 	private void animationEditarPJ() {
 		//Set Y of second scene to Height of window
-		App.editarClienteJuridicoPane.translateYProperty().set(App.cenaMenuCliente.getHeight());
+		App.getEditarClienteJuridicoPane().translateYProperty().set(App.cenaMenuCliente.getHeight());
 		//Add second scene. Now both first and second scene is present
 		painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.editarClienteJuridicoPane);
+		painelCentral.setCenter(App.getEditarClienteJuridicoPane());
 		//Create new TimeLine animation
 		Timeline timeline = new Timeline();
 		//Animate Y property
-		KeyValue kv = new KeyValue(App.editarClienteJuridicoPane.translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyValue kv = new KeyValue(App.getEditarClienteJuridicoPane().translateYProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 		timeline.getKeyFrames().add(kf);
 		//After completing animation, remove first scene
@@ -149,14 +149,14 @@ public class ControllerFXMenu  implements Initializable {
 	}
 	private void animationCadastroReserva() {
 		//Set Y of second scene to Height of window
-		App.cadastroReservaPane.translateYProperty().set(App.cenaMenuCliente.getHeight());
+		App.getCadastroReservaPane().translateYProperty().set(App.cenaMenuCliente.getHeight());
 		//Add second scene. Now both first and second scene is present
 		painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.cadastroReservaPane);
+		painelCentral.setCenter(App.getCadastroReservaPane());
 		//Create new TimeLine animation
 		Timeline timeline = new Timeline();
 		//Animate Y property
-		KeyValue kv = new KeyValue(App.cadastroReservaPane.translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyValue kv = new KeyValue(App.getCadastroReservaPane().translateYProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 		timeline.getKeyFrames().add(kf);
 		//After completing animation, remove first scene
@@ -167,14 +167,14 @@ public class ControllerFXMenu  implements Initializable {
 	}
 	private void animationBuscarReserva() {
 		//Set Y of second scene to Height of window
-		App.buscarReservaPane.translateYProperty().set(App.cenaMenuCliente.getHeight());
+		App.getBuscarReservaPane().translateYProperty().set(App.cenaMenuCliente.getHeight());
 		//Add second scene. Now both first and second scene is present
 		painelCentral.getChildren().clear();
-		painelCentral.setCenter(App.buscarReservaPane);
+		painelCentral.setCenter(App.getBuscarReservaPane());
 		//Create new TimeLine animation
 		Timeline timeline = new Timeline();
 		//Animate Y property
-		KeyValue kv = new KeyValue(App.buscarReservaPane.translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyValue kv = new KeyValue(App.getBuscarReservaPane().translateYProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 		timeline.getKeyFrames().add(kf);
 		//After completing animation, remove first scene

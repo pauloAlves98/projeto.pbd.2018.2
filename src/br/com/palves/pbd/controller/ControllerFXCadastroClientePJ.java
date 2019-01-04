@@ -65,8 +65,8 @@ public class ControllerFXCadastroClientePJ implements Initializable {
 	    @FXML
 	    private JFXButton salvarButton;
 
-	    @FXML
-	    private JFXButton voltarButton;
+//	    @FXML
+//	    private JFXButton voltarButton;
 
 	    @FXML
 	    void salvar(ActionEvent event) {
@@ -98,13 +98,13 @@ public class ControllerFXCadastroClientePJ implements Initializable {
 				e4.printStackTrace();
 			}
 	    }
-	    @FXML
-	    void voltar(ActionEvent event) {
-	    	this.limparCampos();
-			App.stage.setScene(App.cenaLogin);
-			App.stage.centerOnScreen();
-			App.stage.show();
-	    }
+//	    @FXML
+//	    void voltar(ActionEvent event) {
+//	    	this.limparCampos();
+//			App.stage.setScene(App.cenaLogin);
+//			App.stage.centerOnScreen();
+//			App.stage.show();
+//	    }
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
 			MascaraFX.cnpjField(cnpjField);

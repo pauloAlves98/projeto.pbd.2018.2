@@ -17,8 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @NamedQueries(
 		{
-			@NamedQuery(name="Reserva.listarPorFiltro",query="SELECT c FROM Reserva c WHERE LOWER(c.situacao) LIKE :var1 and dataHoraRetirada BETWEEN :var2 and :var3")
-			//@NamedQuery(name="",query="")
+			@NamedQuery(name="Reserva.listarPorFiltro",query="SELECT c FROM Reserva c WHERE c.pessoa.id =:var4 and dataHoraRetirada BETWEEN :var2 and :var3 and (LOWER(c.situacao) LIKE :var1 or LOWER(c.categoria.nome) LIKE :var1)")
 		})
 @Entity
 public class Reserva implements Generico{

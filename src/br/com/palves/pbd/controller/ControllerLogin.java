@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import br.com.palves.pbd.app.App;
 import br.com.palves.pbd.enums.Discriminador;
+import br.com.palves.pbd.enums.StatusEnum;
 import br.com.palves.pbd.enums.TransicaoTelaEnum;
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.model.bin.Funcionario;
@@ -70,23 +71,32 @@ public class ControllerLogin implements Initializable {
 			Object[] obj;// pessoaDao.buscarIdPorLogin(email, senha);
 			if(funcionarioRadio.isSelected()) {//Busca Funcionario!
 				obj =funcionarioDao.buscarIdPorLogin(email, senha);
-				if(obj == null) {//Então neunum func foi encontrado.
+				if(obj == null) {//Então neunhum func foi encontrado.
 					Alerta a = Alerta.getInstance();
 					a.setAlertType(AlertType.ERROR);
 					a.setMensagem("Nenhum Funcionário encontrado!");
 					a.show();
-				}else {//Encontou um func!
+				}else {//Encontrou um func!
 					Corrente.funcionario = funcionarioDao.findById(Funcionario.class,(int)obj[1]);
-					ControllerFXMenu.atualizarNome(Corrente.funcionario.getNome());
-					Corrente.usuarioFisico = null;
-					Corrente.usuarioJuridico = null;
-					Alerta a = Alerta.getInstance();
-					a.setAlertType(AlertType.INFORMATION);
-					a.setMensagem("Funcionario:"+Corrente.funcionario.getNome() +" ID:"+	Corrente.funcionario.getId() +" Email:"+Corrente.funcionario.getLogin()+" Logado Com Sucesso!");
-					a.show();
+					if(Corrente.funcionario.getSituacao().equalsIgnoreCase(StatusEnum.DESATIVADO.getValor())) {
+						Corrente.funcionario = null;
+						Alerta a = Alerta.getInstance();
+						a.setAlertType(AlertType.ERROR);
+						a.setMensagem("Nenhum Funcionário encontrado!");
+						a.show();
+					}else {
+						ControllerFXMenuFuncionario.atualizarNome(Corrente.funcionario.getNome());
+						Corrente.usuarioFisico = null;
+						Corrente.usuarioJuridico = null;
+						Alerta a = Alerta.getInstance();
+						a.setAlertType(AlertType.INFORMATION);
+						a.setMensagem("Funcionario:"+Corrente.funcionario.getNome() +" ID:"+	Corrente.funcionario.getId() +" Email:"+Corrente.funcionario.getLogin()+" Logado Com Sucesso!");
+						a.show();
+						this.mudarCenaFunc();
+					}
 				}
 			}else{//Então procura em usuario!
-				
+
 				obj = pessoaDao.buscarIdPorLogin(email, senha);
 				if(obj==null) {//Não encontrou Cliente
 					Alerta a = Alerta.getInstance();
@@ -101,15 +111,26 @@ public class ControllerLogin implements Initializable {
 					switch(discriminador) {
 					case PF:{
 						Corrente.usuarioFisico = PessoaFisicaDao.getInstance().findById(PessoaFisica.class,(int)obj[1]);
+						if(Corrente.usuarioFisico.getSituacao().equalsIgnoreCase(StatusEnum.DESATIVADO.getValor())) {
+							Corrente.usuarioFisico = null;
+							Alerta.mostrarAlertaErro("Nenhum Cliente Encontrado!");
+							return;
+						}
 						Alerta a = Alerta.getInstance(); //new Alert(,);
 						ControllerFXMenu.atualizarNome(Corrente.usuarioFisico.getNome());
 						a.setAlertType(AlertType.CONFIRMATION);
 						a.setMensagem("Usuario: "+Corrente.usuarioFisico.getNome() +" ID: "+Corrente.usuarioFisico.getId() +" Email: "+Corrente.usuarioFisico.getLogin()+" Logado Com Sucesso!");
 						a.show();
+
 						break;
 					}
 					case PJ:{
 						Corrente.usuarioJuridico = PessoaJuridicaDao.getInstance().findById(PessoaJuridica.class,(int)obj[1]);
+						if(Corrente.usuarioJuridico.getSituacao().equalsIgnoreCase(StatusEnum.DESATIVADO.getValor())) {
+							Corrente.usuarioJuridico = null;
+							Alerta.mostrarAlertaErro("Nenhum Cliente Encontrado!");
+							return;
+						}
 						ControllerFXMenu.atualizarNome(Corrente.usuarioJuridico.getNome());
 						Alerta a = Alerta.getInstance();//new Alert(,);
 						a.setMensagem("Usuario: "+	Corrente.usuarioJuridico.getNome() +" ID: "+	Corrente.usuarioJuridico.getId() +" Email:"+Corrente.usuarioJuridico.getLogin()+" Logado Com Sucesso!");
@@ -133,15 +154,22 @@ public class ControllerLogin implements Initializable {
 	public void recuperarSenha(MouseEvent event) {
 
 	}
-    @FXML
-    void trocarTela(ActionEvent event) {
-    	if(event.getSource()==pessoaFisicaButton)
-    		App.stage.setScene(App.cenaCadastroPF);
-    	else
-    		App.stage.setScene(App.cenaCadastroPJ);
-    	App.stage.centerOnScreen();
-    	App.stage.show();
-    }
+	@FXML
+	void trocarTela(ActionEvent event) {
+		if(event.getSource()==pessoaFisicaButton) {
+			App.stage.setScene(App.cenaCadastro);
+			ControllerFXMenuCadastros.getPainel().getChildren().clear();
+			ControllerFXMenuCadastros.getPainel().setCenter(App.getCadastroClienteFisicoPane());
+		}
+		else
+		{
+			App.stage.setScene(App.cenaCadastro);
+			ControllerFXMenuCadastros.getPainel().getChildren().clear();
+			ControllerFXMenuCadastros.getPainel().setCenter(App.getCadastroClienteJuridicoPane());
+		}
+		App.stage.centerOnScreen();
+		App.stage.show();
+	}
 	@Override
 	public void initialize(URL url, ResourceBundle rsc) {
 		ToggleGroup group = new ToggleGroup();
@@ -151,7 +179,12 @@ public class ControllerLogin implements Initializable {
 	private void mudarCenaCliente() {
 		App.stage.setScene(App.cenaMenuCliente);
 		App.stage.centerOnScreen();
-    	App.stage.show();
+		App.stage.show();
+	}
+	private void mudarCenaFunc() {
+		App.stage.setScene(App.cenaMenuFuncionario);
+		App.stage.centerOnScreen();
+		App.stage.show();
 	}
 
 }

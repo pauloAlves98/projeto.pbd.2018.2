@@ -10,8 +10,11 @@ import javax.swing.JTextField;
 import com.jfoenix.controls.JFXDatePicker;
 import com.toedter.calendar.JDateChooser;
 
+import br.com.palves.pbd.app.App;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -50,8 +53,41 @@ public class LimparCampo {
 			else if(c instanceof JFXDatePicker) {
 				((JFXDatePicker) c).setValue(null);;
 			}
+			else if(c instanceof CheckBox) {
+				(( CheckBox) c).setSelected(false);
+			}
 		}
 		return;
 	}
-
+	public static void limparCamposFXTOTAL(List<Node> components) {
+		for (Node c: components) {
+			if(c instanceof javafx.scene.control.TextField) {
+				((TextField) c).setText("");
+			}
+			else if (c instanceof PasswordField) {
+				((PasswordField) c).setText("");
+			}
+			else if(c instanceof  Pane) {
+				limparCamposFX(((Pane) c).getChildren());
+			}
+			else if(c instanceof JFXDatePicker) {
+				((JFXDatePicker) c).setValue(null);;
+			}
+			else if(c instanceof TableView) {
+				((TableView) c).setItems(null);
+			}
+			else if(c instanceof TableView) {
+				((TableView) c).setItems(null);
+			}
+			else if(c instanceof CheckBox) {
+				(( CheckBox) c).setSelected(false);
+			}
+		}
+		return;
+	}
+	public static void limparLogout() {
+		for( Pane p:App.getListaDeTelas()) {
+			limparCamposFXTOTAL(p.getChildren());
+		}
+	}
 }
