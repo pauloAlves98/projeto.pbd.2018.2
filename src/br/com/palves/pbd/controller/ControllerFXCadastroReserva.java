@@ -103,7 +103,11 @@ public class ControllerFXCadastroReserva implements Initializable {
 	void buscarCategoria(ActionEvent event) {
 		try {
 			if(this.buscaCategoriaField.getText().replace(" ","").length()<=0) {
-				this.atualizarTabelaCategoria(CategoriaDao.getInstance().findAll(Categoria.class));
+				List<Categoria> l = CategoriaDao.getInstance().buscarPorParametro("%"+this.buscaCategoriaField.getText().toLowerCase()+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaCategoria(l);
 			}else {
 				
 				List<Categoria> l = CategoriaDao.getInstance().buscarPorParametro("%"+this.buscaCategoriaField.getText().toLowerCase()+"%");
@@ -121,7 +125,11 @@ public class ControllerFXCadastroReserva implements Initializable {
 	void buscarFilial(ActionEvent event) {
 		try {
 			if(this.filialRetiradaField.getText().replace(" ","").length()<=0) {
-				this.atualizarTabelaFilial(FilialDao.getInstance().findAll(Filial.class));
+				List<Filial> l = FilialDao.getInstance().buscarPorParametro("%"+this.filialRetiradaField.getText().toLowerCase()+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaFilial(l);
 			}else {
 				
 				List<Filial> l = FilialDao.getInstance().buscarPorParametro("%"+this.filialRetiradaField.getText().toLowerCase()+"%");

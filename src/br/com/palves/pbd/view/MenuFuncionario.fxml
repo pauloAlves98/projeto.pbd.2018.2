@@ -63,7 +63,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXNodesList style="-fx-rotate: 270; -fx-spacing: 90;" GridPane.rowIndex="3">
+                  <JFXNodesList fx:id="nodeList" style="-fx-rotate: 270; -fx-spacing: 90;" GridPane.rowIndex="3">
                      <children>
                         <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" style="-fx-background-color: #000000;" text="MENU" textFill="#fffefe">
                            <font>
@@ -130,7 +130,16 @@
                         </MenuButton>
                         <MenuButton mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" style="-fx-background-color: #ffffff;" text="LOCAÇÃO" textAlignment="CENTER">
                            <items>
-                              <MenuItem fx:id="realizarLocacaoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="REALIZAR">
+                              <MenuItem fx:id="realizarLocacaoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="REALIZAR C/RESERVA">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/rservaBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="realizarLocacaoSReservaItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="REALIZAR S/RESERVA">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -198,20 +207,20 @@
                                     </ImageView>
                                  </graphic>
                               </MenuItem>
-                              <MenuItem fx:id="buscarClienteItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-width: 100; -fx-font-weight: bold;" text="BUSCAR PF">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../../res/pesquisarBlack.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </MenuItem>
                               <MenuItem fx:id="cadastrarPJItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="CADASTRAR PJ">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../../../../res/user2.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="buscarClienteItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-width: 100; -fx-font-weight: bold;" text="BUSCAR PF">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/pesquisarBlack.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>

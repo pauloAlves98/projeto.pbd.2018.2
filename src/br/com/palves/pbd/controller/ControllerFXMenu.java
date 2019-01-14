@@ -19,8 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 public class ControllerFXMenu  implements Initializable {
-
-
 	private static Label nomeL;
 	@FXML
 	private Label nomeUserLabel;

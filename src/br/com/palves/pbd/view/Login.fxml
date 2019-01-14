@@ -124,9 +124,9 @@
    <left>
       <BorderPane prefHeight="552.0" prefWidth="281.0" BorderPane.alignment="CENTER">
          <center>
-            <AnchorPane prefHeight="241.0" prefWidth="264.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="246.0" prefHeight="246.0" prefWidth="264.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="pessoaFisicaButton" alignment="CENTER" layoutX="16.0" layoutY="115.0" mnemonicParsing="false" onAction="#trocarTela" prefHeight="39.0" prefWidth="242.0" style="-fx-background-color: #000000;" text="Criar Conta Pessoa Fisica" textAlignment="CENTER" textFill="#fffdfd">
+                  <Button fx:id="pessoaFisicaButton" alignment="CENTER" layoutX="47.0" layoutY="115.0" mnemonicParsing="false" onAction="#trocarTela" prefHeight="39.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Pessoa Fisica" textAlignment="CENTER" textFill="#fffdfd">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -137,11 +137,16 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="pessoaJuridicaButton" alignment="CENTER" layoutX="16.0" layoutY="165.0" mnemonicParsing="false" onAction="#trocarTela" prefHeight="39.0" prefWidth="241.0" style="-fx-background-color: #000000;" text="Criar Conta Pessoa Juridica" textAlignment="CENTER" textFill="#fffdfd">
+                  <Button fx:id="pessoaJuridicaButton" alignment="CENTER" layoutX="47.0" layoutY="165.0" mnemonicParsing="false" onAction="#trocarTela" prefHeight="39.0" prefWidth="169.0" style="-fx-background-color: #000000;" text="Pessoa Jurídica" textAlignment="CENTER" textFill="#fffdfd">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
+                  <Label layoutX="103.0" layoutY="78.0" text="Sou?">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </center>

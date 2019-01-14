@@ -1,9 +1,10 @@
 package br.com.palves.pbd.controller;
-//Falta o metodo editar!Colocar o id Nas buscas tbm!
+//Colocar o id Nas buscas tbm!
 import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -40,10 +41,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -170,11 +174,11 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			if(this.filtroField.getText().replace(" ","").length()<=0) {
 				List l =null;
 				if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("NORMAL"))
-					 l = CategoriaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				else if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("PASSAGEIRO"))
-					 l = CategoriaPassageiroDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaPassageiroDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				else if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("CARGA"))
-					 l = CategoriaCargaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaCargaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
 				else
@@ -182,11 +186,11 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			}else {
 				List l = null;
 				if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("NORMAL"))
-					 l = CategoriaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				else if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("PASSAGEIRO"))
-					 l = CategoriaPassageiroDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaPassageiroDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				else if(this.categoriaBuscaBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("CARGA"))
-					 l = CategoriaCargaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
+					l = CategoriaCargaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%");
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
 				else
@@ -208,29 +212,76 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			cnb = true;
 		try {
 			this.validacoesDeNull();
-			
 			if(cpb) {
 				CategoriaPassageiroDao cPdao = CategoriaPassageiroDao.getInstance();
 				CategoriaPassageiro cp = (CategoriaPassageiro) this.tableCategoria.getSelectionModel().getSelectedItem();
-				this.preencherCampos(cp);
-				cPdao.persistOrMerge(cp);
-				Alerta.mostrarAlertaInformacao("Categoria CP Editada com Sucesso!");
+				if(event.getSource()==this.salvarButton) {
+					this.preencherCampos(cp);
+					cPdao.persistOrMerge(cp);
+					Alerta.mostrarAlertaInformacao("Categoria CP Editada com Sucesso!");
+				}else {
+					Alert alert = new Alert(AlertType.WARNING,"", ButtonType.YES, ButtonType.NO);  //new alert object
+					//alert.setTitle("Warning!");  //warning box title
+					alert.setHeaderText("WARNING!!!");// Header
+					alert.setContentText("Deseja Realmente Inativar esta Categoria???"); //Discription of warning
+					alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
+					Optional<ButtonType> result = alert.showAndWait();
+					if(result.get() == ButtonType.YES) {
+						this.preencherCampos(cp);
+						cp.setSituacao(StatusEnum.DESATIVADO.getValor());
+						cPdao.persistOrMerge(cp);
+						Alerta.mostrarAlertaInformacao("Categoria CP Inativada com Sucesso!");
+					}
+					return;
+				}
 				this.limparCampos();
 			}
 			else if(cgb) {
 				CategoriaCargaDao cGDao =  CategoriaCargaDao.getInstance();
 				CategoriaCarga cp = (CategoriaCarga) this.tableCategoria.getSelectionModel().getSelectedItem();
-				this.preencherCampos(cp);
-				cGDao.persistOrMerge(cp);
-				Alerta.mostrarAlertaInformacao("Categoria CG Editada com Sucesso!");
+				if(event.getSource()==this.salvarButton) {
+					this.preencherCampos(cp);
+					cGDao.persistOrMerge(cp);
+					Alerta.mostrarAlertaInformacao("Categoria CG Editada com Sucesso!");
+				}else {
+					Alert alert = new Alert(AlertType.WARNING,"", ButtonType.YES, ButtonType.NO);  //new alert object
+					//alert.setTitle("Warning!");  //warning box title
+					alert.setHeaderText("WARNING!!!");// Header
+					alert.setContentText("Deseja Realmente Inativar esta Categoria???"); //Discription of warning
+					alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
+					Optional<ButtonType> result = alert.showAndWait();
+					if(result.get() == ButtonType.YES) {
+						this.preencherCampos(cp);
+						cp.setSituacao(StatusEnum.DESATIVADO.getValor());
+						cGDao.persistOrMerge(cp);
+						Alerta.mostrarAlertaInformacao("Categoria CG Inativada com Sucesso!");
+					}
+					return;
+				}
 				this.limparCampos();
 			}
 			else {
 				CategoriaDao cnDao = CategoriaDao.getInstance();
 				Categoria cp = this.tableCategoria.getSelectionModel().getSelectedItem();
-				this.preencherCampos(cp);
-				cnDao.persistOrMerge(cp);
-				Alerta.mostrarAlertaInformacao("Categoria CN Editada com Sucesso!");
+				if(event.getSource()==this.salvarButton) {
+					this.preencherCampos(cp);
+					cnDao.persistOrMerge(cp);
+					Alerta.mostrarAlertaInformacao("Categoria CN Editada com Sucesso!");
+				}else {
+					Alert alert = new Alert(AlertType.WARNING,"", ButtonType.YES, ButtonType.NO);  //new alert object
+					//alert.setTitle("Warning!");  //warning box title
+					alert.setHeaderText("WARNING!!!");// Header
+					alert.setContentText("Deseja Realmente Inativar esta Categoria???"); //Discription of warning
+					alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
+					Optional<ButtonType> result = alert.showAndWait();
+					if(result.get() == ButtonType.YES) {
+						this.preencherCampos(cp);
+						cp.setSituacao(StatusEnum.DESATIVADO.getValor());
+						cnDao.persistOrMerge(cp);
+						Alerta.mostrarAlertaInformacao("Categoria CN Inativada com Sucesso!");
+					}
+					return;
+				}
 				this.limparCampos();
 			}
 		} 
@@ -244,7 +295,6 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			e4.printStackTrace();
 		}
 	}
-
 	@FXML
 	void eventoKPCategoria(KeyEvent event) {
 		if(this.tableCategoria.getItems().size()>0) {
@@ -279,8 +329,8 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			this.desabilita(cpPane);
 			this.gridPane.getChildren().remove(this.cgPane);
 			this.gridPane.getChildren().remove(this.cpPane);
-//			this.gridPane.add(this.cgPane, 1, 0);
-//			this.gridPane.add(this.cpPane, 2, 0);
+			//			this.gridPane.add(this.cgPane, 1, 0);
+			//			this.gridPane.add(this.cpPane, 2, 0);
 			this.animationGeral(cpPane, 2, 0);
 			this.animationGeral(cgPane, 1, 0);
 		}
@@ -289,13 +339,12 @@ public class ControllerFXBuscarCategoria implements Initializable{
 			this.habilita(this.cpPane);
 			this.gridPane.getChildren().remove(this.cgPane);
 			this.gridPane.getChildren().remove(this.cpPane);
-//			this.gridPane.add(this.cpPane, 1, 0);
-//			this.gridPane.add(this.cgPane, 2, 0);
+			//			this.gridPane.add(this.cpPane, 1, 0);
+			//			this.gridPane.add(this.cgPane, 2, 0);
 			this.animationGeral(cgPane, 2, 0);
 			this.animationGeral(cpPane, 1, 0);
 		}
 		this.tipoCategoriaBox.getSelectionModel().select(this.categoriaBuscaBox.getSelectionModel().getSelectedItem());
-		System.out.println("Entrie");
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

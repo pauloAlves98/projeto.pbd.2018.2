@@ -14,7 +14,9 @@ import br.com.palves.pbd.app.App;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -56,6 +58,9 @@ public class LimparCampo {
 			else if(c instanceof CheckBox) {
 				(( CheckBox) c).setSelected(false);
 			}
+			else if(c instanceof TextArea) {
+				(( TextArea) c).setText("");
+			}
 		}
 		return;
 	}
@@ -68,7 +73,10 @@ public class LimparCampo {
 				((PasswordField) c).setText("");
 			}
 			else if(c instanceof  Pane) {
-				limparCamposFX(((Pane) c).getChildren());
+				limparCamposFXTOTAL(((Pane) c).getChildren());
+			}
+			else if(c instanceof  ScrollPane) {
+				limparCamposFXTOTAL(((ScrollPane) c).getChildrenUnmodifiable());
 			}
 			else if(c instanceof JFXDatePicker) {
 				((JFXDatePicker) c).setValue(null);;
@@ -76,11 +84,11 @@ public class LimparCampo {
 			else if(c instanceof TableView) {
 				((TableView) c).setItems(null);
 			}
-			else if(c instanceof TableView) {
-				((TableView) c).setItems(null);
-			}
 			else if(c instanceof CheckBox) {
 				(( CheckBox) c).setSelected(false);
+			}
+			else if(c instanceof TextArea) {
+				(( TextArea) c).setText("");
 			}
 		}
 		return;

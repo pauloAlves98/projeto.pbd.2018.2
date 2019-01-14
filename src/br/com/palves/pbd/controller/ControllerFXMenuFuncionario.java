@@ -3,6 +3,8 @@ package br.com.palves.pbd.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXNodesList;
+
 import br.com.palves.pbd.app.App;
 import br.com.palves.pbd.model.complemento.Corrente;
 import br.com.palves.pbd.model.complemento.LimparCampo;
@@ -23,6 +25,9 @@ public class ControllerFXMenuFuncionario implements Initializable{
 	@FXML
 	private Label nomeUserLabel;
 	private static Label nomeL;
+	static JFXNodesList nodeL;
+    @FXML
+    private JFXNodesList nodeList;
 	@FXML
 	private MenuItem cadastrarCategoriaItem;
 
@@ -70,10 +75,9 @@ public class ControllerFXMenuFuncionario implements Initializable{
 
 	@FXML
 	private MenuItem alterarDadosItem;
-
+	
 	@FXML
 	private MenuItem alterarSenhaItem;
-
 	@FXML
 	private MenuItem logoutItem;
 	@FXML
@@ -82,7 +86,8 @@ public class ControllerFXMenuFuncionario implements Initializable{
 	private MenuItem buscarPJItem;
 	@FXML
 	private BorderPane painelCentral;
-
+	@FXML
+	private MenuItem realizarLocacaoSReservaItem;
 	@FXML
 	void eventoItens(ActionEvent event) {
 		if(event.getSource()==this.cadastroFuncionarioItem) {
@@ -148,6 +153,21 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			LimparCampo.limparCamposFXTOTAL(App.getBuscarCategoriaPane().getChildren());
 		}
+		else if(event.getSource()==this.cadastrarVeiculoItem) {
+			this.animationGeral(App.getCadastroVeiculoPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getCadastroVeiculoPane().getChildren());
+		}
+		else if(event.getSource()==this.buscarVeiculoItem) {
+			this.animationGeral(App.getBuscarVeiculoPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getBuscarVeiculoPane().getChildren());
+		}
+		else if(event.getSource()==this.realizarLocacaoItem) {//Com reserva
+			this.animationGeral(App.getCadastroLocacaoCReservaPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getCadastroLocacaoCReservaPane().getChildren());
+		}
 		else if(event.getSource()==this.logoutItem) {
 			LimparCampo.limparLogout();
 			App.stage.setScene(App.cenaLogin);
@@ -158,6 +178,8 @@ public class ControllerFXMenuFuncionario implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		nomeL = nomeUserLabel;
+		nodeL = nodeList;
+		
 	}
 //Transições<>
 	private void animationGeral(Pane pane) {

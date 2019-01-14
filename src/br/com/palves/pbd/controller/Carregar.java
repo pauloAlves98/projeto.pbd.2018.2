@@ -1,5 +1,6 @@
 package br.com.palves.pbd.controller;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,7 +19,8 @@ public class Carregar implements Initializable {
 	cadastroReservaLoader,
 	cadastroFuncionarioLoader,buscarFuncionarioLoader,
 	buscarFilialLoader,
-	editarFuncionarioLoader;
+	editarFuncionarioLoader,cadastroLocacaoCReservaLoader;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		App.stage.setOnCloseRequest(WindowEvent -> System.exit(0));
@@ -78,16 +80,22 @@ public class Carregar implements Initializable {
 							System.out.println("Cadastro Categoria");
 							App.setBuscarCategoriaPane(FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/BuscarCategoria.fxml")));
 							System.out.println("Buscar Categoria");
+							App.setCadastroVeiculoPane(FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/CadastroVeiculo.fxml")));
+							System.out.println("Cadastro Veiculo");
+							App.setBuscarVeiculoPane(FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/BuscarVeiculo.fxml")));
+							System.out.println("Buscar Veiculo");
+							cadastroLocacaoCReservaLoader =  new FXMLLoader(getClass().getClassLoader().getResource("br/com/palves/pbd/view/CadastroLocacaoCReserva.fxml"));
+							App.setCadastroLocacaoCReservaPane(cadastroLocacaoCReservaLoader.load());
+							System.out.println("Cadastro Locacao Com Reserva");
 							//Scene
-							App.cenaLogin = new Scene(App.getLoginPane(),1000,600);
-							App.cenaCadastro = new Scene(App.getMenuCadastros(),1000,700);
+							App.cenaLogin = new Scene(App.getLoginPane(),Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+							App.cenaCadastro = new Scene(App.getMenuCadastros(),Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 							//App.cenaCadastroPJ = new Scene(App.getCadastroClienteJuridicoPane(),1000,700);
-							App.cenaMenuCliente =  new Scene(App.getMenuClientePane(),1000,700);
-							App.cenaMenuFuncionario = new Scene(App.getMenuFuncionarioPane(),1000,700);
+							App.cenaMenuCliente =  new Scene(App.getMenuClientePane(),Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+							App.cenaMenuFuncionario = new Scene(App.getMenuFuncionarioPane(),Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 							DaoGenerico.getInstance().primeiroAcesso();
 							//App.sceneMenu = new Scene(App.menu);
 						} catch (IOException e) {
-							
 							e.printStackTrace();
 						}catch (Exception i) {
 							Alerta a = Alerta.getInstance();
@@ -132,5 +140,9 @@ public class Carregar implements Initializable {
 	public static FXMLLoader getEditarFuncionarioLoader() {
 		return editarFuncionarioLoader;
 	}
+	public static FXMLLoader getCadastroLocacaoCReservaLoader() {
+		return cadastroLocacaoCReservaLoader;
+	}
+	
 	
 }

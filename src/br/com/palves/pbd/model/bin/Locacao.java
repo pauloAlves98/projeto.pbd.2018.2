@@ -27,8 +27,11 @@ public class Locacao implements Generico{
 	@Column(nullable=false, name= "data_retirada")
 	private Date dataRetirada;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name= "data_entrega") //Adicionar atributo data real da entrega
+	@Column(name= "data_entrega") //DATA PREVISTA PARA ENTREGA
 	private Date dataEntrega;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name= "data_real_entrega")
+	private Date dataRealEntrega;
 	@Column(name="km_livre")
 	private boolean kmLivre;
 	@Column(name="km_atual")
@@ -40,7 +43,9 @@ public class Locacao implements Generico{
 	@Column(name="taxa_higiene")
 	private double taxaHigiene;
 	@Column(name="taxa_devolucao")
-	private double taxaDevolucao;
+	private double taxaDevolucao;//Taxa combustivel
+//	@Column(name="taxa_combustivel")
+//	private double taxaCombustivel;//Taxa combustivel Combustivel
 	@Column(name="preco_final")
 	private double precoFinal;
 	private String situacao;
@@ -169,11 +174,25 @@ public class Locacao implements Generico{
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	public Date getDataRealEntrega() {
+		return dataRealEntrega;
+	}
+	public void setDataRealEntrega(Date dataRealEntrega) {
+		this.dataRealEntrega = dataRealEntrega;
+	}
+	
+//	public double getTaxaCombustivel() {
+//		return taxaCombustivel;
+//	}
+//	public void setTaxaCombustivel(double taxaCombustivel) {
+//		this.taxaCombustivel = taxaCombustivel;
+//	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataEntrega == null) ? 0 : dataEntrega.hashCode());
+		result = prime * result + ((dataRealEntrega == null) ? 0 : dataRealEntrega.hashCode());
 		result = prime * result + ((dataRetirada == null) ? 0 : dataRetirada.hashCode());
 		result = prime * result + ((filialEntrega == null) ? 0 : filialEntrega.hashCode());
 		result = prime * result + ((filialLocaataria == null) ? 0 : filialLocaataria.hashCode());
@@ -210,6 +229,11 @@ public class Locacao implements Generico{
 			if (other.dataEntrega != null)
 				return false;
 		} else if (!dataEntrega.equals(other.dataEntrega))
+			return false;
+		if (dataRealEntrega == null) {
+			if (other.dataRealEntrega != null)
+				return false;
+		} else if (!dataRealEntrega.equals(other.dataRealEntrega))
 			return false;
 		if (dataRetirada == null) {
 			if (other.dataRetirada != null)
@@ -274,14 +298,13 @@ public class Locacao implements Generico{
 	}
 	@Override
 	public String toString() {
-		return "Locacao [id=" + id + ", dataRetirada=" + dataRetirada + ", dataEntrega=" + dataEntrega + ", kmLivre="
-				+ kmLivre + ", kmAtual=" + kmAtual + ", kmRetorno=" + kmRetorno + ", valorDiaria=" + valorDiaria
-				+ ", taxaHigiene=" + taxaHigiene + ", taxaDevolucao=" + taxaDevolucao + ", precoFinal=" + precoFinal
-				+ ", situacao=" + situacao + ", veiculo=" + veiculo + ", filialLocaataria=" + filialLocaataria
-				+ ", filialEntrega=" + filialEntrega + ", pessoa=" + pessoa + ", motorista=" + motorista
-				+ ", funcionario=" + funcionario + "]";
+		return "Locacao [id=" + id + ", dataRetirada=" + dataRetirada + ", dataEntrega=" + dataEntrega
+				+ ", dataRealEntrega=" + dataRealEntrega + ", kmLivre=" + kmLivre + ", kmAtual=" + kmAtual
+				+ ", kmRetorno=" + kmRetorno + ", valorDiaria=" + valorDiaria + ", taxaHigiene=" + taxaHigiene
+				+ ", taxaDevolucao=" + taxaDevolucao + ", precoFinal=" + precoFinal + ", situacao=" + situacao
+				+ ", veiculo=" + veiculo + ", filialLocaataria=" + filialLocaataria + ", filialEntrega=" + filialEntrega
+				+ ", pessoa=" + pessoa + ", motorista=" + motorista + ", funcionario=" + funcionario + "]";
 	}
-	
-	
+
 	
 }

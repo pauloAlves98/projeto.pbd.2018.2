@@ -35,7 +35,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Label alignment="CENTER" layoutY="61.0" prefHeight="25.0" prefWidth="301.0" text="Filtro">
+            <Label alignment="CENTER" layoutY="61.0" prefHeight="25.0" prefWidth="224.0" text="Filtro">
                <font>
                   <Font name="Comic Sans MS Bold" size="18.0" />
                </font>

@@ -93,6 +93,7 @@ public class ControllerLogin implements Initializable {
 						a.setMensagem("Funcionario:"+Corrente.funcionario.getNome() +" ID:"+	Corrente.funcionario.getId() +" Email:"+Corrente.funcionario.getLogin()+" Logado Com Sucesso!");
 						a.show();
 						this.mudarCenaFunc();
+						ControllerFXMenuFuncionario.nodeL.animateList(true);
 					}
 				}
 			}else{//Então procura em usuario!

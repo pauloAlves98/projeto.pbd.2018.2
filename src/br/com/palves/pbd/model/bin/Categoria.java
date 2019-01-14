@@ -17,7 +17,7 @@ import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 		{
 			@NamedQuery(name="Categoria.listartodos",query="SELECT c FROM Categoria c WHERE c.discriminador = :var"),
 			@NamedQuery(name="Categoria.listarPorParametro",query="SELECT c FROM Categoria c WHERE c.situacao = \'ATIVO\' and (LOWER(c.discriminador) LIKE :var"
-					+ " or LOWER(c.nome) LIKE :var or  LOWER(c.tipoCambio) LIKE :var)"),
+					+ " or LOWER(c.nome) LIKE :var or LOWER(c.tipoCambio) LIKE :var or CAST(c.id AS text) LIKE :var)"),
 			@NamedQuery(name="Categoria.listarPorFiltro",query="SELECT c FROM Categoria c WHERE LOWER(c.discriminador) = \'cn\' and (LOWER(c.situacao) LIKE :var1 or LOWER(c.nome) LIKE :var1 "
 					+ "or LOWER(c.horaLimpeza) LIKE :var1 or LOWER(c.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
 			//@NamedQuery(name="",query="")

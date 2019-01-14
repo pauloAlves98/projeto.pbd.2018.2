@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 /**
  * @author: P Alves
  * */
-
+//– os veículos presentemente alugados pela filial, o ponto de entrega
+//(caso seja diferente do local de locação) e data de entrega
+//prevista.
 //Atenção
 /**
  * O Codigo contem Gatilhos e procedures , caso seja o primeiro acesso estes terão que ser criados para bom
@@ -30,7 +32,8 @@ public class App extends Application{
 	private static Pane loginPane,cadastroClienteFisicoPane, cadastroClienteJuridicoPane,editarClienteFisicoPane,
 	editarClienteJuridicoPane,menuClientePane,alterarSenhaPane,cadastroReservaPane,buscarReservaPane,
 	menuFuncionarioPane,cadastroFuncionarioPane,buscarFuncionarioPane,cadastroFilialPane,buscarFilialPane,menuCadastros,
-	buscarPFPane,buscarPJPane,editarFuncionarioPane,cadastroCategoriaPane,buscarCategoriaPane;
+	buscarPFPane,buscarPJPane,editarFuncionarioPane,cadastroCategoriaPane,buscarCategoriaPane,cadastroVeiculoPane,
+	buscarVeiculoPane,cadastroLocacaoCReservaPane;
 
 	public static Scene cenaLogin,cenaCadastro,cenaMenuCliente,cenaMenuFuncionario;
 	@SuppressWarnings("static-access")
@@ -251,6 +254,27 @@ public class App extends Application{
 	public static void setBuscarCategoriaPane(Pane buscarCategoriaPane) {
 		App.buscarCategoriaPane = buscarCategoriaPane;
 	}
+	
+	public static Pane getCadastroVeiculoPane() {
+		return cadastroVeiculoPane;
+	}
+	public static void setCadastroVeiculoPane(Pane cadastroVeiculoPane) {
+		App.cadastroVeiculoPane = cadastroVeiculoPane;
+	}
+	
+	public static Pane getBuscarVeiculoPane() {
+		return buscarVeiculoPane;
+	}
+	public static void setBuscarVeiculoPane(Pane buscarVeiculoPane) {
+		App.buscarVeiculoPane = buscarVeiculoPane;
+	}
+	
+	public static Pane getCadastroLocacaoCReservaPane() {
+		return cadastroLocacaoCReservaPane;
+	}
+	public static void setCadastroLocacaoCReservaPane(Pane cadastroLocacaoCReservaPane) {
+		App.cadastroLocacaoCReservaPane = cadastroLocacaoCReservaPane;
+	}
 	public static void addTelas() {
 		listaDeTelas.add(loginPane);
 		listaDeTelas.add(cadastroClienteFisicoPane);
@@ -269,6 +293,9 @@ public class App extends Application{
 		listaDeTelas.add(editarFuncionarioPane);
 		listaDeTelas.add(cadastroCategoriaPane);
 		listaDeTelas.add(buscarCategoriaPane);
+		listaDeTelas.add(cadastroVeiculoPane);
+		listaDeTelas.add(buscarVeiculoPane);
+		listaDeTelas.add(cadastroLocacaoCReservaPane);
 	}
 	
 }

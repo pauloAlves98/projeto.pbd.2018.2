@@ -162,9 +162,12 @@ public class ControllerFXBuscarReserva implements Initializable{
 	void buscarFilial(ActionEvent event) {
 		try {
 			if(this.filialRetiradaField.getText().replace(" ","").length()<=0) {
-				this.atualizarTabelaFilial(FilialDao.getInstance().findAll(Filial.class));
+				List<Filial> l = FilialDao.getInstance().buscarPorParametro("%"+this.filialRetiradaField.getText().toLowerCase()+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaFilial(l);
 			}else {
-
 				List<Filial> l = FilialDao.getInstance().buscarPorParametro("%"+this.filialRetiradaField.getText().toLowerCase()+"%");
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -472,7 +475,6 @@ public class ControllerFXBuscarReserva implements Initializable{
 		ConfiguracaoDao c =  ConfiguracaoDao.getInstance();
 		Configuracao cf;
 		try {
-
 			cf = c.buscarUltimo();
 			if(cf==null) {
 				this.kmControllerField.setText("0");

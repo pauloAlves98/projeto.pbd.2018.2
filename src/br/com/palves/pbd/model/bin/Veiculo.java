@@ -10,11 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
+@NamedQueries(
+		{
+			@NamedQuery(name="Veiculo.listarPorFiltro",query="SELECT c FROM Veiculo c WHERE (LOWER(c.status) LIKE :var1 or LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
+			+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or "
+			+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
+			//@NamedQuery(name="",query="")
+		})
 @Entity
 public class Veiculo implements Generico{
 	//Faltou a placa
@@ -22,7 +30,7 @@ public class Veiculo implements Generico{
 	@SequenceGenerator(name="seq_veiculo",sequenceName="seq_veiculo_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_veiculo",strategy=GenerationType.SEQUENCE)
 	private Integer id;
-	@Column(name="numero_chassi",unique=true)
+	@Column(name="numero_chassi",unique=true,length=17)
 	private String numeroChassi;
 	@Column(length=100)
 	private String nome;

@@ -22,9 +22,9 @@ import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 @NamedQueries(
 		{
 			@NamedQuery(name="Filial.listarPorParametro",query="SELECT c FROM Filial c  WHERE c.situacao = \'ATIVO\' and "
-					+ "LOWER(c.nome) LIKE :var"),
+					+ "LOWER(c.nome) LIKE :var or CAST(c.id AS text) LIKE :var"),
 			@NamedQuery(name="Filial.listarPorFiltro",query="SELECT c FROM Filial c  WHERE LOWER(c.situacao) = :var or "
-					+ "LOWER(c.nome) LIKE :var or LOWER(c.endereco.cidade) LIKE :var")
+					+ "LOWER(c.nome) LIKE :var or LOWER(c.endereco.cidade) LIKE :var or CAST(c.id AS text) LIKE :var")
 			//@NamedQuery(name="",query="")
 		})
 @Entity
