@@ -11,6 +11,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.toedter.calendar.JDateChooser;
 
 import br.com.palves.pbd.app.App;
+import br.com.palves.pbd.controller.Carregar;
+import br.com.palves.pbd.controller.ControllerFXCadastroLocacaoCReserva;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
@@ -25,6 +27,9 @@ public class LimparCampo {
 	 * @author P Alves 
 	 * */
 	public static void limparCamposDialog(Component [] components) {
+		Carregar.detalhes = false;
+		ControllerFXCadastroLocacaoCReserva.setPermissaoGerente(false);
+		
 		for (Component c: components) {
 			if(c instanceof JTextField) {
 				((JTextField) c).setText("");
@@ -42,6 +47,8 @@ public class LimparCampo {
 		return;
 	}
 	public static void limparCamposFX(List<Node> components) {
+		Carregar.detalhes = false;
+		ControllerFXCadastroLocacaoCReserva.setPermissaoGerente(false);
 		for (Node c: components) {
 			if(c instanceof javafx.scene.control.TextField) {
 				((TextField) c).setText("");
@@ -65,6 +72,8 @@ public class LimparCampo {
 		return;
 	}
 	public static void limparCamposFXTOTAL(List<Node> components) {
+		Carregar.detalhes = false;
+		ControllerFXCadastroLocacaoCReserva.setPermissaoGerente(false);
 		for (Node c: components) {
 			if(c instanceof javafx.scene.control.TextField) {
 				((TextField) c).setText("");

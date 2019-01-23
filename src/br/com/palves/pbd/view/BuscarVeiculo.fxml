@@ -292,6 +292,12 @@
                                     <Font name="Comic Sans MS Bold" size="15.0" />
                                  </font>
                               </Label>
+                              <TextField fx:id="placaField" alignment="CENTER" layoutX="538.0" layoutY="581.0" prefHeight="33.0" prefWidth="111.0" style="-fx-background-radius: 90;" text=" " />
+                              <Label layoutX="548.0" layoutY="556.0" prefHeight="25.0" prefWidth="91.0" text="Placa">
+                                 <font>
+                                    <Font name="Comic Sans MS Bold" size="15.0" />
+                                 </font>
+                              </Label>
              
                                                                            </children>
                   </AnchorPane>

@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.model.bin.PessoaJuridica;
+import br.com.palves.pbd.sql.SQLUtil;
 
 
 public class PessoaJuridicaDao extends DaoGenerico<PessoaJuridica> implements IPessoaJuridicaDao{
@@ -63,5 +64,28 @@ public class PessoaJuridicaDao extends DaoGenerico<PessoaJuridica> implements IP
 			em.close();
 		}
 		return var1;
+	}
+	@Override
+	public Object procedureValidaPorCNPJ(String cnpj) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		Object var = null;
+		String op = "Procedure validaCNPJ";
+		try {
+			Query query = em.createNativeQuery(SQLUtil.PessoaJurica.NATIVEQUERYPROCEDURE_VALIDA_POR_CNPJ);
+			query.setParameter("icnpj",""+cnpj+"");
+			var = (Object)query.getSingleResult();//Precisa que algo seja retornado; vetor para mais de um parametro.
+		}
+		catch(NoResultException nre) {
+			nre.printStackTrace();
+			return false;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+			//throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
 	}
 }

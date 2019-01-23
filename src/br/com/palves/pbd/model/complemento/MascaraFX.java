@@ -28,7 +28,6 @@ public abstract class MascaraFX {
 
 	public static void ignoreKeys(TextField textField) {
 		textField.addEventFilter(KeyEvent.KEY_PRESSED, (EventHandler) new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (ignoreKeyCodes.contains(keyEvent.getCode())) {
@@ -86,10 +85,10 @@ public abstract class MascaraFX {
 	}
 	public static void letrasField(final TextField textField) {
 		textField.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent evt) {
-            	String caracteres="ABCDEFGHIJKLMNOPQRSTUVXYZ";
-            	String caracteres2 = caracteres.toLowerCase();
+			@Override
+			public void handle(KeyEvent evt) {
+				String caracteres="ABCDEFGHIJKLMNOPQRSTUVXYZ";
+				String caracteres2 = caracteres.toLowerCase();
 				if(caracteres.contains(evt.getCharacter()+"") || (caracteres2.contains(evt.getCharacter()+""))){
 					String d = evt.getCharacter().toUpperCase();
 					int p = textField.getCaretPosition();
@@ -98,8 +97,8 @@ public abstract class MascaraFX {
 					textField.positionCaret(p+1);
 				}else 
 					evt.consume();  
-            }
-        });
+			}
+		});
 	}
 
 	public static void monetaryField(final TextField textField) {
@@ -180,7 +179,6 @@ public abstract class MascaraFX {
 		}
 				);
 	}
-
 	public static void foneField(TextField textField) {
 		MascaraFX.maxField(textField, 14);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
@@ -269,6 +267,83 @@ public abstract class MascaraFX {
 	}
 	static {
 		Collections.addAll(ignoreKeyCodes, new KeyCode[]{KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12});
+	}
+
+	public static void placa(final TextField textField) {
+		maxField(textField,7); //Tamanho Maximo
+		String caracteres="ABCDEFGHIJKLMNOPQRSTUVXYZ";
+		String caracteres2 = caracteres.toLowerCase();
+		String num = "1234567890";
+		textField.setOnKeyTyped(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent evt) {
+				if(textField.getText().replace(" ","").length()<3) {
+					if(caracteres.contains(evt.getCharacter()+"") || (caracteres2.contains(evt.getCharacter()+""))){
+						String d = evt.getCharacter().toUpperCase();
+						int p = textField.getCaretPosition();
+						evt.consume();
+						textField.setText(textField.getText().replace(" ","")+d);
+						textField.positionCaret(p+1);
+					}else 
+						evt.consume();  
+				}else if(textField.getText().replace(" ","").length()>=3) {
+					if(num.contains(evt.getCharacter()+"")){
+						String d = evt.getCharacter().toUpperCase();
+						int p = textField.getCaretPosition();
+						evt.consume();
+						textField.setText(textField.getText().replace(" ", "")+d);
+						textField.positionCaret(p+1);
+					}else 
+						evt.consume();  
+				}
+			}
+		});
+	}
+	public static void plac(TextField textField) {
+		maxField(textField,7);
+		textField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> ov, String antigo, String novo) {
+				if (!letrasDaPlacaValida(novo, antigo, textField) || !numerosDaPlacaValida(novo, antigo, textField)) {
+					desfazAlteracao(antigo, textField);
+				}
+			}
+		});
+
+	}
+	private static boolean letrasDaPlacaValida(String novo, String antigo, TextField textField) {
+		for (int i = 0; i < novo.length() && i<3; i++) {
+			try {
+				System.out.println("N:"+i);
+				Integer.parseInt(novo.substring(i, i + 1));
+				return false;
+			}catch (NumberFormatException e) {	
+
+			}
+		}
+		return true;
+	}
+
+	private static boolean numerosDaPlacaValida(String novo, String antigo, TextField textField) {
+		if (novo.length() >= 4 && novo.length() <= 7) {
+			try {
+				Integer.parseInt(novo.substring(3));
+				return true;
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		} else if (novo.length() < 4) {
+			return true;
+		}
+		return false;
+	}
+
+	private static void desfazAlteracao(String antigo, TextField textField) {
+		if (antigo != null && !antigo.isEmpty()) {
+			textField.setText(antigo);
+		} else {
+			textField.clear();
+		}
 	}
 
 }

@@ -41,7 +41,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 public class ControllerFXBuscarFilial implements Initializable{
-
+	public static boolean detalhes = false;
 	@FXML
 	private BorderPane buscarFilialPanel;
 
@@ -96,6 +96,11 @@ public class ControllerFXBuscarFilial implements Initializable{
 	private JFXTimePicker horaFim;
 	@FXML
 	void buscarFilial(ActionEvent event) {
+		if(Carregar.detalhes)
+		{
+			Alerta.mostrarAlertaErro("Não é possivel realizar esta operação no momento!!!");
+			return;
+		}
 		try {
 			if(this.filtroField.getText().replace(" ","").length()<=0) {
 				List<Filial> l = FilialDao.getInstance().buscarPorFiltro("%"+""+"%");
@@ -117,6 +122,8 @@ public class ControllerFXBuscarFilial implements Initializable{
 	}
 	@FXML
 	void editar(ActionEvent event) {
+		if(Carregar.detalhes)
+			return;
 		FilialDao daoPF = FilialDao.getInstance();
 		String msg = "Filial Editada com Sucesso!";
 		try {
@@ -257,7 +264,7 @@ public class ControllerFXBuscarFilial implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	private void atualizarTabelaFilial(List<Filial>flist) {
+	public void atualizarTabelaFilial(List<Filial>flist) {
 		ObservableList<Filial>list = this.listaDeFiliais(flist);
 		tableFilial.setItems(list);
 		tableFilial.getSelectionModel().select(list.get(0));
@@ -276,6 +283,7 @@ public class ControllerFXBuscarFilial implements Initializable{
 	private void limparCampos() {
 		LimparCampo.limparCamposFX(buscarFilialPanel.getChildren());
 		this.tableFilial.setItems(null);
+		detalhes = false;
 		//
 	}
 	public void limparTudo() {

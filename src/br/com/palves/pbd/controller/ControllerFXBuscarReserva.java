@@ -46,6 +46,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 public class ControllerFXBuscarReserva implements Initializable{
+	protected static boolean mostraDetalhes = false;
 	@FXML
 	private BorderPane borderGeral;
 
@@ -146,7 +147,6 @@ public class ControllerFXBuscarReserva implements Initializable{
 				else
 					this.atualizarTabelaCategoria(l);
 			}else {
-
 				List<Categoria> l = CategoriaDao.getInstance().buscarPorParametro("%"+this.buscaCategoriaField.getText().toLowerCase()+"%");
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
@@ -183,6 +183,8 @@ public class ControllerFXBuscarReserva implements Initializable{
 	@FXML
 	void cancelarReserva(ActionEvent event) {
 		ReservaDao daoPJ = ReservaDao.getInstance();
+		if(Corrente.usuarioFisico == null && Corrente.usuarioJuridico == null)
+			return;
 		//		System.out.println(this.tableFiilial.getSelectionModel().getSelectedItem().getId());
 		//		System.out.println(this.tableFiilial.getItems().size());
 		//		System.out.println(this.tableCategoria.getItems().size());
@@ -201,11 +203,11 @@ public class ControllerFXBuscarReserva implements Initializable{
 				//Reserva pessoaJ = new Reserva();
 				//this.preencherCampos(pessoaJ);
 				Alert alert = new Alert(AlertType.WARNING,"", ButtonType.YES, ButtonType.NO);  //new alert object
-			    //alert.setTitle("Warning!");  //warning box title
-			    alert.setHeaderText("WARNING!!!");// Header
-			    alert.setContentText("Deseja Realmente Cancelar a reserva???"); //Discription of warning
-			    alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
-			    Optional<ButtonType> result = alert.showAndWait();
+				//alert.setTitle("Warning!");  //warning box title
+				alert.setHeaderText("WARNING!!!");// Header
+				alert.setContentText("Deseja Realmente Cancelar a reserva???"); //Discription of warning
+				alert.getDialogPane().setPrefSize(500, 100); //sets size of alert box 
+				Optional<ButtonType> result = alert.showAndWait();
 				if(result.get() == ButtonType.YES) {
 					Reserva r = tableReserva.getSelectionModel().getSelectedItem();
 					r.setSituacao(StatusEnum.CANCELADA.getValor());
@@ -291,77 +293,81 @@ public class ControllerFXBuscarReserva implements Initializable{
 	}
 	@FXML
 	void buscarPorFiltro(ActionEvent event) {
-		int id = Corrente.usuarioFisico!=null?Corrente.usuarioFisico.getId():Corrente.usuarioJuridico.getId();
 		try {
-			if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
-				String txt = "%"+filtroField.getText().toLowerCase()+"%";
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
-						TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
-				String txt = "%"+"a"+"%";
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
-						TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null) {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
-						TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
-						);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataFinalPesquisa.getValue()==null) {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
-						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
-						);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataFinalPesquisa.getValue()==null) {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
-						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
-						);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null) {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
-						TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
-						);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
-			}
-			else {
-				List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
-						TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
-								TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
-						);	
-				if(l==null)
-					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaReserva(l);
+			if(Corrente.usuarioFisico!=null || Corrente.usuarioJuridico!=null) {
+				int id = Corrente.usuarioFisico!=null?Corrente.usuarioFisico.getId():Corrente.usuarioJuridico.getId();
+				if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
+					String txt = "%"+filtroField.getText().toLowerCase()+"%";
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
+							TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null && this.dataFinalPesquisa.getValue()==null) {
+					String txt = "%"+"a"+"%";
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro(txt,
+							TratadorDeMascara.coletorDeData("10/12/1998"),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.coletorDeData("10/12/3000"),"23:59"),id);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataInicialPesquisa.getValue()==null) {
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
+							TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
+							);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else if(this.filtroField.getText().replace(" ","").length()<=0 && this.dataFinalPesquisa.getValue()==null) {
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+"a"+"%",
+							TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
+							);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataFinalPesquisa.getValue()==null) {
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
+							TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),"23:59"),id
+							);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else if(this.filtroField.getText().replace(" ","").length()>0 && this.dataInicialPesquisa.getValue()==null) {
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
+							TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
+							);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+				else {
+					List<Reserva> l = ReservaDao.getInstance().buscarPorFiltro("%"+this.filtroField.getText().toLowerCase()+"%",
+							TratadorDeMascara.localDatetoDate(this.dataInicialPesquisa.getValue()),TratadorDeMascara.unirDataHora(
+									TratadorDeMascara.localDatetoDate(this.dataFinalPesquisa.getValue()),"23:59"),id
+							);	
+					if(l==null)
+						Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+					else
+						this.atualizarTabelaReserva(l);
+				}
+			}else {
+				Alerta.mostrarAlertaErro("Não é permitido realizar esta operação no momento!!!");
 			}
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
@@ -456,7 +462,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 		tableCategoria.getSelectionModel().select(list.get(0));//Se chegou até aqui é pq encontrou resultados!
 		this.preencherAreaCategoria(list.get(0));
 	}
-	private void atualizarTabelaReserva(List<Reserva>list) {
+	void atualizarTabelaReserva(List<Reserva>list) {
 		if(list==null)
 			return;
 		ObservableList<Reserva>lists = FXCollections.observableArrayList(list);
@@ -492,7 +498,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 		}
 	}
 	//Carregar
-	private void carregar(Reserva p) {
+	public void carregar(Reserva p) {
 		LimparCampo.limparCamposFX(this.cadastroReservaPane.getChildren());
 		preencherBusca(p);
 	}
@@ -513,4 +519,7 @@ public class ControllerFXBuscarReserva implements Initializable{
 		this.atualizarTabelaCategoria(lc);
 		//this.fpv.getCategoriaCombo().setSelectedItem(p.getCategoria().getNome());
 	}
+	public TableView<Reserva> getTableReserva() {
+		return tableReserva;
+	}	
 }

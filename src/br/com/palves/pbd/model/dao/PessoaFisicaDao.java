@@ -109,5 +109,50 @@ public class PessoaFisicaDao extends DaoGenerico<PessoaFisica> implements IPesso
 		}
 		return var1;
 	}
-
+	
+	@Override
+	public Object procedureValidaPorCPF(String cpf) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		Object var = null;
+		String op = "Procedure valida Por cpf";
+		try {
+			Query query = em.createNativeQuery(SQLUtil.PessoaFisica.NATIVEQUERYPROCEDURE_VALIDA_POR_CPF);
+			query.setParameter("icpf",""+cpf+"");
+			var = (Object)query.getSingleResult();//Precisa que algo seja retornado; vetor para mais de um parametro.
+		}
+		catch(NoResultException nre) {
+			nre.printStackTrace();
+			return false;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+			//throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
+	@Override
+	public List<PessoaFisica> buscarPorParametro(String var) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var1 = null;
+		String op = "Busca Por Parametro";
+		try {
+			Query query = em.createNamedQuery("Pessoa_Fisica.listarPorParametro");
+			query.setParameter("var",var);
+			var1 = query.getResultList();
+			if(var1.size()<=0)
+				return null;
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var1;
+	}
 }

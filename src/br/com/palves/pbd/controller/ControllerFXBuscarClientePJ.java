@@ -260,7 +260,7 @@ public class ControllerFXBuscarClientePJ implements Initializable{
 	}
 	//Editar</>
 	//Pessoa Juridica<>
-	private void atualizarTabelaPessoa(List<PessoaJuridica>flist) {
+	public void atualizarTabelaPessoa(List<PessoaJuridica>flist) {
 		ObservableList<PessoaJuridica>list = this.listaDePessoa(flist);
 		this.tablePessoa.setItems(list);
 		this.tablePessoa.getSelectionModel().select(list.get(0));
@@ -275,7 +275,7 @@ public class ControllerFXBuscarClientePJ implements Initializable{
 	}
 	private void carregarPJ(PessoaJuridica p) {
 		//limparCampos();
-		LimparCampo.limparCamposFX(this.cadastroPessoaJuridicaPanel.getChildren());
+		//LimparCampo.limparCamposFX(this.cadastroPessoaJuridicaPanel.getChildren());
 		preencherBusca(p);
 
 	}

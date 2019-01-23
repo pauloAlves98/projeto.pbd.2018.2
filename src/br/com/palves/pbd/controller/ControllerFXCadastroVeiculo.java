@@ -136,6 +136,9 @@ public class ControllerFXCadastroVeiculo implements Initializable{
     private JFXColorPicker corColor;
     @FXML
     private TextField kmAtualField;
+    @FXML
+    private TextField placaField;
+    
 	@FXML
 	void buscarCategoria(ActionEvent event) {
 		try {
@@ -261,6 +264,10 @@ public class ControllerFXCadastroVeiculo implements Initializable{
 		MascaraFX.maxField(this.anoModeloField,4);
 		MascaraFX.numericField(this.anoFabricacaoField);
 		MascaraFX.maxField(this.anoFabricacaoField,4);
+		MascaraFX.placa(this.placaField);
+		
+		this.placaField.positionCaret(this.placaField.getText().replace(" ","").length());
+		
 	}
 	//Salvar<>
 	private void validacoesDeNull() throws ValidacaoException {
@@ -280,6 +287,8 @@ public class ControllerFXCadastroVeiculo implements Initializable{
 			throw new ValidacaoException("Escolha Uma Filial!!!");
 		if(tableCategoria.getItems().size()<=0)
 			throw new ValidacaoException("Escolha Uma Categoria!!!");
+		if(this.placaField.getText().replace(" "," ").length()<=0)
+			throw new ValidacaoException("Digite uma Placa!");
 	}
 	private void preencherCampos(Veiculo veiculo) {
 		String nome = nomeField.getText().toUpperCase();
@@ -331,6 +340,7 @@ public class ControllerFXCadastroVeiculo implements Initializable{
 		veiculo.setHoraRevisao(horaRevisao);
 		veiculo.setKm_revisao(kmRev);
 		veiculo.setKmAtual(kmAtual);
+		veiculo.setPlaca(this.placaField.getText());
 		veiculo.setStatus(StatusEnum.ATIVO.getValor());//tem que ser um campo
 	}
 	//Salvar</>

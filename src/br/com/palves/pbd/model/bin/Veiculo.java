@@ -19,13 +19,18 @@ import javax.validation.constraints.NotNull;
 @NamedQueries(
 		{
 			@NamedQuery(name="Veiculo.listarPorFiltro",query="SELECT c FROM Veiculo c WHERE (LOWER(c.status) LIKE :var1 or LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
-			+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or "
-			+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
+			+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or LOWER(c.placa) LIKE :var1 or "
+			+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1)"),
+			@NamedQuery(name="Veiculo.listarPorParametroFilialCategoria",query="SELECT c FROM Veiculo c WHERE c.categoria.id =:var3 and c.filialAtual.id =:var2 and  c.categoria.discriminador =:var4 and ((LOWER(c.status) LIKE :var1 or LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
+					+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or LOWER(c.placa) LIKE :var1 or "
+					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1))"),
+			@NamedQuery(name="Veiculo.listarPorParametroFilialCategoriaGerente",query="SELECT c FROM Veiculo c WHERE c.categoria.valor >=:var3 and c.filialAtual.id =:var2 and ((LOWER(c.status) LIKE :var1 or LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
+					+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or LOWER(c.placa) LIKE :var1 or "
+					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1))")
 			//@NamedQuery(name="",query="")
 		})
 @Entity
 public class Veiculo implements Generico{
-	//Faltou a placa
 	@Id
 	@SequenceGenerator(name="seq_veiculo",sequenceName="seq_veiculo_id",initialValue= 1,allocationSize=1)
 	@GeneratedValue(generator="seq_veiculo",strategy=GenerationType.SEQUENCE)
@@ -36,6 +41,8 @@ public class Veiculo implements Generico{
 	private String nome;
 	@Column(name="n_porta")
 	private int nPorta;
+	@Column(name="placa",unique=true,length=8)
+	private String placa;
 	@Column(name="tipo_combustivel",length=50)
 	private String tipoCombustivel;
 	@NotNull(message="Campo Tamanho Nulo!")
@@ -69,8 +76,6 @@ public class Veiculo implements Generico{
 	@ManyToOne   //Muitos veiculos para uma categoria;
 	@JoinColumn(name="categoria_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "veiculo_categoria_fkey"))
 	private Categoria categoria;
-	
-	
 	public Veiculo() {}
 
 
@@ -294,6 +299,7 @@ public class Veiculo implements Generico{
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((numeroChassi == null) ? 0 : numeroChassi.hashCode());
 		result = prime * result + ((numeroMotor == null) ? 0 : numeroMotor.hashCode());
+		result = prime * result + ((placa == null) ? 0 : placa.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((tamanho == null) ? 0 : tamanho.hashCode());
 		result = prime * result + ((tipoCombustivel == null) ? 0 : tipoCombustivel.hashCode());
@@ -373,6 +379,11 @@ public class Veiculo implements Generico{
 				return false;
 		} else if (!numeroMotor.equals(other.numeroMotor))
 			return false;
+		if (placa == null) {
+			if (other.placa != null)
+				return false;
+		} else if (!placa.equals(other.placa))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -399,12 +410,30 @@ public class Veiculo implements Generico{
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", numeroChassi=" + numeroChassi + ", nome=" + nome + ", nPorta=" + nPorta
-				+ ", tipoCombustivel=" + tipoCombustivel + ", tamanho=" + tamanho + ", km_revisao=" + kmRevisao
-				+ ", torqueMotor=" + torqueMotor + ", numeroMotor=" + numeroMotor + ", modelo=" + modelo
+		return "Veiculo [id=" + id + ", numeroChassi=" + numeroChassi + ", nome=" + nome + ", nPorta=" + nPorta
+				+ ", placa=" + placa + ", tipoCombustivel=" + tipoCombustivel + ", tamanho=" + tamanho + ", kmRevisao="
+				+ kmRevisao + ", torqueMotor=" + torqueMotor + ", numeroMotor=" + numeroMotor + ", modelo=" + modelo
 				+ ", anoModelo=" + anoModelo + ", cor=" + cor + ", fabricante=" + fabricante + ", anoFabricao="
 				+ anoFabricao + ", kmAtual=" + kmAtual + ", kmRestanteRevisao=" + kmRestanteRevisao + ", horaRevisao="
-				+ horaRevisao + ", status=" + status + ", filialAtual=" + filialAtual + ", categoria=" + categoria.getNome()
-				+ " ";
+				+ horaRevisao + ", status=" + status + ", filialAtual=" + filialAtual + ", categoria=" + categoria
+				+ "]";
+	}
+
+
+	public String getPlaca() {
+		return placa;
+	}
+
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+
+
+	public int getKmRevisao() {
+		return kmRevisao;
+	}
+	public void setKmRevisao(int kmRevisao) {
+		this.kmRevisao = kmRevisao;
 	}
 }

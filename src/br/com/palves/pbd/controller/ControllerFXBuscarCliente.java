@@ -122,6 +122,10 @@ public class ControllerFXBuscarCliente implements Initializable{
 
 	@FXML
 	void buscarCliente(ActionEvent event) {
+		if(Carregar.detalhes) {
+			Alerta.mostrarAlertaInformacao("Não é possível realizar esta operação no momento!!!");
+			return;
+		}
 		try {
 			if(this.filtroField.getText().replace(" ","").length()<=0) {
 				List<PessoaFisica> l = PessoaFisicaDao.getInstance().buscarPorFiltro("%"+""+"%");
@@ -145,6 +149,8 @@ public class ControllerFXBuscarCliente implements Initializable{
 	@FXML
 	void editar(ActionEvent event) {
 		PessoaFisicaDao daoPF = PessoaFisicaDao.getInstance();
+		if(Carregar.detalhes)
+			return;
 		try {
 			if(event.getSource()==salvarButton) {
 				this.validacoes();
@@ -318,7 +324,7 @@ public class ControllerFXBuscarCliente implements Initializable{
 			throw new DaoException("Erro ao executar procedure");
 		}
 	}
-	private void atualizarTabelaPessoa(List<PessoaFisica>flist) {
+	public void atualizarTabelaPessoa(List<PessoaFisica>flist) {
 		ObservableList<PessoaFisica>list = this.listaDePessoa(flist);
 		this.tablePessoa.setItems(list);
 		this.tablePessoa.getSelectionModel().select(list.get(0));
@@ -333,7 +339,7 @@ public class ControllerFXBuscarCliente implements Initializable{
 	}
 	private void carregarPF(PessoaFisica p) {
 		//limparCampos();
-		LimparCampo.limparCamposFX(this.cadastroPessoaFisicaPanel.getChildren());
+		//LimparCampo.limparCamposFX(this.cadastroPessoaFisicaPanel.getChildren());
 		preencheBuscaDaEntidadeParaTela(p);
 	}
 	private void preencheBuscaDaEntidadeParaTela(PessoaFisica pessoaF) {	

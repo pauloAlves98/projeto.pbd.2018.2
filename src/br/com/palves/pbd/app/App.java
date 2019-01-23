@@ -1,12 +1,18 @@
 package br.com.palves.pbd.app;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import br.com.palves.pbd.enums.TransicaoTelaEnum;
+import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,12 +39,31 @@ public class App extends Application{
 	editarClienteJuridicoPane,menuClientePane,alterarSenhaPane,cadastroReservaPane,buscarReservaPane,
 	menuFuncionarioPane,cadastroFuncionarioPane,buscarFuncionarioPane,cadastroFilialPane,buscarFilialPane,menuCadastros,
 	buscarPFPane,buscarPJPane,editarFuncionarioPane,cadastroCategoriaPane,buscarCategoriaPane,cadastroVeiculoPane,
-	buscarVeiculoPane,cadastroLocacaoCReservaPane;
+	buscarVeiculoPane,cadastroLocacaoCReservaPane,fechamentoDialog,permissaoPane,cadastroLocacaoSReservaPane,
+	buscarLocacaoPane,retornoLocacaoPane;
 
 	public static Scene cenaLogin,cenaCadastro,cenaMenuCliente,cenaMenuFuncionario;
 	@SuppressWarnings("static-access")
 	@Override
 	public void start(Stage palcoStage) throws Exception {		
+		Date dataRetirada = TratadorDeMascara.unirDataHora(TratadorDeMascara.converterStringData("22/01/2019"),"14:00");
+		Date agr = new Date();
+		System.out.println("Data agr: "+agr.toString());
+		System.out.println(agr.getTime());
+		System.out.println(agr.getTime()+3600000);
+		System.out.println(new Date(agr.getTime()+3600000).toString());
+		LocalTime ll = TratadorDeMascara.dateToLocalTime(agr);
+		//ll.getNano()
+		long dt = (agr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
+	    long quantDias = Math.abs((dt / 86400000L));//
+	    LocalTime horaPrevista = TratadorDeMascara.dateToLocalTime(dataRetirada);//hora de realização
+	    LocalTime horaReal = TratadorDeMascara.dateToLocalTime(agr);
+	    long minReal = horaReal .getMinute() + 1;
+	    long minPrev =  horaPrevista.getMinute()+1;
+	    long hora = (((horaReal.getHour()*60) +minReal+ 1 ) - ((horaPrevista.getHour()*60) + 1 + minPrev))/60;
+	    hora =  hora<0?0:hora;//se for menor é porque entrgou antes!!!
+	    System.out.println("Dias da Locacao:"+quantDias+" H:"+hora);
+	    //System.exit(0);
 		stage = palcoStage;
 		Parent load = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/Load.fxml"));
 		Scene cenaLoad = new Scene(load,600,400);
@@ -275,6 +300,40 @@ public class App extends Application{
 	public static void setCadastroLocacaoCReservaPane(Pane cadastroLocacaoCReservaPane) {
 		App.cadastroLocacaoCReservaPane = cadastroLocacaoCReservaPane;
 	}
+	
+	public static Pane getFechamentoDialog() {
+		return fechamentoDialog;
+	}
+	public static void setFechamentoDialog(Pane fechamentoDialog) {
+		App.fechamentoDialog = fechamentoDialog;
+	}
+	
+	public static Pane getPermissaoPane() {
+		return permissaoPane;
+	}
+	public static void setPermissaoPane(Pane permissaoPane) {
+		App.permissaoPane = permissaoPane;
+	}
+	
+	public static Pane getCadastroLocacaoSReservaPane() {
+		return cadastroLocacaoSReservaPane;
+	}
+	public static void setCadastroLocacaoSReservaPane(Pane cadastroLocacaoSReservaPane) {
+		App.cadastroLocacaoSReservaPane = cadastroLocacaoSReservaPane;
+	}
+	
+	public static Pane getBuscarLocacaoPane() {
+		return buscarLocacaoPane;
+	}
+	public static void setBuscarLocacaoPane(Pane buscarLocacaoPane) {
+		App.buscarLocacaoPane = buscarLocacaoPane;
+	}
+	public static Pane getRetornoLocacaoPane() {
+		return retornoLocacaoPane;
+	}
+	public static void setRetornoLocacaoPane(Pane retornoLocacaoPane) {
+		App.retornoLocacaoPane = retornoLocacaoPane;
+	}
 	public static void addTelas() {
 		listaDeTelas.add(loginPane);
 		listaDeTelas.add(cadastroClienteFisicoPane);
@@ -296,6 +355,9 @@ public class App extends Application{
 		listaDeTelas.add(cadastroVeiculoPane);
 		listaDeTelas.add(buscarVeiculoPane);
 		listaDeTelas.add(cadastroLocacaoCReservaPane);
+		listaDeTelas.add(cadastroLocacaoSReservaPane);
+		listaDeTelas.add(buscarLocacaoPane);
+		listaDeTelas.add(retornoLocacaoPane);
 	}
 	
 }

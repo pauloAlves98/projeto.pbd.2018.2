@@ -32,7 +32,7 @@ public class TratadorDeMascara {
 		return new Date(d.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 	public static String valorReais(double valor) {
-        String formato = "R$ #,##0.00";
+        String formato = "R$ ##,##0.00";
         DecimalFormat d = new DecimalFormat(formato);
         return d.format(valor);
 	}

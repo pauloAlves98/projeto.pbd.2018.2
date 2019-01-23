@@ -1,5 +1,4 @@
 package br.com.palves.pbd.model.bin;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;

@@ -21,6 +21,7 @@ import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.MascaraFX;
 import br.com.palves.pbd.model.dao.PessoaFisicaDao;
 import br.com.palves.pbd.view.Alerta;
+import br.com.palves.pbd.view.AlertaDetalhes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,6 +99,8 @@ public class ControllerFXCadastroClientePF implements Initializable{
 			a.setAlertType(AlertType.INFORMATION);
 			a.setMensagem(pessoaF.getNome()+" "+"Cadastrado Com Sucesso!");
 			a.show();
+			if(Carregar.detalhes)//Eh porque esta cadastrando o motorista!!!
+				AlertaDetalhes.getInstance().hide();
 			this.limparCampos();
 		} 
 		catch (DaoException e1) {
@@ -156,6 +159,15 @@ public class ControllerFXCadastroClientePF implements Initializable{
 			throw new ValidacaoException("O Login não pode ser nulo!");
 		if(cpfField.getText().replace(" ","").trim().length()<=3) {
 			throw new ValidacaoException("O CPF não pode ser nulo!");
+		}
+		System.out.println(dataDeNascimento.getValue().getYear()+"");
+		if(Carregar.detalhes) {
+			if(this.nHabilitacaoField.getText().replace(" ","").length()<=0)
+				throw new ValidacaoException("CNH é Obrigatoria para o motorista!!!");
+			if(dataDeVencimentoHabilitacao.getValue()==null)
+				throw new ValidacaoException("Data de vencimento CNH não pode ser Nulo!!!");
+			if(dataDeNascimento.getValue().getYear()>1998)
+				throw new ValidacaoException("O Motorista deve ter mais de 21 anos!!!");
 		}
 	}
 	private void preencherCamposDaTelaParaEntidade(PessoaFisica pessoaF) throws DaoException, ValidacaoException {

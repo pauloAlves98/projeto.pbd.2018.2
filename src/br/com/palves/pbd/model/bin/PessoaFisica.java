@@ -16,7 +16,9 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
 	@NamedQuery(name="Pessoa_Fisica.buscarPorCpf",query="Select p from PessoaFisica p where p.cpf =:var"),
 	@NamedQuery(name="Pessoa_Fisica.listarPorFiltro",query="Select p from PessoaFisica p where LOWER(p.cpf) LIKE :var or LOWER(p.nome) LIKE :var or"
-			+ " LOWER(p.nHabilitacao) LIKE :var or LOWER(p.situacao) LIKE :var or LOWER(p.login) LIKE :var or LOWER(p.endereco.cidade) LIKE :var")
+			+ " LOWER(p.nHabilitacao) LIKE :var or LOWER(p.situacao) LIKE :var or LOWER(p.login) LIKE :var or LOWER(p.endereco.cidade) LIKE :var"),
+	@NamedQuery(name="Pessoa_Fisica.listarPorParametro",query="Select p from PessoaFisica p where p.situacao = \'ATIVO\'  and (LOWER(p.cpf) LIKE :var or LOWER(p.nome) LIKE :var or"
+			+ " LOWER(p.nHabilitacao) LIKE :var or LOWER(p.login) LIKE :var or LOWER(p.endereco.cidade) LIKE :var or CAST(p.id AS text) LIKE :var)")
 })
 /**
  * @author Palves

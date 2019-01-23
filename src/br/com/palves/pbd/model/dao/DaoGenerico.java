@@ -17,7 +17,6 @@ public class DaoGenerico <T extends Generico>{
 	protected DaoGenerico() {
 		
 	}
-
 	public static DaoGenerico getInstance() {
 		if(instance==null)
 			instance=new DaoGenerico();
@@ -79,6 +78,12 @@ public class DaoGenerico <T extends Generico>{
 						e.printStackTrace();
 						em.getTransaction().rollback();
 						throw new DaoException("O Chassi já existe!");
+					}
+					if (psqlException.getMessage().trim().contains("already exists") &&  
+						psqlException.getMessage().trim().contains("placa")){
+						e.printStackTrace();
+						em.getTransaction().rollback();
+						throw new DaoException("A placa já existe!");
 					}
 				}
 			}

@@ -10,12 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-
+@NamedQueries(
+		{
+			@NamedQuery(name="Locacao.listarPorFiltro",query="SELECT c FROM Locacao c WHERE (c.dataEntrega BETWEEN :var2 and :var3) and (LOWER(c.situacao) LIKE :var1 or LOWER(c.pessoa.nome) LIKE :var1 or CAST(c.id AS text) LIKE :var1 "
+					+ "or LOWER(c.veiculo.nome) LIKE :var1 or LOWER(c.veiculo.placa) LIKE :var1 or LOWER(c.funcionario.nome) LIKE :var1 or LOWER(c.motorista.nome) LIKE :var1 or LOWER(c.motorista.cpf) LIKE :var1 or LOWER(c.filialEntrega.nome) LIKE :var1)")
+		})
 @Entity
 public class Locacao implements Generico{
 	@Id

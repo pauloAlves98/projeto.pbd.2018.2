@@ -166,7 +166,30 @@ public class ControllerFXMenuFuncionario implements Initializable{
 		else if(event.getSource()==this.realizarLocacaoItem) {//Com reserva
 			this.animationGeral(App.getCadastroLocacaoCReservaPane());
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			ControllerFXCadastroLocacaoCReserva c =(ControllerFXCadastroLocacaoCReserva ) Carregar.getCadastroLocacaoCReservaLoader().getController();
 			LimparCampo.limparCamposFXTOTAL(App.getCadastroLocacaoCReservaPane().getChildren());
+			c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
+		}
+		else if(event.getSource()==this.realizarLocacaoSReservaItem) {//Sem reserva
+			this.animationGeral(App.getCadastroLocacaoSReservaPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			ControllerFXCadastroLocacaoSReserva c = (ControllerFXCadastroLocacaoSReserva)Carregar.getCadastroLocacaoSReservaLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getCadastroLocacaoSReservaPane().getChildren());
+			c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
+		}
+		else if(event.getSource()==this.buscarLocacaoItem) {//Sem reserva
+			this.animationGeral(App.getBuscarLocacaoPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			//ControllerFXCadastroLocacaoSReserva c = (ControllerFXCadastroLocacaoSReserva)Carregar.getCadastroLocacaoSReservaLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getBuscarLocacaoPane().getChildren());
+			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
+		}
+		else if(event.getSource()==this.retornoLocacaoItem) {//Sem reserva
+			this.animationGeral(App.getRetornoLocacaoPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			//ControllerFXCadastroLocacaoSReserva c = (ControllerFXCadastroLocacaoSReserva)Carregar.getCadastroLocacaoSReservaLoader().getController();
+			LimparCampo.limparCamposFXTOTAL(App.getRetornoLocacaoPane().getChildren());
+			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
 		}
 		else if(event.getSource()==this.logoutItem) {
 			LimparCampo.limparLogout();

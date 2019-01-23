@@ -1,8 +1,5 @@
 package br.com.palves.pbd.controller;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,33 +7,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTimePicker;
 
 import br.com.palves.pbd.app.App;
-import br.com.palves.pbd.enums.QueryEnum;
 import br.com.palves.pbd.enums.StatusEnum;
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.exception.ValidacaoException;
+import br.com.palves.pbd.model.bin.Configuracao;
 import br.com.palves.pbd.model.bin.Filial;
 import br.com.palves.pbd.model.bin.Locacao;
 import br.com.palves.pbd.model.bin.Pessoa;
 import br.com.palves.pbd.model.bin.PessoaFisica;
 import br.com.palves.pbd.model.bin.PessoaJuridica;
-import br.com.palves.pbd.model.bin.Reserva;
 import br.com.palves.pbd.model.bin.Veiculo;
 import br.com.palves.pbd.model.complemento.Corrente;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.MascaraFX;
 import br.com.palves.pbd.model.complemento.TratadorDeMascara;
+import br.com.palves.pbd.model.dao.ConfiguracaoDao;
 import br.com.palves.pbd.model.dao.FilialDao;
 import br.com.palves.pbd.model.dao.LocacaoDao;
 import br.com.palves.pbd.model.dao.PessoaFisicaDao;
 import br.com.palves.pbd.model.dao.PessoaJuridicaDao;
-import br.com.palves.pbd.model.dao.ReservaDao;
 import br.com.palves.pbd.model.dao.VeiculoDao;
 import br.com.palves.pbd.view.Alerta;
 import br.com.palves.pbd.view.AlertaDetalhes;
@@ -57,10 +51,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
-public class ControllerFXCadastroLocacaoCReserva implements Initializable{
-	//1 - Validações de locação!!!
-	private static boolean permissaoGerente = false;
-
+public class ControllerFXCadastroLocacaoSReserva implements Initializable{
 	@FXML
 	private BorderPane borderGeral;
 
@@ -69,8 +60,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 
 	@FXML
 	private JFXButton salvarButton;
-	@FXML
-	private Button calcularValoresButton;
+
 	@FXML
 	private TableView<Filial> tableFiilial;
 
@@ -103,18 +93,24 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 
 	@FXML
 	private TableColumn<Veiculo, String> situacaoVeiculoColumn;
+
 	@FXML
 	private TextField cpfCnpjField;
+
 	@FXML
-	private JFXDatePicker dataReserva;
+	private TableView<Pessoa> tableCliente;
+
 	@FXML
-	private TableView<Reserva> tableReserva;
+	private TableColumn<Pessoa, Integer> codClienteColumn;
+
 	@FXML
-	private TableColumn<Reserva, Integer> codReservaColumn;
+	private TableColumn<Pessoa, String> nomeClienteColumn;
+
 	@FXML
-	private TableColumn<Reserva, String> situacaoReservaColumn;
+	private TableColumn<Pessoa, String> situacaoClienteColumn;
+
 	@FXML
-	private Button buscarReservaButton;
+	private Button buscarClienteButton;
 
 	@FXML
 	private JFXDatePicker dataEntrega;
@@ -138,10 +134,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 	private Button buscarInfoButton;
 
 	@FXML
-	private Button buscarFilialButton211;
-
-	@FXML
-	private Button outroVeiculoButton;
+	private Button infoClienteButton;
 
 	@FXML
 	private TableView<PessoaFisica> tableMotorista;
@@ -175,189 +168,42 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 
 	@FXML
 	private TextField entradaField;
-	@FXML
-	void buscarReserva(ActionEvent event) {
-		limparValoresLocacao();
-		this.tableReserva.setItems(null);
-		this.tableVeiculo.setItems(null);
-		try {
-			ReservaDao reservaDao = ReservaDao.getInstance();
-			if(this.cpfCnpjField.getText().replace(" ", "").length()<=14) {//CPF
-				if(this.validarPorCPF(this.cpfCnpjField.getText())) {
-					if(this.dataReserva.getValue()==null && this.cpfCnpjField.getText().replace(" ", "").length()!=0) {//So a data Nula
-						PessoaFisica p  = PessoaFisicaDao.getInstance().buscarPorCpf(this.cpfCnpjField.getText());
-						List<Reserva>l = reservaDao.buscarPorParametroCliente(p.getId(),new Date(),QueryEnum.RESERVACLIENTE);
-						if(l==null) {
-							Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-							this.tableReserva.setItems(null);
-						}
-						else
-							this.atualizarTabelaReserva(l);
-					}else {//Nehum Nulo!
-						PessoaFisica p  = PessoaFisicaDao.getInstance().buscarPorCpf(this.cpfCnpjField.getText());
-						List<Reserva>l = reservaDao.buscarPorParametroCliente(p.getId(),TratadorDeMascara.localDatetoDate(this.dataReserva.getValue()),QueryEnum.RESERVACLIENTEDATA);
-						if(l==null) {
-							Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-							this.tableReserva.setItems(null);
-						}
-						else
-							this.atualizarTabelaReserva(l);
-					}
-				}
-				else if(this.dataReserva.getValue()==null && this.cpfCnpjField.getText().replace(" ", "").length()<=0) {//Os dois Nulos
-					//PessoaFisica p  = PessoaFisicaDao.getInstance().buscarPorCpf(this.cpfCnpjField.getText());
-					List<Reserva>l = reservaDao.buscarPorParametroCliente(0,new Date(),QueryEnum.RESERVADATA);
-					if(l==null) {
-						Alerta.mostrarAlertaErro("Nehum reserva encontrada para hoje!!!");
-						this.tableReserva.setItems(null);
-					}
-					else
-						this.atualizarTabelaReserva(l);
-				}else if(this.dataReserva.getValue()!=null && this.cpfCnpjField.getText().replace(" ", "").length()<=0) {//So o nome nulo
-					List<Reserva>l = reservaDao.buscarPorParametroCliente(0,TratadorDeMascara.localDatetoDate(this.dataReserva.getValue()),QueryEnum.RESERVADATA);
-					if(l==null) {
-						Alerta.mostrarAlertaErro("Nehum reserva encontrada para"+this.dataReserva.getValue().toString()+"!!!");
-						this.tableReserva.setItems(null);
-					}
-					else
-						this.atualizarTabelaReserva(l);
-				}
-				else {
-					Alerta.mostrarAlertaErro("Nenhum Cliente Encontrado para o cpf '"+this.cpfCnpjField.getText()+"'!!!");
-					this.tableReserva.setItems(null);
-					return;
-				}
-			}else {//CNPJ
-				if(this.validarPorCNPJ(this.cpfCnpjField.getText())) {
-					if(this.dataReserva.getValue()==null && this.cpfCnpjField.getText().replace(" ", "").length()!=0) {//So a data Nula
-						PessoaJuridica p  = PessoaJuridicaDao.getInstance().buscarPorCnpj(this.cpfCnpjField.getText());
-						List<Reserva>l = reservaDao.buscarPorParametroCliente(p.getId(),new Date(),QueryEnum.RESERVACLIENTE);
-						if(l==null) {
-							Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-							this.tableReserva.setItems(null);
-						}
-						else
-							this.atualizarTabelaReserva(l);
-					}else {//Nehum Nulo!
-						PessoaJuridica p  = PessoaJuridicaDao.getInstance().buscarPorCnpj(this.cpfCnpjField.getText());
-						List<Reserva>l = reservaDao.buscarPorParametroCliente(p.getId(),TratadorDeMascara.localDatetoDate(this.dataReserva.getValue()),QueryEnum.RESERVACLIENTEDATA);
-						if(l==null) {
-							Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-							this.tableReserva.setItems(null);
-						}
-						else
-							this.atualizarTabelaReserva(l);
-					}
-				}
-				else if(this.dataReserva.getValue()==null && this.cpfCnpjField.getText().replace(" ", "").length()<=0) {//Os dois Nulos
-					//PessoaFisica p  = PessoaFisicaDao.getInstance().buscarPorCpf(this.cpfCnpjField.getText());
-					List<Reserva>l = reservaDao.buscarPorParametroCliente(0,new Date(),QueryEnum.RESERVADATA);
-					if(l==null) {
-						Alerta.mostrarAlertaErro("Nehum reserva encontrada para hoje!!!");
-						this.tableReserva.setItems(null);
-					}
-					else
-						this.atualizarTabelaReserva(l);
-				}else if(this.dataReserva.getValue()!=null && this.cpfCnpjField.getText().replace(" ", "").length()<=0) {//So o nome nulo
-					List<Reserva>l = reservaDao.buscarPorParametroCliente(0,TratadorDeMascara.localDatetoDate(this.dataReserva.getValue()),QueryEnum.RESERVADATA);
 
-					if(l==null) {
-						Alerta.mostrarAlertaErro("Nehum reserva encontrada para"+this.dataReserva.getValue().toString()+"!!!");
-						this.tableReserva.setItems(null);
-					}
-					else
-						this.atualizarTabelaReserva(l);
-				}
-				else {
-					Alerta.mostrarAlertaErro("Nenhum Cliente Encontrado para o CNPJ '"+this.cpfCnpjField.getText()+"'!!!");
-					this.tableReserva.setItems(null);
-					return;
-				}
-			}
-		} catch (DaoException e) {
-			Alerta.mostrarAlertaErro(e.getMessage());
-			e.printStackTrace();
-			return;
-		}
-	}
 	@FXML
-	void mostrarReserva(ActionEvent event) {
-		if(this.tableReserva.getItems().size()>0) {
-			AlertaDetalhes.getBorder().getChildren().clear();
-			//AlertaDetalhes.getBorder().setTop(App.getFechamentoDialog());
-			AlertaDetalhes.getBorder().setCenter(App.getBuscarReservaPane());
-			AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getBuscarReservaPane().getPrefWidth(),App.getBuscarReservaPane().getPrefHeight()-50);
-			ControllerFXBuscarReserva cr = (ControllerFXBuscarReserva ) Carregar.getBuscarReservaLoader().getController();
-			List<Reserva>lr = new ArrayList<>();
-			lr.add(this.tableReserva.getSelectionModel().getSelectedItem());
-			cr.atualizarTabelaReserva(lr);
-			//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
-			AlertaDetalhes.getInstance().showAndWait();
-		}else
-			Alerta.mostrarAlertaErro("Nenhuma Reserva Selecionada!!!");
+	private Button calcularValoresButton;
 
-	}
 	@FXML
-	void buscarMotorista(ActionEvent event) {//E
+	void buscarCliente(ActionEvent event) {
 		try {
-			if(this.buscarMotoristaField.getText().replace(" ","").length()<=0) {
-				List<PessoaFisica> l = PessoaFisicaDao.getInstance().buscarPorParametro("%"+this.buscarMotoristaField.getText().toLowerCase()+"%");
+			if(this.cpfCnpjField.getText().replace(" ", "").length()<=14) {
+				Pessoa l =null;
+				l = PessoaFisicaDao.getInstance().buscarPorCpf(this.cpfCnpjField.getText());
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaMotorista(l);
+				else {
+					List p = new ArrayList();
+					p.add(l);
+					this.atualizarTabelaCliente(p);
+				}
 			}else {
-				List<PessoaFisica> l = PessoaFisicaDao.getInstance().buscarPorParametro("%"+this.buscarMotoristaField.getText().toLowerCase()+"%");
+				Pessoa l = null;
+				l = PessoaJuridicaDao.getInstance().buscarPorCnpj(this.cpfCnpjField.getText());
 				if(l==null)
 					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
-				else
-					this.atualizarTabelaMotorista(l);
+				else {
+					List p = new ArrayList();
+					p.add(l);
+					this.atualizarTabelaCliente(p);
+				}
 			}
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	@FXML
-	void mostrarMotorista(ActionEvent e) {
-		if(this.tableMotorista.getItems().size()>0) {
-			AlertaDetalhes.getBorder().getChildren().clear();
-			//AlertaDetalhes.getBorder().setTop(App.getFechamentoDialog());
-			AlertaDetalhes.getBorder().setCenter(App.getBuscarPFPane());
-			AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getBuscarPFPane().getPrefWidth(),App.getBuscarPFPane().getPrefHeight()-50);
-			ControllerFXBuscarCliente cr = (ControllerFXBuscarCliente ) Carregar.getBuscarClientePFLoader().getController();
-			List<PessoaFisica>lr = new ArrayList<>();
-			lr.add(this.tableMotorista.getSelectionModel().getSelectedItem());
-			cr.atualizarTabelaPessoa(lr);
-			Carregar.detalhes = true;
-			//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
-			AlertaDetalhes.getInstance().showAndWait();
-		}else
-			Alerta.mostrarAlertaErro("Nenhum Motorista Selecionado!!!");
-	}
-	@FXML
-	void buscarOutroVeiculo(ActionEvent event) {
 		limparValoresLocacao();
-		AlertaDetalhes.getBorder().getChildren().clear();
-		//AlertaDetalhes.getBorder().setTop(App.getFechamentoDialog());
-		AlertaDetalhes.getBorder().setCenter(App.getPermissaoPane());
-		AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getPermissaoPane().getPrefWidth(),App.getPermissaoPane().getPrefHeight()-800);
-		//ControllerFXBuscarFilial cr = (ControllerFXBuscarFilial ) Carregar.getBuscarFilialLoader().getController();
-		//List<Filial>lr = new ArrayList<>();
-		//lr.add(this.tableFiilial.getSelectionModel().getSelectedItem());
-		//cr.atualizarTabelaFilial(lr);
-		Carregar.detalhes = true;
-		//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
-		AlertaDetalhes.getInstance().showAndWait();
 	}
 	@FXML
 	void buscarFilial(ActionEvent event) {
-		//		if(this.tableReserva.getItems().size()<=0) {
-		//			Alerta.mostrarAlertaInformacao("Escolha Uma Reserva Primeiro!!!");
-		//			return;
-		//		}else if(!this.tableReserva.getSelectionModel().getSelectedItem().getSituacao().equals(StatusEnum.ATIVO.getValor())) {
-		//			
-		//		}
 		try {
 			if(this.filialEntregaField.getText().replace(" ","").length()<=0) {
 				List<Filial> l = FilialDao.getInstance().buscarPorParametro("%"+this.filialEntregaField.getText().toLowerCase()+"%");
@@ -378,24 +224,31 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		}
 	}
 	@FXML
-	void buscarVeiculo(ActionEvent event) {
-		if(this.tableReserva.getItems().size()<=0)
-		{
-			Alerta.mostrarAlertaErro("Escolha uma reserva primeiro!!!");
-			return;
-		}else {
-			//metodo de validação de reserva!!!
+	void buscarMotorista(ActionEvent event) {
+		try {
+			if(this.buscarMotoristaField.getText().replace(" ","").length()<=0) {
+				List<PessoaFisica> l = PessoaFisicaDao.getInstance().buscarPorParametro("%"+this.buscarMotoristaField.getText().toLowerCase()+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaMotorista(l);
+			}else {
+				List<PessoaFisica> l = PessoaFisicaDao.getInstance().buscarPorParametro("%"+this.buscarMotoristaField.getText().toLowerCase()+"%");
+				if(l==null)
+					Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
+				else
+					this.atualizarTabelaMotorista(l);
+			}
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//Verificar se o gerente permitiu
+	}
+	@FXML
+	void buscarVeiculo(ActionEvent event) {
 		try {
 			List<Veiculo> l =null;
-			if(permissaoGerente) {//Se tiver a permissão do gerente.
-				l = VeiculoDao.getInstance().buscarPorParametro(Corrente.funcionario.getFilial().getId(),0,
-						" ",this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getValor(),"%"+this.buscaVeiculoField.getText().toLowerCase()+"%",QueryEnum.LISTARVEICULOPORPARAMETROFILIALCATEGORIAGERENTE);
-			}else {
-				l = VeiculoDao.getInstance().buscarPorParametro(Corrente.funcionario.getFilial().getId(),this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getId(),
-						this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getDiscriminador(),0,"%"+this.buscaVeiculoField.getText().toLowerCase()+"%",QueryEnum.LISTARVEICULOPORPARAMETROFILIALCATEGORIA);
-			}
+			l = VeiculoDao.getInstance().buscarPorFiltro("%"+this.buscaVeiculoField.getText()+"%");
 			if(l==null)
 				Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
 			else
@@ -406,6 +259,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		}
 		limparValoresLocacao();
 	}
+
 	@FXML
 	void cadastrarMotorista(ActionEvent event) {
 		AlertaDetalhes.getBorder().getChildren().clear();
@@ -419,6 +273,20 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		Carregar.detalhes = true;
 		//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
 		AlertaDetalhes.getInstance().showAndWait();
+	}
+	@FXML
+	void calcValoresLocacao(ActionEvent event) {
+		if(this.tableVeiculo.getItems()!=null && this.tableVeiculo.getItems().size()!=0) {
+			this.valorVeiculoField.setText(TratadorDeMascara.valorReais(this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()));
+			double p = this.carregarConfiguracaoes();
+			this.precoLocacaoField.setText(TratadorDeMascara.valorReais(p));
+			this.valorDiaria.setText(TratadorDeMascara.valorReais(this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+p));
+			this.entradaField.setText(TratadorDeMascara.valorReais((this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+p)/2));
+		}else {
+			Alerta.mostrarAlertaErro("Veículo não Válido!!!");
+			return;
+		}
+
 	}
 	@FXML
 	void mostrarFilial(ActionEvent event) {
@@ -438,6 +306,52 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 			Alerta.mostrarAlertaErro("Nenhuma Filial Selecionada!!!");
 	}
 	@FXML
+	void mostrarMotorista(ActionEvent event) {
+		if(this.tableMotorista.getItems().size()>0) {
+			AlertaDetalhes.getBorder().getChildren().clear();
+			//AlertaDetalhes.getBorder().setTop(App.getFechamentoDialog());
+			AlertaDetalhes.getBorder().setCenter(App.getBuscarPFPane());
+			AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getBuscarPFPane().getPrefWidth(),App.getBuscarPFPane().getPrefHeight()-50);
+			ControllerFXBuscarCliente cr = (ControllerFXBuscarCliente ) Carregar.getBuscarClientePFLoader().getController();
+			List<PessoaFisica>lr = new ArrayList<>();
+			lr.add(this.tableMotorista.getSelectionModel().getSelectedItem());
+			cr.atualizarTabelaPessoa(lr);
+			Carregar.detalhes = true;
+			//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
+			AlertaDetalhes.getInstance().showAndWait();
+		}else
+			Alerta.mostrarAlertaErro("Nenhum Motorista Selecionado!!!");
+	}
+
+	@FXML
+	void mostrarCliente(ActionEvent event) {
+		if(this.tableCliente.getItems().size()>0) {
+			AlertaDetalhes.getBorder().getChildren().clear();
+			if(this.tableCliente.getSelectionModel().getSelectedItem().getDiscriminador().equalsIgnoreCase("PF")) {
+				AlertaDetalhes.getBorder().setCenter(App.getBuscarPFPane());
+				AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getBuscarPFPane().getPrefWidth(),App.getBuscarPFPane().getPrefHeight()-800);
+				ControllerFXBuscarCliente cr = (ControllerFXBuscarCliente) Carregar.getBuscarClientePFLoader().getController();
+				List<PessoaFisica>lr = new ArrayList<>();
+				lr.add((PessoaFisica) this.tableCliente.getSelectionModel().getSelectedItem());
+				cr.atualizarTabelaPessoa(lr);
+				Carregar.detalhes = true;
+			}
+			//cr.carregar(this.tableReserva.getSelectionModel().getSelectedItem());
+			else {
+				AlertaDetalhes.getBorder().setCenter(App.getBuscarPJPane());
+				AlertaDetalhes.getInstance().getDialogPane().setPrefSize(App.getBuscarPJPane().getPrefWidth(),App.getBuscarPJPane().getPrefHeight()-800);
+				ControllerFXBuscarClientePJ cr = (ControllerFXBuscarClientePJ) Carregar.getBuscarClientePJLoader().getController();
+				List<PessoaJuridica>lr = new ArrayList<>();
+				lr.add((PessoaJuridica) this.tableCliente.getSelectionModel().getSelectedItem());
+				cr.atualizarTabelaPessoa(lr);
+				Carregar.detalhes = true;
+			}
+
+			AlertaDetalhes.getInstance().showAndWait();
+		}else
+			Alerta.mostrarAlertaErro("Nenhum Cliente Selecionado!!!");
+	}
+	@FXML
 	void mostrarVeiculo(ActionEvent event) {
 		if(this.tableVeiculo.getItems().size()>0) {
 			AlertaDetalhes.getBorder().getChildren().clear();
@@ -454,53 +368,42 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		}else
 			Alerta.mostrarAlertaErro("Nenhum Veiculo Selecionado!!!");
 	}
+
 	@FXML
 	void mudancaDeFilialClick(MouseEvent event) {
 
 	}
+
 	@FXML
 	void mudancaDeMotoristaClick(MouseEvent event) {
 
 	}
+
+	@FXML
+	void mudancaTipoDeLocacao(ActionEvent event) {
+		limparValoresLocacao();
+	}
+
 	@FXML
 	void mudarFilialKey(KeyEvent event) {
 
 	}
+
 	@FXML
 	void mudarMotoristalKey(KeyEvent event) {
 
 	}
+
 	@FXML
 	void mudarVeiculoClick(MouseEvent event) {
-
-	}
-	@FXML
-	void mudarVeiculoKey(KeyEvent event) {
-
-	}
-	@FXML
-	void calcValoresLocacao (ActionEvent event){
-		if(this.tableReserva.getItems().size()>0 && this.tableReserva.getSelectionModel().getSelectedItem().getSituacao().equalsIgnoreCase(StatusEnum.EM_ESPERA.getValor())) {
-			if(this.tableVeiculo.getItems()!=null && this.tableVeiculo.getItems().size()!=0) {
-				this.valorVeiculoField.setText(TratadorDeMascara.valorReais(this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getValor()));
-				double p = this.kmLivre.isSelected()?tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKlivre():tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKcontrole();
-				this.precoLocacaoField.setText(TratadorDeMascara.valorReais(p));
-				this.valorDiaria.setText(TratadorDeMascara.valorReais(this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+p));
-				this.entradaField.setText(TratadorDeMascara.valorReais((this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+p)/2));
-			}else {
-				Alerta.mostrarAlertaErro("Veículo não Válido!!!");
-				return;
-			}
-		}else {
-			Alerta.mostrarAlertaErro("A Reserva não é válida!!!");
-			return;
-		}
-
-	}
-	@FXML
-	void mudancaTipoDeLocacao(ActionEvent event){
 		limparValoresLocacao();
 	}
+
+	@FXML
+	void mudarVeiculoKey(KeyEvent event) {
+		limparValoresLocacao();
+	}
+
 	@FXML
 	void salvarLocacao(ActionEvent event) {
 		LocacaoDao dao = LocacaoDao.getInstance();
@@ -510,7 +413,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 			this.preencherCampos(locacao);
 			dao.persistOrMerge(locacao);
 			Alerta.mostrarAlertaInformacao("Locação cadastrada com sucesso!");
-			this.efetivarReserva();
+			//this.efetivarReserva();
 			this.limparCampos();
 		} 
 		catch (DaoException e1) {
@@ -542,10 +445,12 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 				new PropertyValueFactory<>("nome"));
 		this.cpfMotoristaColumn.setCellValueFactory(
 				new PropertyValueFactory<>("cpf"));
-		this.codReservaColumn.setCellValueFactory(
+		this.codClienteColumn.setCellValueFactory(
 				new PropertyValueFactory<>("id"));
-		this.situacaoReservaColumn.setCellValueFactory(
+		this.situacaoClienteColumn.setCellValueFactory(
 				new PropertyValueFactory<>("situacao"));
+		this.nomeClienteColumn.setCellValueFactory(
+				new PropertyValueFactory<>("nome"));
 		ToggleGroup group = new ToggleGroup();
 		this.kmControle.setToggleGroup(group);
 		this.kmLivre.setToggleGroup(group);
@@ -558,14 +463,14 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		Date dataEntrega = TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),
 				TratadorDeMascara.localTimetoString(this.horaEntrega.getValue()));
 		boolean kmlivre = this.kmLivre.isSelected();
-//		int idLocataria = Integer.parseInt(this.fpl.getIdFilialLocatariaField().getText());
-//		int idEntrega = Integer.parseInt(this.fpl.getFilialEntregaIdField().getText());
-//		int idVeiculo = Integer.parseInt(this.fpl.getVeiculoIdField().getText());
-//		int idMotorista = Integer.parseInt(this.fpl.getIdMotoristaField().getText());
-//		int idCliente = Integer.parseInt(this.fpl.getClienteField().getText());
-//		if(idField.trim().length()>0) {//então eh update
-//			locacao.setId(Integer.parseInt(idField));
-//		}    
+		//			int idLocataria = Integer.parseInt(this.fpl.getIdFilialLocatariaField().getText());
+		//			int idEntrega = Integer.parseInt(this.fpl.getFilialEntregaIdField().getText());
+		//			int idVeiculo = Integer.parseInt(this.fpl.getVeiculoIdField().getText());
+		//			int idMotorista = Integer.parseInt(this.fpl.getIdMotoristaField().getText());
+		//			int idCliente = Integer.parseInt(this.fpl.getClienteField().getText());
+		//			if(idField.trim().length()>0) {//então eh update
+		//				locacao.setId(Integer.parseInt(idField));
+		//			}    
 		Filial fl = Corrente.funcionario.getFilial();
 		//fl.setId(idLocataria);
 		Filial fe = this.tableFiilial.getSelectionModel().getSelectedItem();
@@ -574,7 +479,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		//v.setId(idVeiculo);
 		PessoaFisica pf = this.tableMotorista.getSelectionModel().getSelectedItem();
 		//pf.setId(idMotorista);
-		Pessoa cliente = this.tableReserva.getSelectionModel().getSelectedItem().getPessoa();
+		Pessoa cliente = this.tableCliente.getSelectionModel().getSelectedItem();
 		//cliente.setId(idCliente);
 		locacao.setDataRetirada(dataHoraRealizacao);
 		locacao.setKmAtual(v.getKmAtual());
@@ -582,12 +487,12 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		locacao.setKmLivre(kmlivre);
 		locacao.setFilialEntrega(fe);
 		locacao.setFilialLocaataria(fl);
-		v.setStatus(StatusEnum.LOCADO.getValor());
+		v.setStatus(StatusEnum.LOCADO.getValor());//Gatilho pra isso!!!
 		locacao.setVeiculo(v);
 		locacao.setMotorista(pf);
 		locacao.setPessoa(cliente);
 		locacao.setFuncionario(Corrente.funcionario);
-		locacao.setValorDiaria(this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getValor()+ (kmlivre==true?this.tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKlivre():this.tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKcontrole()));
+		locacao.setValorDiaria(this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+this.carregarConfiguracaoes());
 		locacao.setSituacao(StatusEnum.ATIVO.getValor());//tem que ser um campo
 	}
 	private void validacoesDeNull() throws ValidacaoException {
@@ -598,11 +503,11 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		if(this.dataEntrega.getValue()==null)
 			throw new ValidacaoException("A data prevista para entrega não pode ser nula!");
 		//Validação reserva
-		if(this.tableReserva.getItems().size()<=0)
-			throw new ValidacaoException("Escolha uma Reserva para realizar a locação!");
+		if(this.tableCliente.getItems().size()<=0)
+			throw new ValidacaoException("Escolha uma Cliente para realizar a locação!");
 		else {
-			if(!this.tableReserva.getSelectionModel().getSelectedItem().getSituacao().equalsIgnoreCase(StatusEnum.EM_ESPERA.getValor()))
-				throw new ValidacaoException("A Reserva Não é válida!!!");
+			if(!this.tableCliente.getSelectionModel().getSelectedItem().getSituacao().equalsIgnoreCase(StatusEnum.ATIVO.getValor()))
+				throw new ValidacaoException("O Cliente Não é válido!!!");
 		}
 		if(TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),TratadorDeMascara.localTimetoString(this.horaEntrega.getValue())).getTime() < new Date().getTime())
 			throw new ValidacaoException("Data de entrega inválida!!!");
@@ -628,8 +533,6 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 				if(TratadorDeMascara.unirDataHora(p.getDataVencHabilitacao(),"00:00").getTime()<= TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),"00:00").getTime()) 
 					throw new ValidacaoException("A CNH não pode se vencer dentro do prazo da locação!!!");
 			}
-			if(this.tableReserva.getSelectionModel().getSelectedItem().getDataHoraRetirada().getTime() > new Date().getTime())
-				throw new ValidacaoException("A reserva não esta marcada para hoje!!!");
 			//Validacao hora filial
 			FilialDao f = FilialDao.getInstance();
 			try {
@@ -651,7 +554,6 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				throw new ValidacaoException("Filial Não existe no banco!");
-
 			}
 		}
 	}
@@ -675,20 +577,17 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		}
 		return false;
 	}
-	private static ObservableList<Reserva> listaDeReserva(List<Reserva> l ) {
-		ObservableList<Reserva>lo =  FXCollections.observableArrayList(l);
+	private static ObservableList<Pessoa> listaDeClientes(List<Pessoa> l ) {
+		ObservableList<Pessoa>lo =  FXCollections.observableArrayList(l);
 		return lo;
 	}
-	//	private void preencherAreaCategoria(Reser a f) {
-	//		this.detalhesCategoriaArea.setText(f.toString());
-	//	}
-	private void atualizarTabelaReserva(List<Reserva>flist) {
-		ObservableList<Reserva>list = this.listaDeReserva(flist);
-		tableReserva.setItems(list);
-		tableReserva.getSelectionModel().select(list.get(0));//Se chegou até aqui é pq encontrou resultados!
+	private void atualizarTabelaCliente(List<Pessoa>flist) {
+		ObservableList<Pessoa>list = this.listaDeClientes(flist);
+		tableCliente.setItems(list);
+		tableCliente.getSelectionModel().select(list.get(0));//Se chegou até aqui é pq encontrou resultados!
 		//this.preencherAreaCategoria(list.get(0));
 	}
-	//Reserva</>
+	//Cliente</>
 	//Filial<>
 	private static ObservableList<Filial> listaDeFiliais(List<Filial> l ) {
 		ObservableList<Filial>lo =  FXCollections.observableArrayList(l);
@@ -729,32 +628,26 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		this.entradaField.setText("");
 		this.precoLocacaoField.setText("");
 	}
-	private void efetivarReserva() {
-		Reserva r = this.tableReserva.getSelectionModel().getSelectedItem();
-		r.setSituacao(StatusEnum.EFETUADA.getValor());
-		try {
-			ReservaDao.getInstance().persistOrMerge(r);
-			
-		} catch (DaoException e) {
-			Alerta.mostrarAlertaErro("Erro ao efetivar reserva!!!");
-			e.printStackTrace();
-		}
-	}
 	private void limparCampos() {
 		LimparCampo.limparCamposFXTOTAL(locacaoPane.getChildren());
 		//
 	}
-	//Otehrs</>
-	public static boolean isPermissaoGerente() {
-		return permissaoGerente;
-	}
-	public static void setPermissaoGerente(boolean permissaoGerente) {
-		ControllerFXCadastroLocacaoCReserva.permissaoGerente = permissaoGerente;
+	public  double  carregarConfiguracaoes() {
+		ConfiguracaoDao c =  ConfiguracaoDao.getInstance();
+		Configuracao cf;
+		try {
+			cf = c.buscarUltimo();
+			if(cf==null) {
+				return 0;
+			}
+			return this.kmLivre.isSelected()?cf.getDiariaKlivre():cf.getDiariaKcontrole();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	public Label getNomeFilialRetirada() {
 		return nomeFilialRetirada;
 	}
-	public void setNomeFilialRetirada(Label nomeFilialRetirada) {
-		this.nomeFilialRetirada = nomeFilialRetirada;
-	}	
+	//Otehrs</>
 }

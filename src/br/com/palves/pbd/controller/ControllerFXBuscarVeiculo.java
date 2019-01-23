@@ -154,6 +154,8 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 	@FXML
 	private TableColumn<Veiculo, String> situacaoColumn;
 	@FXML
+	private TextField placaField;
+	@FXML
 	void buscarCategoria(ActionEvent event) {
 		try {
 			if(this.buscaCategoriaField.getText().replace(" ","").length()<=0) {
@@ -241,6 +243,9 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 	}
 	@FXML
 	void editarVeiculo(ActionEvent event) {//Editar
+		if(Carregar.detalhes) {
+			return;
+		}
 		VeiculoDao daoPJ = VeiculoDao.getInstance();
 		try {
 			this.validacoesDeNull();
@@ -302,9 +307,15 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 		MascaraFX.maxField(this.anoModeloField,4);
 		MascaraFX.numericField(this.anoFabricacaoField);
 		MascaraFX.maxField(this.anoFabricacaoField,4);
+		MascaraFX.placa(this.placaField);
+		this.placaField.positionCaret(this.placaField.getText().replace(" ","").length());
 	}
 	@FXML
 	void buscarPorFiltro(ActionEvent event) {
+		if(Carregar.detalhes) {
+			Alerta.mostrarAlertaErro("Este recurso está indisponivel no momento!!!");
+			return;
+		}
 		try {
 			if(this.filtroField.getText().replace(" ","").length()<=0) {
 				List<Veiculo> l = VeiculoDao.getInstance().buscarPorFiltro("%"+""+"%");
@@ -356,6 +367,8 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 			throw new ValidacaoException("Digite um Nome!");
 		if(this.nChassiField.getText().replace(" "," ").length()<=0)
 			throw new ValidacaoException("Digite um Chassi!");
+		if(this.placaField.getText().replace(" "," ").length()<=0)
+			throw new ValidacaoException("Digite uma Placa!");
 		if(this.torqueMotorField.getText().replace(" "," ").length()<=0)
 			throw new ValidacaoException("Digite um valor para o Torque!");
 		if(this.nMotorField.getText().replace(" "," ").length()<=0)
@@ -416,6 +429,7 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 		veiculo.setHoraRevisao(horaRevisao);
 		veiculo.setKm_revisao(kmRev);
 		veiculo.setKmAtual(kmAtual);
+		veiculo.setPlaca(this.placaField.getText());
 		veiculo.setStatus(StatusEnum.ATIVO.getValor());//tem que ser um campo
 	}
 	private void preencherBusca(Veiculo p) {	
@@ -448,6 +462,8 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 		this.anoFabricacaoField.setText(p.getAnoFabricao()+"");
 		this.horaRevisao.setValue(TratadorDeMascara.dateToLocalTime(p.getHoraRevisao()));
 		this.kmAtualField.setText(p.getKmAtual()+"");
+		this.placaField.setText(p.getPlaca());
+		System.out.println(p.getPlaca());
 		List<Filial> lf = new ArrayList();
 		lf.add(p.getFilialAtual());
 		List<Categoria> lc = new ArrayList();
@@ -465,7 +481,7 @@ public class ControllerFXBuscarVeiculo implements Initializable{
 		ObservableList<Veiculo>lo =  FXCollections.observableArrayList(l);
 		return lo;
 	}
-	private void atualizarTabelaVeiculo(List<Veiculo>flist) {
+	public void atualizarTabelaVeiculo(List<Veiculo>flist) {
 		ObservableList<Veiculo>list = this.listaDeVeiculos(flist);
 		tableVeiculo.setItems(list);
 		tableVeiculo.getSelectionModel().select(list.get(0));//Se chegou até aqui é pq encontrou resultados!

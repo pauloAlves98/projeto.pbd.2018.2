@@ -30,6 +30,8 @@ public class Configuracao implements Generico {
 	private double taxaCombustivel;
 	@Column(name="taxa_devolucao")
 	private double taxaDevolucao;
+	@Column(name="porcentagem_km")
+	private double porcentagemKm;//Porcentagem por km
 	public Configuracao() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -39,6 +41,12 @@ public class Configuracao implements Generico {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public double getPorcentagemKm() {
+		return porcentagemKm;
+	}
+	public void setPorcentagemKm(double porcentagemKm) {
+		this.porcentagemKm = porcentagemKm;
 	}
 	public Date getDataRealizacao() {
 		return dataRealizacao;
@@ -87,6 +95,8 @@ public class Configuracao implements Generico {
 		temp = Double.doubleToLongBits(diariaKlivre);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		temp = Double.doubleToLongBits(porcentagemKm);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(taxaCombustivel);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(taxaDevolucao);
@@ -118,6 +128,8 @@ public class Configuracao implements Generico {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (Double.doubleToLongBits(porcentagemKm) != Double.doubleToLongBits(other.porcentagemKm))
+			return false;
 		if (Double.doubleToLongBits(taxaCombustivel) != Double.doubleToLongBits(other.taxaCombustivel))
 			return false;
 		if (Double.doubleToLongBits(taxaDevolucao) != Double.doubleToLongBits(other.taxaDevolucao))
@@ -125,6 +137,12 @@ public class Configuracao implements Generico {
 		if (Double.doubleToLongBits(taxaHigiene) != Double.doubleToLongBits(other.taxaHigiene))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Configuracao [id=" + id + ", dataRealizacao=" + dataRealizacao + ", diariaKlivre=" + diariaKlivre
+				+ ", diariaKcontrole=" + diariaKcontrole + ", taxaHigiene=" + taxaHigiene + ", taxaCombustivel="
+				+ taxaCombustivel + ", taxaDevolucao=" + taxaDevolucao + ", porcentagemKm=" + porcentagemKm + "]";
 	}
 
 }

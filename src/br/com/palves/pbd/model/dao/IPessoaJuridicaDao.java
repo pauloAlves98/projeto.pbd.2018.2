@@ -13,4 +13,5 @@ public interface IPessoaJuridicaDao {
 //	public  PessoaJuridica deleteById (int id) throws DaoException;
 	public PessoaJuridica buscarPorCnpj(String cnpj) throws DaoException;
 	public List<PessoaJuridica> buscarPorFiltro(String var) throws DaoException;
+	public Object procedureValidaPorCNPJ(String cnpj) throws DaoException;
 }
