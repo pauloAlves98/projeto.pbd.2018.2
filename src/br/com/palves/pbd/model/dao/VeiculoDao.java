@@ -1,5 +1,6 @@
 package br.com.palves.pbd.model.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -9,7 +10,6 @@ import br.com.palves.pbd.connection.ConnectionFactory;
 import br.com.palves.pbd.enums.QueryEnum;
 import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.model.bin.Veiculo;
-import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import br.com.palves.pbd.sql.SQLUtil;
 
 public class VeiculoDao extends DaoGenerico<Veiculo>implements IVeiculoDao{
@@ -105,4 +105,54 @@ public class VeiculoDao extends DaoGenerico<Veiculo>implements IVeiculoDao{
 		}
 		return var;
 	}
+	@Override
+	public List<Veiculo> buscarPorStatus(int codFilial, String situacao, String filtro) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var = null;
+		String op = "listar Por Filial Status ";
+		try {
+			Query query = em.createNamedQuery("Veiculo.listarPorFilialStatus");
+			query.setParameter("var3",situacao);
+			query.setParameter("var2",codFilial);
+			query.setParameter("var1",filtro);
+			var = query.getResultList();
+
+			if(var.size()<=0)
+				return null;
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
+	@Override
+	public List<Veiculo> buscarPorData(Date data,int filial) throws DaoException {
+		em = ConnectionFactory.getInstance().getConnection();
+		List var = null;
+		String op = "listar Por Data ";
+		try {
+			Query query = em.createQuery(SQLUtil.Veiculo.CREATEQUERY_LISTAR_POR_DATA);
+			query.setParameter("var",data);
+			query.setParameter("var2",filial);
+			var = query.getResultList();
+			if(var.size()<=0)
+				return null;
+		
+		}
+		catch(NoResultException nre) {
+			return null;
+		}
+		catch(Exception e){
+			throw new DaoException("Erro ao Realizar "+op+" em "+this.getClass().getName()+":"+e.getMessage());
+		}finally {
+			em.close();
+		}
+		return var;
+	}
+
 }

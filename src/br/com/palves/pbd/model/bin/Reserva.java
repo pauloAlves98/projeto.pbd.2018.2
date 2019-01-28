@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 @NamedQueries(
 		{
 			@NamedQuery(name="Reserva.listarPorFiltro",query="SELECT c FROM Reserva c WHERE c.pessoa.id =:var4 and dataHoraRetirada BETWEEN :var2 and :var3 and (LOWER(c.situacao) LIKE :var1 or LOWER(c.categoria.nome) LIKE :var1)"),
+			@NamedQuery(name="Reserva.listarPorStatus",query="SELECT c FROM Reserva c WHERE c.situacao =:var1"),
 			@NamedQuery(name="Reserva.listarPorParametroClienteData",query="SELECT c FROM Reserva c WHERE c.pessoa.id=:var and dataHoraRetirada BETWEEN :var2 and :var3"),
 			@NamedQuery(name="Reserva.listarPorParametroCliente",query="SELECT c FROM Reserva c WHERE c.pessoa.id =:var"),
 			@NamedQuery(name="Reserva.listarPorParametroData",query="SELECT c FROM Reserva c WHERE dataHoraRetirada BETWEEN :var1 and :var2")

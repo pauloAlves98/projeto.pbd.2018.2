@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="configuracoesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.palves.pbd.controller.ControllerFXConfiguracoes">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="110.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="90.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <AnchorPane fx:id="AlterarPane" maxWidth="400.0" prefHeight="400.0" prefWidth="363.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator layoutX="-25.0" layoutY="91.0" prefHeight="3.0" prefWidth="410.0" style="-fx-background-color: #000000;" AnchorPane.leftAnchor="-25.0" AnchorPane.rightAnchor="2.0" />
+            <Separator layoutY="360.0" prefHeight="3.0" prefWidth="397.0" style="-fx-background-color: #000000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" />
+            <Label alignment="BOTTOM_LEFT" layoutY="46.0" maxWidth="400.0" prefHeight="45.0" prefWidth="400.0" text="CONFIGURAÇÕES">
+               <font>
+                  <Font name="Impact" size="32.0" />
+               </font>
+            </Label>
+            <Label contentDisplay="CENTER" layoutX="14.0" layoutY="107.0" prefHeight="23.0" prefWidth="135.0" text="KM Livre R$" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="257.0">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="salvarButton" layoutX="14.0" layoutY="300.0" onAction="#salvarConfiguracao" prefHeight="57.0" prefWidth="58.0" ripplerFill="WHITE" style="-fx-background-radius: 90; -fx-background-color: linear-gradient(to bottom,#00405d,#000000);" text=" ">
+               <tooltip>
+                  <Tooltip text="Salvar Alteração" />
+               </tooltip>
+            </JFXButton>
+            <ImageView disable="true" fitHeight="29.0" fitWidth="29.0" layoutX="29.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+               <image>
+                  <Image url="@../../../../../../res/salvar.png" />
+               </image>
+            </ImageView>
+            <Label contentDisplay="CENTER" layoutX="217.0" layoutY="107.0" prefHeight="23.0" prefWidth="157.0" text="KM Controle R$">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label contentDisplay="CENTER" layoutX="10.0" layoutY="235.0" prefHeight="23.0" prefWidth="196.0" text="\% Por KM Extra">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label contentDisplay="CENTER" layoutX="14.0" layoutY="164.0" prefHeight="23.0" prefWidth="196.0" text="\% Taxa Higiene ">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label contentDisplay="CENTER" layoutX="217.0" layoutY="164.0" prefHeight="23.0" prefWidth="196.0" text="\% Taxa Combustível ">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="kmLivreField" layoutX="14.0" layoutY="130.0" prefHeight="34.0" prefWidth="149.0" />
+            <TextField fx:id="taxaHigieneField" layoutX="14.0" layoutY="192.0" prefHeight="34.0" prefWidth="149.0" />
+            <TextField fx:id="taxaCombustivelField" layoutX="217.0" layoutY="192.0" prefHeight="34.0" prefWidth="149.0" />
+            <TextField fx:id="kmControleField" layoutX="217.0" layoutY="130.0" prefHeight="34.0" prefWidth="149.0" />
+            <TextField fx:id="kmExtraField" layoutX="14.0" layoutY="258.0" prefHeight="34.0" prefWidth="149.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

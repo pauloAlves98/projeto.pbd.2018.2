@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d921e77e-edc6-46cd-b7c8-ef1a993a9ef7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="situacao" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer"/>
+	<variable name="COD_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="97" backcolor="#001451" uuid="5afb66e1-574e-47c2-a3be-e6c78ac746bd"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="22" width="402" height="49" forecolor="#FFFFFF" uuid="54d7d7d1-2277-4946-ad90-fcc0236c9169"/>
+				<textElement>
+					<font fontName="Bradley Hand ITC" size="34" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[VEÍCULOS PAJEÚ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="237" height="97" uuid="d6159984-cc3c-4f87-8a61-1af0ea336d63"/>
+				<imageExpression><![CDATA["P:\\Area de trabalho Eclipse Java\\br.com.palves.pbd\\res\\carro2.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="196" y="71" width="276" height="26" forecolor="#FFFFFF" uuid="a6a73636-c259-4f2a-b372-870ac6692717"/>
+				<textElement>
+					<font fontName="Century Gothic" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório Cliente PF]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="555" height="20" backcolor="#001451" uuid="7ecc6be6-fcdd-4c86-a3f7-353bd6d21b8a"/>
+				<textElement>
+					<font fontName="Verdana" size="12"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="2" width="157" height="20" forecolor="#FFFFFF" uuid="bd6f8339-3dd7-4331-814f-077828b5a245"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="2" width="136" height="20" forecolor="#FFFFFF" uuid="afd7db12-29d4-42d0-9ca0-89cde6d58f03"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="2" width="100" height="20" forecolor="#FFFFFF" uuid="fb38e524-8cc8-4825-a6d5-36e892292203"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUACAO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="2" width="100" height="20" forecolor="#FFFFFF" uuid="f864a895-6888-47f1-a962-0b2e285e056a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="122" y="12" width="168" height="20" uuid="3bea0ba3-d2c1-4cf4-97d9-3a4513d5b08d"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="12" width="136" height="20" uuid="4913b300-6235-4e97-940a-94b57cf1c01d"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="12" width="100" height="20" uuid="fe76f22c-3dba-467e-b242-bc9e7cc73fa5"/>
+				<textElement>
+					<font fontName="Verdana" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="12" width="100" height="20" uuid="a46fb819-2599-4280-a312-90fcab5f257a"/>
+				<textElement>
+					<font fontName="Verdana" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

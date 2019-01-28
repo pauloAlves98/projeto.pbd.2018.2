@@ -16,4 +16,5 @@ public interface IPessoaFisicaDao {
     public List<PessoaFisica> buscarPorFiltro(String var) throws DaoException;
     public List<PessoaFisica> buscarPorParametro(String var) throws DaoException;//Na busca por parametro o cliente tem que estar ativo!
 	public Object procedureValidaPorCPF(String cpf) throws DaoException;
+	
 }

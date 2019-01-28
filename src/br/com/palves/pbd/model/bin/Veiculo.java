@@ -26,7 +26,13 @@ import javax.validation.constraints.NotNull;
 					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1))"),
 			@NamedQuery(name="Veiculo.listarPorParametroFilialCategoriaGerente",query="SELECT c FROM Veiculo c WHERE c.categoria.valor >=:var3 and c.filialAtual.id =:var2 and ((LOWER(c.status) LIKE :var1 or LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
 					+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or LOWER(c.placa) LIKE :var1 or "
-					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1))")
+					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1))"),
+			@NamedQuery(name="Veiculo.listarPorFilialStatus",query="SELECT c FROM Veiculo c WHERE c.status LIKE :var3 and c.filialAtual.id =:var2 and (LOWER(c.numeroChassi) LIKE :var1 or LOWER(c.nome) LIKE :var1 or LOWER(c.tamanho) LIKE :var1 or "
+					+ "LOWER(c.tipoCombustivel) LIKE :var1 or LOWER(c.numeroMotor) LIKE :var1 or LOWER(c.modelo) LIKE :var1 or LOWER(c.fabricante) LIKE :var1 or LOWER(c.placa) LIKE :var1 or "
+					+ "LOWER(c.categoria.nome) LIKE :var1 or LOWER(c.filialAtual.nome) LIKE :var1 or LOWER(c.categoria.horaLimpeza) LIKE :var1 or LOWER(c.categoria.tipoCambio) LIKE :var1 or CAST(c.id AS text) LIKE :var1)")
+//			@NamedQuery(name="Veiculo.listarPorData",query="select DISTINCT v from Veiculo v,Revisao r,Locacao l Where v.status Like '%ATIVO%' or " + 
+//					"(v.id = l.veiculo and l.dataEntrega <=: var and v.status = 'LOCADO') or " + 
+//					"(v.id = r.veiculoand r.dataHora + v.horaRevisao <= var and v.status = 'REVISAO')" )
 			//@NamedQuery(name="",query="")
 		})
 @Entity

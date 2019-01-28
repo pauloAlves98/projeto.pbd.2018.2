@@ -16,6 +16,7 @@ import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.exception.ValidacaoException;
 import br.com.palves.pbd.model.bin.Endereco;
 import br.com.palves.pbd.model.bin.PessoaFisica;
+import br.com.palves.pbd.model.complemento.Corrente;
 import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.MascaraFX;
@@ -208,6 +209,13 @@ public class ControllerFXCadastroClientePF implements Initializable{
 		pessoaF.setDataNascimento(dataNascimentoFieldv==null?null:Date.from(dataNascimentoFieldv.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		pessoaF.setDataVencHabilitacao(dataVencHabField==null?null:Date.from(dataVencHabField.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		pessoaF.setSituacao(StatusEnum.ATIVO.getValor());
+		if(Corrente.usuarioFisico!=null) {
+			pessoaF.setUltimoModificador(Corrente.usuarioFisico.getNome());
+		}else if(Corrente.usuarioJuridico!=null) {
+			pessoaF.setUltimoModificador(Corrente.usuarioJuridico.getNome());
+		}else if(Corrente.funcionario!=null){
+			pessoaF.setUltimoModificador(Corrente.funcionario.getNome());
+		}
 	}
 	private void verificaUnicidadeHab(String nHabilitacaoField) throws ValidacaoException, DaoException {
 		PessoaFisicaDao pf = PessoaFisicaDao.getInstance();

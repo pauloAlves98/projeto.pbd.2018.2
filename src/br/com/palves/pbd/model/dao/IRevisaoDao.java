@@ -11,4 +11,5 @@ public interface IRevisaoDao {
 //	public Revisao findById(Integer id) throws DaoException;
 //	public List<Revisao> findAll() throws DaoException;
 //	public  Revisao deleteById (int id) throws DaoException;
+	public void procedureChacaVeiculosNaRevisao() throws DaoException;
 }

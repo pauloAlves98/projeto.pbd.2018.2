@@ -14,4 +14,5 @@ public interface ILocacaoDao {
 //	public List<Locacao> findAll() throws DaoException;
 //	public  Locacao deleteById (int id) throws DaoException;
 	public List<Locacao> buscarPorFiltro(String var1, Date var2, Date var3) throws DaoException;
+	public List<Locacao> buscarPorVeiculo(String var1, int var2) throws DaoException;
 }

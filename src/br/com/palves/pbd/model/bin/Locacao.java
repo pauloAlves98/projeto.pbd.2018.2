@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @NamedQueries(
 		{
 			@NamedQuery(name="Locacao.listarPorFiltro",query="SELECT c FROM Locacao c WHERE (c.dataEntrega BETWEEN :var2 and :var3) and (LOWER(c.situacao) LIKE :var1 or LOWER(c.pessoa.nome) LIKE :var1 or CAST(c.id AS text) LIKE :var1 "
+					+ "or LOWER(c.veiculo.nome) LIKE :var1 or LOWER(c.veiculo.placa) LIKE :var1 or LOWER(c.funcionario.nome) LIKE :var1 or LOWER(c.motorista.nome) LIKE :var1 or LOWER(c.motorista.cpf) LIKE :var1 or LOWER(c.filialEntrega.nome) LIKE :var1)"),
+			@NamedQuery(name="Locacao.listarPorVeiculo",query="SELECT c FROM Locacao c WHERE c.veiculo.id =:var2 and (LOWER(c.situacao) LIKE :var1 or LOWER(c.pessoa.nome) LIKE :var1 or CAST(c.id AS text) LIKE :var1 "
 					+ "or LOWER(c.veiculo.nome) LIKE :var1 or LOWER(c.veiculo.placa) LIKE :var1 or LOWER(c.funcionario.nome) LIKE :var1 or LOWER(c.motorista.nome) LIKE :var1 or LOWER(c.motorista.cpf) LIKE :var1 or LOWER(c.filialEntrega.nome) LIKE :var1)")
 		})
 @Entity
@@ -53,6 +55,8 @@ public class Locacao implements Generico{
 //	private double taxaCombustivel;//Taxa combustivel Combustivel
 	@Column(name="preco_final")
 	private double precoFinal;
+	@Column(name= "ultimo_modificador")
+	private String ultimoModificador;
 	private String situacao;
 	@ManyToOne   
 	@JoinColumn(name="veiculo_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "locacao_veiculo_fkey"))
@@ -186,13 +190,7 @@ public class Locacao implements Generico{
 		this.dataRealEntrega = dataRealEntrega;
 	}
 	
-//	public double getTaxaCombustivel() {
-//		return taxaCombustivel;
-//	}
-//	public void setTaxaCombustivel(double taxaCombustivel) {
-//		this.taxaCombustivel = taxaCombustivel;
-//	}
-	@Override
+@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -216,6 +214,7 @@ public class Locacao implements Generico{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(taxaHigiene);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((ultimoModificador == null) ? 0 : ultimoModificador.hashCode());
 		temp = Double.doubleToLongBits(valorDiaria);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
@@ -292,6 +291,11 @@ public class Locacao implements Generico{
 			return false;
 		if (Double.doubleToLongBits(taxaHigiene) != Double.doubleToLongBits(other.taxaHigiene))
 			return false;
+		if (ultimoModificador == null) {
+			if (other.ultimoModificador != null)
+				return false;
+		} else if (!ultimoModificador.equals(other.ultimoModificador))
+			return false;
 		if (Double.doubleToLongBits(valorDiaria) != Double.doubleToLongBits(other.valorDiaria))
 			return false;
 		if (veiculo == null) {
@@ -310,6 +314,11 @@ public class Locacao implements Generico{
 				+ ", veiculo=" + veiculo + ", filialLocaataria=" + filialLocaataria + ", filialEntrega=" + filialEntrega
 				+ ", pessoa=" + pessoa + ", motorista=" + motorista + ", funcionario=" + funcionario + "]";
 	}
-
+	public String getUltimoModificador() {
+		return ultimoModificador;
+	}
+	public void setUltimoModificador(String ultimoModificador) {
+		this.ultimoModificador = ultimoModificador;
+	}
 	
 }

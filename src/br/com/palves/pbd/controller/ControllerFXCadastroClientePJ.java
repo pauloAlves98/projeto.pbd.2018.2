@@ -12,6 +12,7 @@ import br.com.palves.pbd.exception.DaoException;
 import br.com.palves.pbd.exception.ValidacaoException;
 import br.com.palves.pbd.model.bin.Endereco;
 import br.com.palves.pbd.model.bin.PessoaJuridica;
+import br.com.palves.pbd.model.complemento.Corrente;
 import br.com.palves.pbd.model.complemento.EncriptaDecriptaApacheCodec;
 import br.com.palves.pbd.model.complemento.LimparCampo;
 import br.com.palves.pbd.model.complemento.MascaraFX;
@@ -158,6 +159,13 @@ public class ControllerFXCadastroClientePJ implements Initializable {
 			pessoaJ.setIncEstadual(incEstadual);
 			pessoaJ.setDiscriminador(Discriminador.PJ.getValor());//Importante
 			pessoaJ.setSituacao(StatusEnum.ATIVO.getValor());//tem que ser um campo
+			if(Corrente.usuarioFisico!=null) {
+				pessoaJ.setUltimoModificador(Corrente.usuarioFisico.getNome());
+			}else if(Corrente.usuarioJuridico!=null) {
+				pessoaJ.setUltimoModificador(Corrente.usuarioJuridico.getNome());
+			}else if(Corrente.funcionario!=null){
+				pessoaJ.setUltimoModificador(Corrente.funcionario.getNome());
+			}
 		}
 		private void limparCampos() {
 			LimparCampo.limparCamposFX(cadastroPessoaJuridicaPanel.getChildren());

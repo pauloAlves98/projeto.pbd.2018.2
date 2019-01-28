@@ -30,10 +30,18 @@ public class ControllerFXMenuFuncionario implements Initializable{
     private JFXNodesList nodeList;
 	@FXML
 	private MenuItem cadastrarCategoriaItem;
-
+	@FXML
+	private MenuItem relatorioLocacaoItem;
+	@FXML
+	private MenuItem relatorioReservaItem;
+	@FXML
+	private MenuItem  relatorioRevisaoItem;
+	@FXML
+	private MenuItem alugadoVeiculoItem;
 	@FXML
 	private MenuItem buscarCategoriaItem;
-
+	@FXML
+	private MenuItem  disponibilidadeVeiculoItem;
 	@FXML
 	private MenuItem cadastrarVeiculoItem;
 
@@ -57,10 +65,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 
 	@FXML
 	private MenuItem cadastrarClienteItem;
-
 	@FXML
 	private MenuItem buscarClienteItem;
-
+    @FXML
+    private MenuItem relatorioClienteItem;
 	@FXML
 	private MenuItem resetSenhaClienteItem;
 
@@ -191,8 +199,41 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			LimparCampo.limparCamposFXTOTAL(App.getRetornoLocacaoPane().getChildren());
 			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
 		}
+		else if(event.getSource()==this.configuracaoItem) {//Sem reserva
+			this.animationGeral(App.getConfiguracoesPane());
+			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
+			ControllerFXConfiguracoes c = (ControllerFXConfiguracoes)Carregar.getConfiguracoesLoader().getController();
+			c.carregarConfiguracaoes();
+			//LimparCampo.limparCamposFXTOTAL(App.getRetornoLocacaoPane().getChildren());
+			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
+		}
+		else if(event.getSource()==this.resetSenhaClienteItem) {//Sem reserva
+			this.animationGeral(App.getResetarSenhaPane());
+			LimparCampo.limparCamposFXTOTAL(App.getResetarSenhaPane().getChildren());
+		}
+		else if(event.getSource()==this.alugadoVeiculoItem) {//Sem reserva
+			this.animationGeral(App.getAlugadosPane());
+			LimparCampo.limparCamposFXTOTAL(App.getAlugadosPane().getChildren());
+		}
+		else if(event.getSource()==this.disponibilidadeVeiculoItem) {//Sem reserva
+			this.animationGeral(App.getDisponibilidadeVeiculosPane());
+			LimparCampo.limparCamposFXTOTAL(App.getDisponibilidadeVeiculosPane().getChildren());
+		}
+		else if(event.getSource()==this.relatorioClienteItem) {
+			this.animationGeral(App.getRelatorioClientesPane());
+			System.out.println("---------------");
+			LimparCampo.limparCamposFXTOTAL(App.getRelatorioClientesPane().getChildren());
+		}
+		else if(event.getSource()==this.relatorioLocacaoItem) {
+			this.animationGeral(App.getRelatorioLocacaoPane());
+			System.out.println("---------------");
+			LimparCampo.limparCamposFXTOTAL(App.getRelatorioLocacaoPane().getChildren());
+		}
 		else if(event.getSource()==this.logoutItem) {
 			LimparCampo.limparLogout();
+			Corrente.funcionario = null;
+			Corrente.usuarioFisico = null;
+			Corrente.usuarioJuridico = null;
 			App.stage.setScene(App.cenaLogin);
 			App.stage.centerOnScreen();
 			App.stage.show();

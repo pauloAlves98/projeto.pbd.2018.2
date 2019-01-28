@@ -305,7 +305,15 @@ public class ControllerFXBuscarCliente implements Initializable{
 		pessoaF.setDataNascimento(dataNascimentoFieldv==null?null:Date.from(dataNascimentoFieldv.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		pessoaF.setDataVencHabilitacao(dataVencHabField==null?null:Date.from(dataVencHabField.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		pessoaF.setSituacao(StatusEnum.ATIVO.getValor());
+		if(Corrente.usuarioFisico!=null) {
+			pessoaF.setUltimoModificador(Corrente.usuarioFisico.getNome());
+		}else if(Corrente.usuarioJuridico!=null) {
+			pessoaF.setUltimoModificador(Corrente.usuarioJuridico.getNome());
+		}else if(Corrente.funcionario!=null){
+			pessoaF.setUltimoModificador(Corrente.funcionario.getNome());
+		}
 	}
+	
 	//Editar</>
 	//Pessoa<>
 	private void verificaUnicidadeHab(String nHabilitacaoField) throws ValidacaoException, DaoException {

@@ -257,6 +257,13 @@ public class ControllerFXBuscarClientePJ implements Initializable{
 		pessoaJ.setIncEstadual(incEstadual);
 		pessoaJ.setDiscriminador(Discriminador.PJ.getValor());//Importante
 		pessoaJ.setSituacao(StatusEnum.ATIVO.getValor());
+		if(Corrente.usuarioFisico!=null) {
+			pessoaJ.setUltimoModificador(Corrente.usuarioFisico.getNome());
+		}else if(Corrente.usuarioJuridico!=null) {
+			pessoaJ.setUltimoModificador(Corrente.usuarioJuridico.getNome());
+		}else if(Corrente.funcionario!=null){
+			pessoaJ.setUltimoModificador(Corrente.funcionario.getNome());
+		}
 	}
 	//Editar</>
 	//Pessoa Juridica<>

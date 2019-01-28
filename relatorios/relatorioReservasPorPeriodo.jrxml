@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioReservasPorPeriodo" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74bc5e6e-de39-4810-b24f-ede08e6d39fa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="dataReserva" class="java.util.Date"/>
+	<field name="situacao" class="java.lang.String"/>
+	<field name="codCliente" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="filial" class="java.lang.String"/>
+	<field name="categoria" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="79" backcolor="#00145B" uuid="cb7e9e7a-da9b-4fe4-9b0c-e49a5377fdd4"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="142" height="79" uuid="7a45afac-9774-4126-9f38-320daf658ede"/>
+				<imageExpression><![CDATA["P:\\Area de trabalho Eclipse Java\\br.com.palves.pbd\\res\\carro2.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="47" forecolor="#FFFFFF" uuid="13ab242a-7416-4d4a-b98e-324a5fc7af66"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Bradley Hand ITC" size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VEÍCULOS PAJEÚ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="58" width="802" height="21" forecolor="#FFFFFF" uuid="e0d4bfab-cbb3-458d-8be7-37a457bc62a6"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO RESERVAS POR PERÍODO	]]></text>
+			</staticText>
+			<image>
+				<reportElement x="178" y="0" width="115" height="58" uuid="66046e91-03fc-475e-ae81-7d4bc5c28314"/>
+				<imageExpression><![CDATA["P:\\Area de trabalho Eclipse Java\\br.com.palves.pbd\\res\\iconepbd.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="46" forecolor="#00145B" backcolor="#00145B" uuid="64bda31f-bd2b-4049-9e6c-d0aa80469f8d"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="142" height="31" forecolor="#FFFFFF" uuid="ee00078a-0d8c-4ee2-9e3a-dc3a9ac6d20f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DA RESERVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="15" width="117" height="31" forecolor="#FFFFFF" uuid="0e261fce-66a4-4d76-9449-955465e83b54"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="259" y="15" width="85" height="31" forecolor="#FFFFFF" uuid="c6ae4008-c1f9-44c7-bff6-2b2a21f36193"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="15" width="168" height="31" forecolor="#FFFFFF" uuid="f0c9462b-9e78-48a2-a679-ec3c49ca729e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="659" y="15" width="143" height="31" forecolor="#FFFFFF" uuid="b82e46eb-f1ae-47ac-bc33-d8b0b323499c"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="512" y="15" width="147" height="31" forecolor="#FFFFFF" uuid="5958160d-7374-49d5-ab5b-ec5d6379a7fb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FILIAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="142" height="28" uuid="62af7aaa-b661-4105-a100-403fdb43af0a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dataReserva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="10" width="117" height="28" uuid="ec4f9bfe-4b0b-4224-ac5a-6a5569908fbc"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="259" y="10" width="85" height="28" uuid="607bd701-8b08-4c91-91c8-7e977c91f9ad"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{codCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="344" y="10" width="168" height="28" uuid="d3b0828d-23f9-4d95-9192-6a748b1e3730"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="512" y="10" width="147" height="28" uuid="f8a36fbf-29d9-4404-bc74-14f8bc93d076"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{filial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="659" y="10" width="143" height="28" uuid="bc089e0e-572d-41dd-8074-66d074e7301e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

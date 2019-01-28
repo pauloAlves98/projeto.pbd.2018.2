@@ -248,7 +248,7 @@ public class ControllerFXCadastroLocacaoSReserva implements Initializable{
 	void buscarVeiculo(ActionEvent event) {
 		try {
 			List<Veiculo> l =null;
-			l = VeiculoDao.getInstance().buscarPorFiltro("%"+this.buscaVeiculoField.getText()+"%");
+			l = VeiculoDao.getInstance().buscarPorFiltro("%"+this.buscaVeiculoField.getText().toLowerCase()+"%");
 			if(l==null)
 				Alerta.mostrarAlertaErro("Nehum resultado Encontrado!!!");
 			else
@@ -412,6 +412,7 @@ public class ControllerFXCadastroLocacaoSReserva implements Initializable{
 			Locacao locacao = new Locacao();
 			this.preencherCampos(locacao);
 			dao.persistOrMerge(locacao);
+			VeiculoDao.getInstance().persistOrMerge(locacao.getVeiculo());
 			Alerta.mostrarAlertaInformacao("Locação cadastrada com sucesso!");
 			//this.efetivarReserva();
 			this.limparCampos();
@@ -494,6 +495,7 @@ public class ControllerFXCadastroLocacaoSReserva implements Initializable{
 		locacao.setFuncionario(Corrente.funcionario);
 		locacao.setValorDiaria(this.tableVeiculo.getSelectionModel().getSelectedItem().getCategoria().getValor()+this.carregarConfiguracaoes());
 		locacao.setSituacao(StatusEnum.ATIVO.getValor());//tem que ser um campo
+		locacao.setUltimoModificador(Corrente.funcionario.getNome());
 	}
 	private void validacoesDeNull() throws ValidacaoException {
 		if(this.tableFiilial.getItems().size()<=0)
@@ -511,7 +513,9 @@ public class ControllerFXCadastroLocacaoSReserva implements Initializable{
 		}
 		if(TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),TratadorDeMascara.localTimetoString(this.horaEntrega.getValue())).getTime() < new Date().getTime())
 			throw new ValidacaoException("Data de entrega inválida!!!");
-		if(!this.tableVeiculo.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase(StatusEnum.ATIVO.getValor()))
+		if(this.tableVeiculo.getSelectionModel().getSelectedItem().getFilialAtual().getId()!=Corrente.funcionario.getFilial().getId())
+			throw new ValidacaoException("Veículo não se encontra nesta filial!!!");
+		if(!this.tableVeiculo.getSelectionModel().getSelectedItem().getStatus().replace(" ","").equalsIgnoreCase(StatusEnum.ATIVO.getValor().replace(" ","")))
 			throw new ValidacaoException("Veículo não disponivel no momento!!!");
 		//Validação de Motorista!!!
 		if(this.tableMotorista.getItems().size()<=0)

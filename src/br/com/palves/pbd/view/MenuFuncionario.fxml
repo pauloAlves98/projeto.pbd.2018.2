@@ -123,6 +123,24 @@
                                     </ImageView>
                                  </graphic>
                               </MenuItem>
+                              <MenuItem fx:id="alugadoVeiculoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-width: 100; -fx-font-weight: bold;" text="VEICULOS ALUGADOS">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/pesquisarBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="disponibilidadeVeiculoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-width: 100; -fx-font-weight: bold;" text="DISPONIBILIDADE VEICULO">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/pesquisarBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
                            </items>
                            <font>
                               <Font name="Impact" size="16.0" />
@@ -284,7 +302,34 @@
                         </MenuButton>
                         <MenuButton mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" style="-fx-background-color: #ffffff;" text="RELATORIOS" textAlignment="CENTER">
                            <items>
-                              <MenuItem mnemonicParsing="false" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="CRIAR">
+                              <MenuItem fx:id="relatorioClienteItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="RELATORIO CLIENTE">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/relatorioBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="relatorioLocacaoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="RELATORIO LOCACAO">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/relatorioBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="relatorioReservaItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="RELATORIO RESERVA">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../res/relatorioBlack.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem fx:id="relatorioRevisaoItem" mnemonicParsing="false" onAction="#eventoItens" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-width: 100px; fx-font-family: &quot;Helvetica&quot;;;" text="RELATORIO REVISAO">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

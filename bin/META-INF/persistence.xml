@@ -21,6 +21,7 @@
     	br.com.palves.pbd.model.bin.Locacao
     	br.com.palves.pbd.model.bin.Configuracao
     	br.com.palves.pbd.model.bin.Log
+        br.com.palves.pbd.model.bin.auditoria.AuditoriaLocacao
     </class>
     <properties>
       <!-- Propriedades JDBC -->

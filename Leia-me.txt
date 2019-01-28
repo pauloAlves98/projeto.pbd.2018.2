@@ -1,1 +1,5 @@
-Nº Commit 14
+Nº Commit 15
+
+- Calculo da KM para revisão do veiculo.
+	> KM RESTANTE REV -  KM REV se for >= 0 é pq o veículo deve entrar em revisão!
+- Thread com verificação de backup na classe Carregar

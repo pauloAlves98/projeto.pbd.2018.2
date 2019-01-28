@@ -508,7 +508,8 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 			this.validacoesDeNull();
 			Locacao locacao = new Locacao();
 			this.preencherCampos(locacao);
-			dao.persistOrMerge(locacao);
+			locacao = dao.persistOrMerge(locacao);
+			VeiculoDao.getInstance().persistOrMerge(locacao.getVeiculo());
 			Alerta.mostrarAlertaInformacao("Locação cadastrada com sucesso!");
 			this.efetivarReserva();
 			this.limparCampos();
@@ -558,14 +559,14 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		Date dataEntrega = TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),
 				TratadorDeMascara.localTimetoString(this.horaEntrega.getValue()));
 		boolean kmlivre = this.kmLivre.isSelected();
-//		int idLocataria = Integer.parseInt(this.fpl.getIdFilialLocatariaField().getText());
-//		int idEntrega = Integer.parseInt(this.fpl.getFilialEntregaIdField().getText());
-//		int idVeiculo = Integer.parseInt(this.fpl.getVeiculoIdField().getText());
-//		int idMotorista = Integer.parseInt(this.fpl.getIdMotoristaField().getText());
-//		int idCliente = Integer.parseInt(this.fpl.getClienteField().getText());
-//		if(idField.trim().length()>0) {//então eh update
-//			locacao.setId(Integer.parseInt(idField));
-//		}    
+		//		int idLocataria = Integer.parseInt(this.fpl.getIdFilialLocatariaField().getText());
+		//		int idEntrega = Integer.parseInt(this.fpl.getFilialEntregaIdField().getText());
+		//		int idVeiculo = Integer.parseInt(this.fpl.getVeiculoIdField().getText());
+		//		int idMotorista = Integer.parseInt(this.fpl.getIdMotoristaField().getText());
+		//		int idCliente = Integer.parseInt(this.fpl.getClienteField().getText());
+		//		if(idField.trim().length()>0) {//então eh update
+		//			locacao.setId(Integer.parseInt(idField));
+		//		}    
 		Filial fl = Corrente.funcionario.getFilial();
 		//fl.setId(idLocataria);
 		Filial fe = this.tableFiilial.getSelectionModel().getSelectedItem();
@@ -589,6 +590,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		locacao.setFuncionario(Corrente.funcionario);
 		locacao.setValorDiaria(this.tableReserva.getSelectionModel().getSelectedItem().getCategoria().getValor()+ (kmlivre==true?this.tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKlivre():this.tableReserva.getSelectionModel().getSelectedItem().getValorDiariaKcontrole()));
 		locacao.setSituacao(StatusEnum.ATIVO.getValor());//tem que ser um campo
+		locacao.setUltimoModificador(Corrente.funcionario.getNome());
 	}
 	private void validacoesDeNull() throws ValidacaoException {
 		if(this.tableFiilial.getItems().size()<=0)
@@ -601,12 +603,14 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		if(this.tableReserva.getItems().size()<=0)
 			throw new ValidacaoException("Escolha uma Reserva para realizar a locação!");
 		else {
-			if(!this.tableReserva.getSelectionModel().getSelectedItem().getSituacao().equalsIgnoreCase(StatusEnum.EM_ESPERA.getValor()))
+			if(!this.tableReserva.getSelectionModel().getSelectedItem().getSituacao().replace(" ", "").equalsIgnoreCase(StatusEnum.EM_ESPERA.getValor().replace(" ", "")))
 				throw new ValidacaoException("A Reserva Não é válida!!!");
 		}
 		if(TratadorDeMascara.unirDataHora(TratadorDeMascara.localDatetoDate(this.dataEntrega.getValue()),TratadorDeMascara.localTimetoString(this.horaEntrega.getValue())).getTime() < new Date().getTime())
 			throw new ValidacaoException("Data de entrega inválida!!!");
-		if(!this.tableVeiculo.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase(StatusEnum.ATIVO.getValor()))
+		if(this.tableVeiculo.getSelectionModel().getSelectedItem().getFilialAtual().getId()!=Corrente.funcionario.getFilial().getId())
+			throw new ValidacaoException("Veículo não se encontra nesta filial!!!");
+		if(!this.tableVeiculo.getSelectionModel().getSelectedItem().getStatus().replace(" ", "").equalsIgnoreCase(StatusEnum.ATIVO.getValor().replace(" ", "")))
 			throw new ValidacaoException("Veículo não disponivel no momento!!!");
 		//Validação de Motorista!!!
 		if(this.tableMotorista.getItems().size()<=0)
@@ -734,7 +738,7 @@ public class ControllerFXCadastroLocacaoCReserva implements Initializable{
 		r.setSituacao(StatusEnum.EFETUADA.getValor());
 		try {
 			ReservaDao.getInstance().persistOrMerge(r);
-			
+
 		} catch (DaoException e) {
 			Alerta.mostrarAlertaErro("Erro ao efetivar reserva!!!");
 			e.printStackTrace();

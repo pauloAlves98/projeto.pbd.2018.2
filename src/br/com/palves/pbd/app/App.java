@@ -1,18 +1,12 @@
 package br.com.palves.pbd.app;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import br.com.palves.pbd.enums.TransicaoTelaEnum;
-import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,48 +16,28 @@ import javafx.stage.Stage;
 /**
  * @author: P Alves
  * */
-//– os veículos presentemente alugados pela filial, o ponto de entrega
-//(caso seja diferente do local de locação) e data de entrega
-//prevista.
-//Atenção
 /**
  * O Codigo contem Gatilhos e procedures , caso seja o primeiro acesso estes terão que ser criados para bom
  * funcionamento do sw, os mesmos estão disponiveis em no pacote SQL, classe SQLUtil.
  * Para efetuar os cruds instanciar o controle correspondente!
- * backup do banco disponivel na pastas documentacao!
+ * backup do banco disponivel na pasta documentacao!
  * */
 public class App extends Application{
 	private static List<Pane>listaDeTelas = new ArrayList<>();
+
 	public static Stage stage;
 	private static Pane loginPane,cadastroClienteFisicoPane, cadastroClienteJuridicoPane,editarClienteFisicoPane,
 	editarClienteJuridicoPane,menuClientePane,alterarSenhaPane,cadastroReservaPane,buscarReservaPane,
 	menuFuncionarioPane,cadastroFuncionarioPane,buscarFuncionarioPane,cadastroFilialPane,buscarFilialPane,menuCadastros,
 	buscarPFPane,buscarPJPane,editarFuncionarioPane,cadastroCategoriaPane,buscarCategoriaPane,cadastroVeiculoPane,
 	buscarVeiculoPane,cadastroLocacaoCReservaPane,fechamentoDialog,permissaoPane,cadastroLocacaoSReservaPane,
-	buscarLocacaoPane,retornoLocacaoPane;
+	buscarLocacaoPane,retornoLocacaoPane,configuracoesPane,resetarSenhaPane,alugadosPane,disponibilidadeVeiculosPane,
+	relatorioClientesPane,relatorioLocacaoPane;
 
 	public static Scene cenaLogin,cenaCadastro,cenaMenuCliente,cenaMenuFuncionario;
 	@SuppressWarnings("static-access")
 	@Override
 	public void start(Stage palcoStage) throws Exception {		
-		Date dataRetirada = TratadorDeMascara.unirDataHora(TratadorDeMascara.converterStringData("22/01/2019"),"14:00");
-		Date agr = new Date();
-		System.out.println("Data agr: "+agr.toString());
-		System.out.println(agr.getTime());
-		System.out.println(agr.getTime()+3600000);
-		System.out.println(new Date(agr.getTime()+3600000).toString());
-		LocalTime ll = TratadorDeMascara.dateToLocalTime(agr);
-		//ll.getNano()
-		long dt = (agr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
-	    long quantDias = Math.abs((dt / 86400000L));//
-	    LocalTime horaPrevista = TratadorDeMascara.dateToLocalTime(dataRetirada);//hora de realização
-	    LocalTime horaReal = TratadorDeMascara.dateToLocalTime(agr);
-	    long minReal = horaReal .getMinute() + 1;
-	    long minPrev =  horaPrevista.getMinute()+1;
-	    long hora = (((horaReal.getHour()*60) +minReal+ 1 ) - ((horaPrevista.getHour()*60) + 1 + minPrev))/60;
-	    hora =  hora<0?0:hora;//se for menor é porque entrgou antes!!!
-	    System.out.println("Dias da Locacao:"+quantDias+" H:"+hora);
-	    //System.exit(0);
 		stage = palcoStage;
 		Parent load = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/palves/pbd/view/Load.fxml"));
 		Scene cenaLoad = new Scene(load,600,400);
@@ -71,59 +45,33 @@ public class App extends Application{
 		palcoStage.setResizable(false);
 		palcoStage.centerOnScreen();
 		palcoStage.show();	
-	
+	}
+	public static void main(String[] args) {
+		launch(args);
 	}
 	public static Pane retornaTela(TransicaoTelaEnum t) {
 		switch(t) {
-			case LOGIN:{
-				return loginPane;
-			}
-			case CADASTRO_PESSOAFISICA:{
-				return cadastroClienteFisicoPane;
-			}
-			case CADASTRO_PESSOAJURIDICA:{
-				return cadastroClienteJuridicoPane;
-			}
-			case ALTERAR_SENHA:{
-				return alterarSenhaPane;
-			}
-			case EDITAR_CLIENTEFISICO:{
-				return editarClienteFisicoPane;
-			}
-			case EDITAR_CLIENTEJURIDICO:{
-				return editarClienteJuridicoPane;
-			}
+		case LOGIN:{
+			return loginPane;
+		}
+		case CADASTRO_PESSOAFISICA:{
+			return cadastroClienteFisicoPane;
+		}
+		case CADASTRO_PESSOAJURIDICA:{
+			return cadastroClienteJuridicoPane;
+		}
+		case ALTERAR_SENHA:{
+			return alterarSenhaPane;
+		}
+		case EDITAR_CLIENTEFISICO:{
+			return editarClienteFisicoPane;
+		}
+		case EDITAR_CLIENTEJURIDICO:{
+			return editarClienteJuridicoPane;
+		}
 		}
 		return loginPane;
-	}
-	public static void lookPadrao(){
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Passando LookAndFeel padrão do sistema operacional
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-			System.out.println("Nao Pegou");
-		}
-
-	}
-	public static void lookWindows(){
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Passando LookAndFeel padrão do sistema operacional
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-			System.out.println("Nao Pegou");
-		}
-	}
-	public static void lookNimbus(){
-		try {
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (Exception e) {
-			// If Nimbus is not available, you can set the GUI to another look and feel.
-		}
-	}
-	
+	}	
 	public static Pane getAlterarSenhaPane() {
 		return alterarSenhaPane;
 	}
@@ -265,63 +213,63 @@ public class App extends Application{
 	public static List<Pane> getListaDeTelas() {
 		return listaDeTelas;
 	}
-	
+
 	public static Pane getCadastroCategoriaPane() {
 		return cadastroCategoriaPane;
 	}
 	public static void setCadastroCategoriaPane(Pane cadastroCategoriaPane) {
 		App.cadastroCategoriaPane = cadastroCategoriaPane;
 	}
-	
+
 	public static Pane getBuscarCategoriaPane() {
 		return buscarCategoriaPane;
 	}
 	public static void setBuscarCategoriaPane(Pane buscarCategoriaPane) {
 		App.buscarCategoriaPane = buscarCategoriaPane;
 	}
-	
+
 	public static Pane getCadastroVeiculoPane() {
 		return cadastroVeiculoPane;
 	}
 	public static void setCadastroVeiculoPane(Pane cadastroVeiculoPane) {
 		App.cadastroVeiculoPane = cadastroVeiculoPane;
 	}
-	
+
 	public static Pane getBuscarVeiculoPane() {
 		return buscarVeiculoPane;
 	}
 	public static void setBuscarVeiculoPane(Pane buscarVeiculoPane) {
 		App.buscarVeiculoPane = buscarVeiculoPane;
 	}
-	
+
 	public static Pane getCadastroLocacaoCReservaPane() {
 		return cadastroLocacaoCReservaPane;
 	}
 	public static void setCadastroLocacaoCReservaPane(Pane cadastroLocacaoCReservaPane) {
 		App.cadastroLocacaoCReservaPane = cadastroLocacaoCReservaPane;
 	}
-	
+
 	public static Pane getFechamentoDialog() {
 		return fechamentoDialog;
 	}
 	public static void setFechamentoDialog(Pane fechamentoDialog) {
 		App.fechamentoDialog = fechamentoDialog;
 	}
-	
+
 	public static Pane getPermissaoPane() {
 		return permissaoPane;
 	}
 	public static void setPermissaoPane(Pane permissaoPane) {
 		App.permissaoPane = permissaoPane;
 	}
-	
+
 	public static Pane getCadastroLocacaoSReservaPane() {
 		return cadastroLocacaoSReservaPane;
 	}
 	public static void setCadastroLocacaoSReservaPane(Pane cadastroLocacaoSReservaPane) {
 		App.cadastroLocacaoSReservaPane = cadastroLocacaoSReservaPane;
 	}
-	
+
 	public static Pane getBuscarLocacaoPane() {
 		return buscarLocacaoPane;
 	}
@@ -334,7 +282,43 @@ public class App extends Application{
 	public static void setRetornoLocacaoPane(Pane retornoLocacaoPane) {
 		App.retornoLocacaoPane = retornoLocacaoPane;
 	}
-	public static void addTelas() {
+	public static Pane getConfiguracoesPane() {
+		return configuracoesPane;
+	}
+	public static void setConfiguracoesPane(Pane configuracoesPane) {
+		App.configuracoesPane = configuracoesPane;
+	}
+	public static Pane getResetarSenhaPane() {
+		return resetarSenhaPane;
+	}
+	public static void setResetarSenhaPane(Pane resetarSenhaPane) {
+		App.resetarSenhaPane = resetarSenhaPane;
+	}
+	public static Pane getAlugadosPane() {
+		return alugadosPane;
+	}
+	public static void setAlugadosPane(Pane alugadosPane) {
+		App.alugadosPane = alugadosPane;
+	}
+	public static Pane getDisponibilidadeVeiculosPane() {
+		return disponibilidadeVeiculosPane;
+	}
+	public static void setDisponibilidadeVeiculosPane(Pane disponibilidadeVeiculosPane) {
+		App.disponibilidadeVeiculosPane = disponibilidadeVeiculosPane;
+	}
+	public static Pane getRelatorioClientesPane() {
+		return relatorioClientesPane;
+	}
+	public static void setRelatorioClientesPane(Pane relatorioClientesPane) {
+		App.relatorioClientesPane = relatorioClientesPane;
+	}
+	public static Pane getRelatorioLocacaoPane() {
+		return relatorioLocacaoPane;
+	}
+	public static void setRelatorioLocacaoPane(Pane relatorioLocacaoPane) {
+		App.relatorioLocacaoPane = relatorioLocacaoPane;
+	}
+	public static void addTelas() {//Para limpar as telas ao fazer logout!
 		listaDeTelas.add(loginPane);
 		listaDeTelas.add(cadastroClienteFisicoPane);
 		listaDeTelas.add( cadastroClienteJuridicoPane);
@@ -358,6 +342,13 @@ public class App extends Application{
 		listaDeTelas.add(cadastroLocacaoSReservaPane);
 		listaDeTelas.add(buscarLocacaoPane);
 		listaDeTelas.add(retornoLocacaoPane);
+		listaDeTelas.add(configuracoesPane);
+		listaDeTelas.add(resetarSenhaPane);
+		listaDeTelas.add(alugadosPane);
+		listaDeTelas.add(disponibilidadeVeiculosPane);
+		listaDeTelas.add(relatorioClientesPane);
+		listaDeTelas.add(relatorioLocacaoPane);
+		
 	}
-	
+
 }

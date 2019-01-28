@@ -46,6 +46,8 @@ public abstract class Pessoa implements Serializable,Generico{
 	private String situacao;
 	@Column(length=50)
 	private String discriminador;
+	@Column(name="ultimo_modificador")
+	private String ultimoModificador;
 	@OneToOne(cascade=CascadeType.ALL) //Salva atualiza e deleta
 	@JoinColumn(name="endereco_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "endereco_fkey"))
 	private Endereco endereco;
@@ -119,6 +121,7 @@ public abstract class Pessoa implements Serializable,Generico{
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
+		result = prime * result + ((ultimoModificador == null) ? 0 : ultimoModificador.hashCode());
 		return result;
 	}
 	@Override
@@ -165,6 +168,17 @@ public abstract class Pessoa implements Serializable,Generico{
 				return false;
 		} else if (!situacao.equals(other.situacao))
 			return false;
+		if (ultimoModificador == null) {
+			if (other.ultimoModificador != null)
+				return false;
+		} else if (!ultimoModificador.equals(other.ultimoModificador))
+			return false;
 		return true;
+	}
+	public String getUltimoModificador() {
+		return ultimoModificador;
+	}
+	public void setUltimoModificador(String ultimoModificador) {
+		this.ultimoModificador = ultimoModificador;
 	}
 }

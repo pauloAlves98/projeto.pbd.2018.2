@@ -26,7 +26,7 @@ public class Revisao implements Generico{
 	@Column(nullable=false, name ="data_hora")
 	private Date dataHora;
 	private String status;
-	@ManyToOne   //Muitas reservas para uma filial
+	@ManyToOne   
 	@JoinColumn(name="veiculo_id", referencedColumnName="id", foreignKey = @ForeignKey(name = "revisao_veiculo_fkey"))
 	private Veiculo veiculo;
 	

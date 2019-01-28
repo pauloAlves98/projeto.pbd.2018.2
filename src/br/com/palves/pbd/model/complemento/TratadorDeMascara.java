@@ -82,6 +82,16 @@ public class TratadorDeMascara {
 			return null;
 		}
 	}
+	public static Date converterStringDataHora(String dat) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date d = sdf.parse(dat);
+			return d;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public static String converterHoraString(Date horas) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		Date hora = horas; // Ou qualquer outra forma que tem

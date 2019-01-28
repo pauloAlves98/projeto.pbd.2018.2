@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioHistoricoDeRevisaoVeiculo" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74bc5e6e-de39-4810-b24f-ede08e6d39fa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="cod" class="java.lang.Integer"/>
+	<field name="codVeiculo" class="java.lang.Integer"/>
+	<field name="nomeVeiculo" class="java.lang.String"/>
+	<field name="placa" class="java.lang.String"/>
+	<field name="chassi" class="java.lang.String"/>
+	<field name="horaRevisao" class="java.util.Date"/>
+	<field name="status" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="79" backcolor="#00145B" uuid="cb7e9e7a-da9b-4fe4-9b0c-e49a5377fdd4"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="142" height="79" uuid="7a45afac-9774-4126-9f38-320daf658ede"/>
+				<imageExpression><![CDATA["P:\\Area de trabalho Eclipse Java\\br.com.palves.pbd\\res\\carro2.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="47" forecolor="#FFFFFF" uuid="13ab242a-7416-4d4a-b98e-324a5fc7af66"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Bradley Hand ITC" size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VEÍCULOS PAJEÚ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="58" width="802" height="21" forecolor="#FFFFFF" uuid="e0d4bfab-cbb3-458d-8be7-37a457bc62a6"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO HISTORICO DE REVISÕES DE VEÍCULO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="178" y="0" width="115" height="58" uuid="66046e91-03fc-475e-ae81-7d4bc5c28314"/>
+				<imageExpression><![CDATA["P:\\Area de trabalho Eclipse Java\\br.com.palves.pbd\\res\\iconepbd.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="46" forecolor="#00145B" backcolor="#00145B" uuid="64bda31f-bd2b-4049-9e6c-d0aa80469f8d"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="64" height="31" forecolor="#FFFFFF" uuid="ee00078a-0d8c-4ee2-9e3a-dc3a9ac6d20f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD REVISÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="15" width="134" height="31" forecolor="#FFFFFF" uuid="0e261fce-66a4-4d76-9449-955465e83b54"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VEÍCULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="15" width="123" height="31" forecolor="#FFFFFF" uuid="c6ae4008-c1f9-44c7-bff6-2b2a21f36193"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLACA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="655" y="15" width="147" height="31" forecolor="#FFFFFF" uuid="b82e46eb-f1ae-47ac-bc33-d8b0b323499c"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="518" y="15" width="137" height="31" forecolor="#FFFFFF" uuid="5958160d-7374-49d5-ab5b-ec5d6379a7fb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORARIO DA REVISÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="15" width="55" height="31" forecolor="#FFFFFF" uuid="ecf62bb1-9d92-4e63-b2a1-152ed8f9a8db"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD VEICULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="15" width="142" height="31" forecolor="#FFFFFF" uuid="df6eb645-503a-4481-8954-307bfa918a05"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CHASSI]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="15" width="64" height="20" uuid="9108c9e0-b9f7-4346-8675-48974f680b48"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="15" width="55" height="20" uuid="8b4cc18b-299c-441c-8956-f64a7457bc85"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{codVeiculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="15" width="134" height="20" uuid="8d941302-6b46-43ef-b264-48bc88331dd1"/>
+				<textElement textAlignment="Center">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeVeiculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="253" y="15" width="123" height="20" uuid="a1ceddd7-5950-485f-aac2-a5d35b3c9413"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="15" width="142" height="20" uuid="01f12b29-d0d7-4841-a0f1-daee7f6e1ef0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{chassi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="518" y="15" width="137" height="20" uuid="cf393792-7f69-4e3a-ab7d-dc73661a421f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{horaRevisao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="655" y="15" width="147" height="20" uuid="e7c609c6-9943-422a-aa7c-44a027a7d8d7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

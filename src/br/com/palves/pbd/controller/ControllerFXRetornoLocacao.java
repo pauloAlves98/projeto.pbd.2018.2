@@ -28,6 +28,7 @@ import br.com.palves.pbd.model.complemento.TratadorDeMascara;
 import br.com.palves.pbd.model.dao.ConfiguracaoDao;
 import br.com.palves.pbd.model.dao.FilialDao;
 import br.com.palves.pbd.model.dao.LocacaoDao;
+import br.com.palves.pbd.model.dao.VeiculoDao;
 import br.com.palves.pbd.view.Alerta;
 import br.com.palves.pbd.view.AlertaDetalhes;
 import javafx.collections.FXCollections;
@@ -237,7 +238,7 @@ public class ControllerFXRetornoLocacao implements Initializable{
 		if(this.tableLoc.getItems().size()>0) {
 			Locacao l = this.tableLoc.getSelectionModel().getSelectedItem();
 			Configuracao cf = this.carregarConfiguracaoes();
-			if(l.getSituacao().equalsIgnoreCase(StatusEnum.ATIVO.getValor())) {
+			if(l.getSituacao().replace(" ","").equalsIgnoreCase(StatusEnum.ATIVO.getValor())) {
 				if(l.isKmLivre()) {
 					Date dataRetirada = l.getDataRetirada();
 					Date dataAgr = new Date();//TratadorDeMascara.unirDataHora(TratadorDeMascara.converterStringData("23/01/2019"),"14:00");
@@ -254,10 +255,10 @@ public class ControllerFXRetornoLocacao implements Initializable{
 							this.valorVeiculoField.setText(TratadorDeMascara.valorReais(l.getVeiculo().getCategoria().getValor()));
 							this.kmVeiculoField.setText("");
 							double vld = l.getValorDiaria();//Paga só a diária!!!
-							double valorFinal = vld + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
+							double valorFinal = vld + (this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
 							this.precoFinalField.setText(TratadorDeMascara.valorReais(valorFinal));
 							this.detalhesArea.setText(
-									"M Locação: "+TratadorDeMascara.valorReais(l.getValorDiaria() - l.getVeiculo().getCategoria().getValor())+"\n"
+									"M Locação: "+TratadorDeMascara.valorReais(l.getValorDiaria() - l.getVeiculo().getCategoria().getValor())+""
 											+ "\nVeículo: "+TratadorDeMascara.valorReais(l.getVeiculo().getCategoria().getValor())+ "\nDiária: "+TratadorDeMascara.valorReais(l.getValorDiaria())+"\n"+ 
 											"Dias da Locacao:"+quantDias+"\nHoras extras: 0");
 						}else{//Entregou antes do prazo mais em outro dia!!!
@@ -309,7 +310,7 @@ public class ControllerFXRetornoLocacao implements Initializable{
 						LocalTime horaReal = TratadorDeMascara.dateToLocalTime(dataAgr);
 						long minReal = horaReal.getMinute() + 1;
 						long minPrev =  horaPrevista.getMinute()+1;
-						long hora = (((horaReal.getHour()*60) +minReal+ 1 ) - ((horaPrevista.getHour()*60) + 1 + minPrev))/60;
+						long hora = (((horaReal.getHour()*60) +minReal+ 1 ) - ((horaPrevista.getHour()*60) + 1 + minPrev))/60;//Converte pra minutos depois pra o[hora denv
 						double horasExtras = 0;
 						System.out.println(horaReal.getHour()+" O1");
 						System.out.println(horaPrevista.getHour()+" O2");
@@ -349,7 +350,7 @@ public class ControllerFXRetornoLocacao implements Initializable{
 									+ "\nKM Consumidos: "+(Integer.parseInt(this.kmVeiculoField.getText().replace(" ","")) - l.getKmAtual()));	
 				}
 			}else {
-				Alerta.mostrarAlertaErro("Não é possivel Calcular valores para essa Reserva!!!");
+				Alerta.mostrarAlertaErro("Não é possivel Calcular valores para essa Locação!!!");
 				return;
 			}
 		}else
@@ -378,15 +379,15 @@ public class ControllerFXRetornoLocacao implements Initializable{
 	@FXML
 	void salvar(ActionEvent event) {
 		LocacaoDao dao = LocacaoDao.getInstance();
+		VeiculoDao vDao = VeiculoDao.getInstance();
 		try {
 			this.validacoesDeNull();
 			//Fazer gatilhos e procedures no salvamento!------
 			Locacao locacao = this.tableLoc.getSelectionModel().getSelectedItem();
-			//this.preencherCampos(locacao);
+			this.preencherCampos(locacao);
+			vDao.persistOrMerge(locacao.getVeiculo());//Atualiza o Veiculo
 			dao.persistOrMerge(locacao);
 			Alerta.mostrarAlertaInformacao("Locação Finalizada com sucesso!");
-			//this.efetivarReserva();//Rivisao!!!
-			//Atualizar com gatilhos!
 			this.limparCampos();
 		} 
 		catch (DaoException e1) {
@@ -421,13 +422,88 @@ public class ControllerFXRetornoLocacao implements Initializable{
 		this.naoHigieneRadio.setSelected(true);
 	}
 	//Salvar<>
+	private void preencherCampos(Locacao l) {
+		Configuracao cf = this.carregarConfiguracaoes();
+		Date dataAgr = null;
+		double vld = 0;
+		double valorFinal = 0;
+		if(l.isKmLivre()) {
+			Date dataRetirada = l.getDataRetirada();
+		    dataAgr = new Date();//TratadorDeMascara.unirDataHora(TratadorDeMascara.converterStringData("23/01/2019"),"14:00");
+			System.out.println(dataAgr.toString());
+			Date dataPrevistaE = l.getDataEntrega();
+			if(dataAgr.getTime() < dataPrevistaE.getTime()){//Entrega antes : só cobra os dias usados sem taxa de devolução!
+				LocalTime horaagr = TratadorDeMascara.dateToLocalTime(dataAgr);
+				long dt = (dataAgr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
+				long quantDias = Math.abs((dt / 86400000L));//
+				if(quantDias<=0) {//No mesmo dia!
+					System.out.println("ENTROU EM ANTES DO PRAZO POREM EM MESMO DIA KM LIVRE");
+					vld = l.getValorDiaria();//Paga só a diária!!!
+					valorFinal = vld + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
+				}else{//Entregou antes do prazo mais em outro dia!!!
+					System.out.println("ENTROU EM ANTES DO PRAZO POREM EM OUTRO DIA KM LIVRE");
+					quantDias = quantDias==0?1:quantDias;
+					vld = l.getValorDiaria()*(quantDias);
+					valorFinal = vld + (this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
+				}
+			}else if(dataAgr.getTime()==dataPrevistaE.getTime() || (dataAgr.getTime()>=dataPrevistaE.getTime() && dataAgr.getTime()<= dataPrevistaE.getTime()+3600000)){//Entregou na hora com tolerancia de 1 hora minutos!
+				System.out.println("Igual ou com Tolerância de uma hora");
+				LocalTime horaagr = TratadorDeMascara.dateToLocalTime(dataAgr);
+				long dt = (dataAgr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
+				long quantDias = Math.abs((dt / 86400000L));//
+				quantDias = quantDias==0?1:quantDias;
+				vld = l.getValorDiaria()*(quantDias==0?1:quantDias);
+				valorFinal = vld + (this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
+			}
+			else if(dataAgr.getTime()> dataPrevistaE.getTime()+3600000){//Entregou depois da tolerancia//de uma hora
+				System.out.println("Depois da Tolerância...!");
+				LocalTime horaagr = TratadorDeMascara.dateToLocalTime(dataAgr);
+				long dt = (dataAgr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
+				long quantDias = Math.abs((dt / 86400000L));//
+				quantDias = quantDias==0?1:quantDias;
+				LocalTime horaPrevista = TratadorDeMascara.dateToLocalTime(l.getDataEntrega());//hora de realização
+				LocalTime horaReal = TratadorDeMascara.dateToLocalTime(dataAgr);
+				long minReal = horaReal.getMinute() + 1;
+				long minPrev =  horaPrevista.getMinute()+1;
+				long hora = (((horaReal.getHour()*60) +minReal+ 1 ) - ((horaPrevista.getHour()*60) + 1 + minPrev))/60;//Converte pra minutos depois pra o[hora denv
+				double horasExtras = 0;
+				if(hora<=4 && hora>=0) {
+					System.out.println("Hora:"+hora);
+					horasExtras = (double)((double)(hora*l.getValorDiaria())/4);
+					System.out.println(horasExtras);
+				}else {
+					quantDias+=1;
+				}
+				vld = l.getValorDiaria()*(quantDias==0?(1+quantDias):quantDias)+horasExtras;
+				valorFinal = vld + (this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);
+			}
+		}else {//KM Retorno!!!
+			vld = l.getValorDiaria()+(l.getValorDiaria()*cf.getPorcentagemKm()/100)*(Integer.parseInt(this.kmVeiculoField.getText().replace(" ","")) - l.getKmAtual());
+			valorFinal = vld + (this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0) + (this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0);	
+		}
+		l.setPrecoFinal(valorFinal);
+		l.setTaxaHigiene((this.simHigieneRadio.isSelected()?(vld*(cf.getTaxaHigiene()/100)):0));
+		l.setTaxaDevolucao(this.simCombustivelRadio.isSelected()?(vld*(cf.getTaxaCombustivel()/100)):0);
+		l.setKmRetorno(Integer.parseInt(this.kmVeiculoField.getText().replace(" ", "")));
+		//Olhar no gatilho se essa kmTragem utrapassou!!!(kmParaRev + (KM Retorno - KM Antiga)
+		l.getVeiculo().setKmRestanteRevisao(l.getVeiculo().getKmRestanteRevisao()+Integer.parseInt(this.kmVeiculoField.getText().replace(" ", ""))-l.getVeiculo().getKmAtual());
+		l.getVeiculo().setKmAtual(Integer.parseInt(this.kmVeiculoField.getText().replace(" ", "")));
+		l.getVeiculo().setFilialAtual(Corrente.funcionario.getFilial());
+		l.setDataRealEntrega(dataAgr);
+		l.setSituacao(StatusEnum.FINALIZADA.getValor());
+		l.setUltimoModificador(Corrente.funcionario.getNome());
+	}
 	private void validacoesDeNull() throws ValidacaoException {
 		if(this.tableLoc==null || this.tableLoc.getItems() ==null || this.tableLoc.getItems().size()<=0)
 			throw new ValidacaoException("Escolha uma Locação!");
-		if(!this.tableLoc.getSelectionModel().getSelectedItem().getSituacao().equalsIgnoreCase(StatusEnum.ATIVO.getValor()))
+		if(!this.tableLoc.getSelectionModel().getSelectedItem().getSituacao().replace(" ","").equalsIgnoreCase(StatusEnum.ATIVO.getValor())) {
+			System.out.println(this.tableLoc.getSelectionModel().getSelectedItem().getSituacao());
 			throw new ValidacaoException("Locação não Válida!!!");
-		if(this.tableLoc.getSelectionModel().getSelectedItem().getFilialEntrega().getId()!=Corrente.funcionario.getId())
+		}
+		if(this.tableLoc.getSelectionModel().getSelectedItem().getFilialEntrega().getId()!=Corrente.funcionario.getFilial().getId())
 			throw new ValidacaoException("O veículo não pode ser devolvido nesta filial!!!");
+		if(this.kmVeiculoField.getText().replace(" ", "").length()<=0)
+			throw new ValidacaoException("Digite a KM atual do Veículo!!!");
 	}
 	//Salvar</>
 	//Locacao<>
@@ -482,12 +558,13 @@ public class ControllerFXRetornoLocacao implements Initializable{
 			String kl = null,kc=null;
 			if(l.isKmLivre()) {
 				Date dataRetirada = l.getDataRetirada();
-				Date agr = new Date();
+				Date agr = l.getDataRealEntrega();
 				LocalTime ll = TratadorDeMascara.dateToLocalTime(agr);
 				//ll.getNano()
 				long dt = (agr.getTime() - dataRetirada.getTime()) + 3600000; // 1 hora para compensar horário de verão
 				long quantDias = Math.abs((dt / 86400000L));//
-				LocalTime horaPrevista = TratadorDeMascara.dateToLocalTime(dataRetirada);//hora de realização
+				quantDias = quantDias==0?1:quantDias;
+				LocalTime horaPrevista = TratadorDeMascara.dateToLocalTime(l.getDataEntrega());//hora de realização
 				LocalTime horaReal = TratadorDeMascara.dateToLocalTime(agr);
 				long minReal = horaReal .getMinute() + 1;
 				long minPrev =  horaPrevista.getMinute()+1;
@@ -500,8 +577,8 @@ public class ControllerFXRetornoLocacao implements Initializable{
 			}
 			this.detalhesArea.setText(
 					"M Locação: "+TratadorDeMascara.valorReais(l.getValorDiaria() - l.getVeiculo().getCategoria().getValor())+"\n"
-							+ "Veículo: "+TratadorDeMascara.valorReais(l.getVeiculo().getCategoria().getValor())+"/n"
-							+ "Diária: "+TratadorDeMascara.valorReais(l.getValorDiaria())+"\n"+ 
+							+ "Veículo: "+TratadorDeMascara.valorReais(l.getVeiculo().getCategoria().getValor())
+							+ "\nDiária: "+TratadorDeMascara.valorReais(l.getValorDiaria())+"\n"+"TaxaHigiene: "+TratadorDeMascara.valorReais(l.getTaxaHigiene())+"\n"+"TaxaCombustivel: "+TratadorDeMascara.valorReais(l.getTaxaDevolucao())+"\n"+
 							(l.isKmLivre()==true?kl:kc));
 		}
 	}

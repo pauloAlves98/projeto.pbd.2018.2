@@ -26,6 +26,7 @@ public class Log implements Generico{
 	private String tipoAlteracao;
 	@Column(length=30)
 	private String tabela;
+	
 	public Log() {
 		super();
 		// TODO Auto-generated constructor stub
