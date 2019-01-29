@@ -214,7 +214,7 @@ public class ControllerFXCadastroClientePF implements Initializable{
 		}else if(Corrente.usuarioJuridico!=null) {
 			pessoaF.setUltimoModificador(Corrente.usuarioJuridico.getNome());
 		}else if(Corrente.funcionario!=null){
-			pessoaF.setUltimoModificador(Corrente.funcionario.getNome());
+			pessoaF .setUltimoModificador(Corrente.funcionario.getNome());
 		}
 	}
 	private void verificaUnicidadeHab(String nHabilitacaoField) throws ValidacaoException, DaoException {

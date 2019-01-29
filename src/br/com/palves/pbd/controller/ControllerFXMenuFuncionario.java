@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXNodesList;
 import br.com.palves.pbd.app.App;
 import br.com.palves.pbd.model.complemento.Corrente;
 import br.com.palves.pbd.model.complemento.LimparCampo;
+import br.com.palves.pbd.view.Alerta;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -99,6 +100,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 	@FXML
 	void eventoItens(ActionEvent event) {
 		if(event.getSource()==this.cadastroFuncionarioItem) {
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getCadastroFuncionarioPane());
 			LimparCampo.limparCamposFX(App.getCadastroFuncionarioPane().getChildren());
 			ControllerFXCadastroFuncionario cf =(ControllerFXCadastroFuncionario)Carregar.getCadastroFuncionarioLoader().getController();
@@ -111,10 +116,15 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			cf.limparTudo();
 		}
 		else if(event.getSource()==this.cadastrarFilialItem) {
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getCadastroFilialPane());
 			LimparCampo.limparCamposFXTOTAL(App.getCadastroFilialPane().getChildren());
 		}
 		else if(event.getSource()==this.buscarFilialItem) {
+
 			this.animationGeral(App.getBuscarFilialPane());
 			ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			cf.limparTudo();
@@ -131,6 +141,7 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			LimparCampo.limparCamposFXTOTAL(App.getCadastroClienteFisicoPane().getChildren());
 		}
 		else if(event.getSource()==this.cadastrarPJItem) {
+			
 			this.animationGeral(App.getCadastroClienteJuridicoPane());
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			LimparCampo.limparCamposFX(App.getCadastroClienteJuridicoPane().getChildren());
@@ -152,6 +163,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			LimparCampo.limparCamposFXTOTAL(App.getAlterarSenhaPane().getChildren());
 		}
 		else if(event.getSource()==this.cadastrarCategoriaItem) {
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getCadastroCategoriaPane());
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			LimparCampo.limparCamposFXTOTAL(App.getCadastroCategoriaPane().getChildren());
@@ -162,6 +177,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			LimparCampo.limparCamposFXTOTAL(App.getBuscarCategoriaPane().getChildren());
 		}
 		else if(event.getSource()==this.cadastrarVeiculoItem) {
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getCadastroVeiculoPane());
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			LimparCampo.limparCamposFXTOTAL(App.getCadastroVeiculoPane().getChildren());
@@ -200,6 +219,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
 		}
 		else if(event.getSource()==this.configuracaoItem) {//Sem reserva
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getConfiguracoesPane());
 			//ControllerFXBuscarFilial cf =(ControllerFXBuscarFilial)Carregar.getBuscarFilialLoader().getController();
 			ControllerFXConfiguracoes c = (ControllerFXConfiguracoes)Carregar.getConfiguracoesLoader().getController();
@@ -208,6 +231,10 @@ public class ControllerFXMenuFuncionario implements Initializable{
 			//c.getNomeFilialRetirada().setText(Corrente.funcionario.getFilial().getNome());
 		}
 		else if(event.getSource()==this.resetSenhaClienteItem) {//Sem reserva
+			if(Corrente.funcionario.getCargo().equalsIgnoreCase("ATENDENTE")) {
+				Alerta.mostrarAlertaErro("Sem permissão para esta funcionalidade!");
+				return;
+			}
 			this.animationGeral(App.getResetarSenhaPane());
 			LimparCampo.limparCamposFXTOTAL(App.getResetarSenhaPane().getChildren());
 		}

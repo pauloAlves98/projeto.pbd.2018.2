@@ -102,7 +102,7 @@
                   <Image url="@../../../../../../res/lupa.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="gerarlocacaoButton" layoutX="465.0" layoutY="288.0" onAction="#gerarlocacao" prefHeight="36.0" prefWidth="86.0" ripplerFill="WHITE" style="-fx-background-radius: 0; -fx-background-color: linear-gradient(to bottom,#00405d,#000000);" text="Gerar" textFill="#fffefe">
+            <JFXButton fx:id="gerarlocacaoButton" layoutX="466.0" layoutY="288.0" onAction="#gerarlocacao" prefHeight="36.0" prefWidth="86.0" ripplerFill="WHITE" style="-fx-background-radius: 0; -fx-background-color: linear-gradient(to bottom,#00405d,#000000);" text="Gerar" textFill="#fffefe">
                <tooltip>
                   <Tooltip text="Gerar Relatorio" />
                </tooltip>
